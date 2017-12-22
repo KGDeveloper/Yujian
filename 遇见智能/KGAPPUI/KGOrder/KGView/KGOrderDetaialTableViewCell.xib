@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="164" id="KGk-i7-Jjw" customClass="KGOrderDetaialTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="406" height="164"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="406" height="163.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="listImage" translatesAutoresizingMaskIntoConstraints="NO" id="gKh-sd-JOK">
+                        <rect key="frame" x="10" y="10" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="P2x-MH-AY4"/>
+                            <constraint firstAttribute="height" constant="60" id="Y7o-x8-XCR"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="格林豪泰酒店" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FV4-sJ-ug0">
+                        <rect key="frame" x="80" y="10" width="316" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="Pk1-g4-9DC"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <color key="textColor" red="1" green="0.4676474873" blue="0.1075249898" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2208房间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ySZ-Xg-SfJ">
+                        <rect key="frame" x="80" y="50" width="316" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Nvd-ne-oVn"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="1" green="0.94768767519999997" blue="0.21997924420000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已入住004号床" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hrv-GG-dBR">
+                        <rect key="frame" x="10" y="80" width="150" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="bbT-cF-Ops"/>
+                            <constraint firstAttribute="width" constant="150" id="syV-0l-tEi"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="别恋" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oOB-lF-1jd">
+                        <rect key="frame" x="246" y="80" width="150" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="2ZB-1i-oPB"/>
+                            <constraint firstAttribute="width" constant="150" id="gP7-0y-lTE"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="入住时间:2017/12/12~2017/12/25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rdj-0C-ZcO">
+                        <rect key="frame" x="10" y="120" width="386" height="33"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.115155627" green="1" blue="0.1153485975" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Hrv-GG-dBR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="2oS-Ad-Lth"/>
+                    <constraint firstAttribute="bottom" secondItem="Rdj-0C-ZcO" secondAttribute="bottom" constant="10" id="H0c-yN-scQ"/>
+                    <constraint firstItem="Hrv-GG-dBR" firstAttribute="top" secondItem="gKh-sd-JOK" secondAttribute="bottom" constant="10" id="JGE-VM-lhe"/>
+                    <constraint firstItem="ySZ-Xg-SfJ" firstAttribute="top" secondItem="FV4-sJ-ug0" secondAttribute="bottom" constant="10" id="NYK-H3-9h7"/>
+                    <constraint firstItem="oOB-lF-1jd" firstAttribute="top" secondItem="ySZ-Xg-SfJ" secondAttribute="bottom" constant="10" id="OCF-Gv-ZyD"/>
+                    <constraint firstAttribute="trailing" secondItem="Rdj-0C-ZcO" secondAttribute="trailing" constant="10" id="SQ0-xs-eGR"/>
+                    <constraint firstAttribute="trailing" secondItem="ySZ-Xg-SfJ" secondAttribute="trailing" constant="10" id="TUL-TM-Ymm"/>
+                    <constraint firstItem="Rdj-0C-ZcO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Wkq-mt-Mcv"/>
+                    <constraint firstItem="gKh-sd-JOK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Xu9-ME-6fE"/>
+                    <constraint firstItem="gKh-sd-JOK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="cMR-sU-kKp"/>
+                    <constraint firstItem="ySZ-Xg-SfJ" firstAttribute="leading" secondItem="gKh-sd-JOK" secondAttribute="trailing" constant="10" id="fVa-ny-sav"/>
+                    <constraint firstAttribute="trailing" secondItem="FV4-sJ-ug0" secondAttribute="trailing" constant="10" id="gQp-QE-uju"/>
+                    <constraint firstItem="FV4-sJ-ug0" firstAttribute="leading" secondItem="gKh-sd-JOK" secondAttribute="trailing" constant="10" id="qTG-9G-ZfF"/>
+                    <constraint firstAttribute="trailing" secondItem="oOB-lF-1jd" secondAttribute="trailing" constant="10" id="vtV-HP-fHZ"/>
+                    <constraint firstItem="FV4-sJ-ug0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="wiE-2G-crc"/>
+                    <constraint firstItem="Rdj-0C-ZcO" firstAttribute="top" secondItem="Hrv-GG-dBR" secondAttribute="bottom" constant="10" id="y2q-bR-1JT"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="headerImage" destination="gKh-sd-JOK" id="Gkf-RQ-dcQ"/>
+                <outlet property="nameLabel" destination="FV4-sJ-ug0" id="u7N-ZI-Xbf"/>
+                <outlet property="roomLabel" destination="ySZ-Xg-SfJ" id="zTU-uM-Sm5"/>
+                <outlet property="stateLabel" destination="Hrv-GG-dBR" id="3Jx-3v-8ez"/>
+                <outlet property="timeLabel" destination="Rdj-0C-ZcO" id="eGW-9e-3W3"/>
+                <outlet property="userLabel" destination="oOB-lF-1jd" id="Q79-qK-iMc"/>
+            </connections>
+            <point key="canvasLocation" x="77" y="114"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="listImage" width="350" height="254"/>
+    </resources>
+</document>

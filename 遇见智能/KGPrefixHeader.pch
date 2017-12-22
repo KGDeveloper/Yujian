@@ -1,0 +1,40 @@
+//
+//  KGPrefixHeader.pch
+//  遇见智能
+//
+//  Created by KG on 2017/12/19.
+//  Copyright © 2017年 KG祁增奎. All rights reserved.
+//
+
+#ifndef KGPrefixHeader_pch
+#define KGPrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* KGPrefixHeader_pch */
+
+#pragma mark -----------------三方库头文件导入区域->->->->->->->->->
+#import "AFNetworking.h"
+#import "HttpRequest.h"
+#import "MBProgressHUD.h"
+#import "UIImageView+WebCache.h"
+#import "MJRefresh.h"
+#import <SMS_SDK/SMSSDK.h>
+#pragma mark -<-<-<-<-<-<-<-<-三方库头文件导入区域------------------
+
+#pragma mark -----------------自定义头文件导入区域->->->->->->->->->
+#import "KGRequest.h"
+#import "KGUserInfo.h"
+#import "KGTextField.h"
+#import "KGDefine.h"
+#import "KGWebsites.h"
+#import "KGRoomTextField.h"
+#import "KGPriceTextField.h"
+
+#pragma mark -<-<-<-<-<-<-<-<-自定义头文件导入区域------------------
+
+
+
+
+
