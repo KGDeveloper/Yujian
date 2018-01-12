@@ -39,6 +39,8 @@
  定时器
  */
 @property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic,assign) BOOL tureOrfail;
+@property (nonatomic,strong) UIButton *verityShure;
 
 
 
@@ -53,10 +55,12 @@
     self.title = @"忘记密码";
     self.view.backgroundColor = [UIColor grayColor];
     _timeNumber = 60;
+    _tureOrfail = NO;
     
     [self setPhoneNumber];
     [self setVerify];
     [self setVerifyButton];
+    [self setVerifyBtuAndSMS];
     [self setPassWord];
     [self setSurePassWord];
     [self setRegisterButton];
@@ -65,9 +69,10 @@
 #pragma mark -创建账号输入框-
 - (void)setPhoneNumber{
     
-    _phoneNumber = [[KGTextField alloc]initWithFrame:CGRectMake(50, 270, KGscreenWidth - 100, 50)];
+    _phoneNumber = [[KGTextField alloc]initWithFrame:CGRectMake(50, 170, KGscreenWidth - 100, 30)];
     _phoneNumber.backgroundColor = [UIColor whiteColor];
-    _phoneNumber.placeholder = @"请输入手机号";
+    _phoneNumber.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"手机号" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
+    _phoneNumber.font = KGFont(13);
     _phoneNumber.borderStyle = UITextBorderStyleRoundedRect;
     _phoneNumber.keyboardType = UIKeyboardTypePhonePad;
     _phoneNumber.delegate = self;
@@ -81,9 +86,10 @@
 #pragma mark -创建验证码输入框-
 - (void)setVerify{
     
-    _verify = [[KGTextField alloc]initWithFrame:CGRectMake(50, 340,KGscreenWidth/2, 50)];
+    _verify = [[KGTextField alloc]initWithFrame:CGRectMake(50, 210,KGscreenWidth/2 - 30, 30)];
     _verify.backgroundColor = [UIColor whiteColor];
-    _verify.placeholder = @"请输入验证码";
+    _verify.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"验证码" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
+    _verify.font = KGFont(13);
     _verify.borderStyle = UITextBorderStyleRoundedRect;
     _verify.delegate = self;
     _verify.clearButtonMode = UITextFieldViewModeAlways;
@@ -94,26 +100,59 @@
 
 #pragma mark -发送验证码按钮-
 - (void)setVerifyButton{
-    _verifyBtu = [[UIButton alloc]initWithFrame:CGRectMake(KGscreenWidth/2 + 80, 340,KGscreenWidth/2 - 130, 50)];
+    _verifyBtu = [[UIButton alloc]initWithFrame:CGRectMake(KGscreenWidth/2 + 30, 210,KGscreenWidth/2 - 80, 30)];
     [_verifyBtu setTitle:@"发送验证码" forState:UIControlStateNormal];
     [_verifyBtu setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     _verifyBtu.backgroundColor = [UIColor lightGrayColor];
-    _verifyBtu.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-    _verifyBtu.layer.cornerRadius = 10.0f;
+    _verifyBtu.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+    _verifyBtu.layer.cornerRadius = 5.0f;
     _verifyBtu.layer.borderColor = [UIColor whiteColor].CGColor;
     _verifyBtu.layer.borderWidth = 1.0f;
     _verifyBtu.layer.masksToBounds = YES;
-    _verifyBtu.titleLabel.font = [UIFont systemFontOfSize:20.0];
     [_verifyBtu addTarget:self action:@selector(verifyBtuClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_verifyBtu];
+}
+
+#pragma mark -注册按钮-
+- (void)setVerifyBtuAndSMS{
+    _verityShure = [[UIButton alloc]initWithFrame:CGRectMake(50, 250,KGscreenWidth - 100, 30)];
+    [_verityShure setTitle:@"验证" forState:UIControlStateNormal];
+    [_verityShure setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _verityShure.backgroundColor = [UIColor blueColor];
+    _verityShure.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+    _verityShure.layer.cornerRadius = 5.0f;
+    _verityShure.layer.borderColor = [UIColor whiteColor].CGColor;
+    _verityShure.layer.borderWidth = 1.0f;
+    _verityShure.layer.masksToBounds = YES;
+    [_verityShure addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_verityShure];
+}
+
+- (void)buttonClick:(UIButton *)sender{
+    [SMSSDK commitVerificationCode:_verify.text phoneNumber:_phoneNumber.text zone:@"86" result:^(NSError *error) {
+        if (!error)
+        {
+            _tureOrfail = YES;
+            [self alertViewTitle:@"提示" message:@"验证码填写正确，请继续"];
+            [_verityShure setTitle:@"验证成功" forState:UIControlStateNormal];
+            _verityShure.backgroundColor = [UIColor lightGrayColor];
+            [_verityShure setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        }
+        else
+        {
+            // error
+            [self alertViewTitle:@"提示" message:@"验证码有误"];
+        }
+    }];
 }
 
 #pragma mark -创建密码输入框-
 - (void)setPassWord{
     
-    _passWord = [[KGTextField alloc]initWithFrame:CGRectMake(50, 410,KGscreenWidth - 100, 50)];
+    _passWord = [[KGTextField alloc]initWithFrame:CGRectMake(50, 290,KGscreenWidth - 100, 30)];
     _passWord.backgroundColor = [UIColor whiteColor];
-    _passWord.placeholder = @"请输入您的新密码";
+    _passWord.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"新密码" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
+    _passWord.font = KGFont(13);
     _passWord.borderStyle = UITextBorderStyleRoundedRect;
     _passWord.delegate = self;
     _passWord.secureTextEntry = YES;
@@ -127,9 +166,10 @@
 #pragma mark -创建密码确认输入框-
 - (void)setSurePassWord{
     
-    _surePassWord = [[KGTextField alloc]initWithFrame:CGRectMake(50, 480,KGscreenWidth - 100, 50)];
+    _surePassWord = [[KGTextField alloc]initWithFrame:CGRectMake(50, 330,KGscreenWidth - 100, 30)];
     _surePassWord.backgroundColor = [UIColor whiteColor];
-    _surePassWord.placeholder = @"请确认您的新密码";
+    _surePassWord.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"确认新密码" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
+    _surePassWord.font = KGFont(13);
     _surePassWord.borderStyle = UITextBorderStyleRoundedRect;
     _surePassWord.delegate = self;
     _surePassWord.secureTextEntry = YES;
@@ -159,16 +199,15 @@
 
 #pragma mark -修改按钮-
 - (void)setRegisterButton{
-    UIButton *registerBtu = [[UIButton alloc]initWithFrame:CGRectMake(50, KGscreenHeight - 200,KGscreenWidth - 100, 50)];
+    UIButton *registerBtu = [[UIButton alloc]initWithFrame:CGRectMake(50, KGscreenHeight - 200,KGscreenWidth - 100, 30)];
     [registerBtu setTitle:@"提交" forState:UIControlStateNormal];
     [registerBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     registerBtu.backgroundColor = [UIColor blueColor];
-    registerBtu.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-    registerBtu.layer.cornerRadius = 10.0f;
+    registerBtu.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+    registerBtu.layer.cornerRadius = 5.0f;
     registerBtu.layer.borderColor = [UIColor whiteColor].CGColor;
     registerBtu.layer.borderWidth = 1.0f;
     registerBtu.layer.masksToBounds = YES;
-    registerBtu.titleLabel.font = [UIFont systemFontOfSize:20.0];
     [registerBtu addTarget:self action:@selector(registerBtuClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerBtu];
 }
@@ -179,35 +218,24 @@
         [self alertViewTitle:@"提示" message:@"请认真填写注册信息"];
     }else{
         if ([_passWord.text isEqualToString:_surePassWord.text]) {
-            [SMSSDK commitVerificationCode:_verify.text phoneNumber:_phoneNumber.text zone:@"86" result:^(NSError *error) {
-                if (!error){
-                    [self sendPhoneAndPassWord];
-                }
-                else
-                {
-                    // error
-                    [self alertViewTitle:@"提示" message:@"验证码有误"];
-                }
-            }];
+            if (_tureOrfail == YES) {
+                [[KGRequest sharedInstance] forgetPassWord:_phoneNumber.text passWord:_passWord.text succ:^(NSString *msg, id data) {
+                    if ([msg isEqualToString:@"修改成功"]) {
+                        [self alertViewTitle:@"提示" message:@"修改成功,请返回登录页面,使用新密码登录"];
+//                        // 验证成功
+//                        [self.navigationController popViewControllerAnimated:YES];
+                    }else{
+                        [self alertViewTitle:@"提示" message:@"修改失败"];
+                    }
+                    
+                } fail:^(NSString *error) {
+                    [self alertViewTitle:@"提示" message:@"访问服务器失败"];
+                }];
+            }
         }else{
             [self alertViewTitle:@"提示" message:@"两次输入的密码不一样，请重新输入"];
         }
     }
-}
-
-#pragma mark -提交修改密码-
-- (void)sendPhoneAndPassWord{
-    [[KGRequest sharedInstance] forgetPassWord:_phoneNumber.text passWord:_passWord.text succ:^(NSString *msg, id data) {
-        if ([msg isEqualToString:@"修改成功"]) {
-            // 验证成功
-            [self.navigationController popViewControllerAnimated:YES];
-        }else{
-            [self alertViewTitle:@"提示" message:@"修改失败"];
-        }
-        
-    } fail:^(NSString *error) {
-        
-    }];
 }
 
 #pragma mark -发送验证码按钮点击事件-
@@ -258,6 +286,7 @@
         
         _verifyBtu.backgroundColor = [UIColor blueColor];
         [_verifyBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_verifyBtu setTitle:@"发送验证码" forState:UIControlStateNormal];
         
         _verifyBtu.enabled = YES;
         _timeNumber = 60;

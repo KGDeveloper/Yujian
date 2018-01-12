@@ -1,4 +1,4 @@
-//
+ //
 //  KGTabBarViewController.m
 //  遇见智能
 //
@@ -10,6 +10,7 @@
 #import "KGHomeViewController.h"
 #import "KGMineViewController.h"
 #import "KGOrderViewController.h"
+#import "KGRubbishViewController.h"
 
 @interface KGTabBarViewController ()<UITabBarControllerDelegate>
 
@@ -20,6 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
+    
     [self initTabbar];
 }
 
@@ -28,34 +31,37 @@
     
     //酒店页面
     KGHomeViewController *home = [[KGHomeViewController alloc]init];
-    home.title = @"酒店";
     UINavigationController *homeNv = [[UINavigationController alloc]initWithRootViewController:home];
     
     //订单页面
     KGOrderViewController *order = [[KGOrderViewController alloc]init];
-    order.title = @"订单";
     UINavigationController *orderNv = [[UINavigationController alloc]initWithRootViewController:order];
+    
+    KGRubbishViewController *rubbish = [[KGRubbishViewController alloc]init];
+    UINavigationController *rubbishNv = [[UINavigationController alloc]initWithRootViewController:rubbish];
     
     //个人信息页面
     KGMineViewController *mine = [[KGMineViewController alloc]init];
-//    mine.title = @"个人中心";
     UINavigationController *mineNv = [[UINavigationController alloc]initWithRootViewController:mine];
     
-    self.viewControllers = [NSArray arrayWithObjects:homeNv,orderNv,mineNv, nil];
+    self.viewControllers = [NSArray arrayWithObjects:homeNv,orderNv,rubbishNv,mineNv, nil];
     
     self.delegate = self;
     
     UITabBarItem *homeItme = [self.tabBar.items objectAtIndex:0];
     UITabBarItem *orderItme = [self.tabBar.items objectAtIndex:1];
-    UITabBarItem *mineItme = [self.tabBar.items objectAtIndex:2];
+    UITabBarItem *rubbishItem = [self.tabBar.items objectAtIndex:2];
+    UITabBarItem *mineItme = [self.tabBar.items objectAtIndex:3];
     
-    [self setTabBarItem:homeItme withNormalImageName:@"酒店" andSelectedImageName:@"酒店light" andTitle:@"酒店"];
-    [self setTabBarItem:orderItme withNormalImageName:@"订单" andSelectedImageName:@"订单light" andTitle:@"订单"];
-    [self setTabBarItem:mineItme withNormalImageName:@"个人" andSelectedImageName:@"个人light" andTitle:@"个人"];
+    [self setTabBarItem:homeItme withNormalImageName:@"Hotel" andSelectedImageName:@"Hotel1" andTitle:@"酒店"];
+    [self setTabBarItem:orderItme withNormalImageName:@"Order1" andSelectedImageName:@"Order" andTitle:@"订单"];
+    [self setTabBarItem:rubbishItem withNormalImageName:@"垃圾-2" andSelectedImageName:@"垃圾" andTitle:@"回收"];
+    [self setTabBarItem:mineItme withNormalImageName:@"My1" andSelectedImageName:@"My" andTitle:@"个人"];
     
     //设置tabbar选中和正常状态下的字体大小和颜色
-    [[UITabBarItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName :[UIColor blackColor],NSFontAttributeName:[UIFont fontWithName:@"Marion-Italic" size:12.0]} forState:UIControlStateNormal];
-    [[UITabBarItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [UIColor colorWithRed:34/255.0 green:116/255.0 blue:255/255.0 alpha:1],NSFontAttributeName:[UIFont fontWithName:@"Marion-Italic" size:12.0]} forState:UIControlStateSelected];
+    [[UITabBarItem appearance] setTitleTextAttributes:KGAttributesFont(12.0f, KGCellDont) forState:UIControlStateNormal];
+    [[UITabBarItem appearance] setTitleTextAttributes:KGAttributesFont(12.0f, KGCellHave) forState:UIControlStateSelected];
+
 }
 
 /**

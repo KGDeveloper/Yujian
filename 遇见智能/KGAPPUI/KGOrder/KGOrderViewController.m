@@ -15,7 +15,13 @@
 }
 
 @property (nonatomic,strong) UISegmentedControl *finishOrWait;
+/**
+ 订房系统
+ */
 @property (nonatomic,strong) KGOrderListViewController *finishVC;
+/**
+ 退房系统
+ */
 @property (nonatomic,strong) KGWaitViewController *waitVC;
 
 @end
@@ -52,16 +58,17 @@
     NSArray *titleArr = @[@"订房",@"退房"];
     _finishOrWait = [[UISegmentedControl alloc]initWithItems:titleArr];
     _finishOrWait.selectedSegmentIndex = 0;
-    _finishOrWait.tintColor = KGcolor(81, 159, 250, 1);
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+    _finishOrWait.tintColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
+    _finishOrWait.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:KGcolor(231, 99, 40, 1),
                          NSForegroundColorAttributeName,
-                         [UIFont systemFontOfSize:12],
+                         [UIFont systemFontOfSize:17],
                          NSFontAttributeName,nil];
     
     [_finishOrWait setTitleTextAttributes:dic forState:UIControlStateSelected];
-    NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:KGcolor(81, 159, 250, 1),
+    NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:KGCellDont,
                           NSForegroundColorAttributeName,
-                          [UIFont systemFontOfSize:12],
+                          [UIFont systemFontOfSize:17],
                           NSFontAttributeName,nil];
     
     [_finishOrWait setTitleTextAttributes:dic1 forState:UIControlStateNormal];

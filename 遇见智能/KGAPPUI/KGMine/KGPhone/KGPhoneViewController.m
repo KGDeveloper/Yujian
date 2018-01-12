@@ -37,16 +37,12 @@
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-//    //废弃定时器
-//    [_timer invalidate];
-//
-//    _timer = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"修改手机号";
+    self.title = @"修改手机";
     self.view.backgroundColor = [UIColor whiteColor];
     
     _oldSend = NO;
@@ -60,14 +56,28 @@
     [self setOldPhoneTest];
     [self newPhoneTextField];
     [self newTestText];
-    [self changePhone];
+    [self initJoinOutBtu];
     
     [self sendTestTimer];
+    
+    [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
+}
+
+- (void)initJoinOutBtu{
+    UIButton *jionOutBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth - 100, 30)];
+    jionOutBtu.center = CGPointMake(KGscreenWidth/2,KGscreenHeight - 100);
+    [jionOutBtu setTitle:@"确定" forState:UIControlStateNormal];
+    jionOutBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    [jionOutBtu setTitleColor:KGcolor(255, 255, 255, 1) forState:UIControlStateNormal];
+    [jionOutBtu addTarget:self action:@selector(jionOutClick:) forControlEvents:UIControlEventTouchUpInside];
+    jionOutBtu.layer.cornerRadius = 5;
+    jionOutBtu.layer.masksToBounds = YES;
+    [self.view addSubview:jionOutBtu];
 }
 
 #pragma mark -旧手机号-
 - (void)setOldPhone{
-    _phoneTextField = [[KGPriceTextField alloc]initWithFrame:CGRectMake(50, 200, KGscreenWidth - 100, 30)];
+    _phoneTextField = [[KGPriceTextField alloc]initWithFrame:CGRectMake(80, 200, KGscreenWidth - 100, 30)];
     _phoneTextField.placeholder = @"请输入旧手机号";
     _phoneTextField.textColor = [UIColor grayColor];
     _phoneTextField.keyboardType = UIKeyboardTypePhonePad;
@@ -75,18 +85,24 @@
     _phoneTextField.font = [UIFont systemFontOfSize:13.0f];
     _phoneTextField.returnKeyType = UIReturnKeyGo;
     _phoneTextField.clearButtonMode = UITextFieldViewModeAlways;
-    _phoneTextField.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"手机号"]];
-    _phoneTextField.leftViewMode = UITextFieldViewModeAlways;
     _phoneTextField.layer.cornerRadius = 5.0f;
-    _phoneTextField.layer.borderWidth = 1.0f;
-    _phoneTextField.layer.borderColor = [UIColor grayColor].CGColor;
     _phoneTextField.layer.masksToBounds = YES;
     [self.view addSubview:_phoneTextField];
+    
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 200, 50, 30)];
+    titleLabel.textColor = KGcolor(101, 101, 101, 1);
+    titleLabel.text = @"手   机";
+    titleLabel.font = KGFont(13);
+    [self.view addSubview:titleLabel];
+    
+    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 230, KGscreenWidth - 40, 1)];
+    lineLabel.backgroundColor = KGcolor(200, 200, 200, 1);
+    [self.view addSubview:lineLabel];
 }
 
 #pragma mark -旧手机号验证-
 - (void)setOldPhoneTest{
-    _oldPhone = [[KGPriceTextField alloc]initWithFrame:CGRectMake(50, 250, KGscreenWidth - 230, 30)];
+    _oldPhone = [[KGPriceTextField alloc]initWithFrame:CGRectMake(80, 250, KGscreenWidth - 230, 30)];
     _oldPhone.placeholder = @"请输入验证码";
     _oldPhone.textColor = [UIColor grayColor];
     _oldPhone.keyboardType = UIKeyboardTypePhonePad;
@@ -94,18 +110,14 @@
     _oldPhone.font = [UIFont systemFontOfSize:13.0f];
     _oldPhone.returnKeyType = UIReturnKeyGo;
     _oldPhone.clearButtonMode = UITextFieldViewModeAlways;
-    _oldPhone.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"验证码T"]];
-    _oldPhone.leftViewMode = UITextFieldViewModeAlways;
     _oldPhone.layer.cornerRadius = 5.0f;
-    _oldPhone.layer.borderWidth = 1.0f;
-    _oldPhone.layer.borderColor = [UIColor grayColor].CGColor;
     _oldPhone.layer.masksToBounds = YES;
     [self.view addSubview:_oldPhone];
     
-    _oldBtu = [[UIButton alloc]initWithFrame:CGRectMake(KGscreenWidth - 170, 250, 120, 30)];
-    [_oldBtu setTitle:@"发送验证码" forState:UIControlStateNormal];
+    _oldBtu = [[UIButton alloc]initWithFrame:CGRectMake(KGscreenWidth - 120, 245, 100, 30)];
+    [_oldBtu setTitle:@"获取验证码" forState:UIControlStateNormal];
     [_oldBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    _oldBtu.backgroundColor = KGOrangeColor;
+    _oldBtu.backgroundColor = KGcolor(231, 99, 40, 1);
     _oldBtu.titleLabel.font = [UIFont systemFontOfSize:13.0f];
     _oldBtu.layer.cornerRadius = 5.0f;
     _oldBtu.layer.borderColor = [UIColor clearColor].CGColor;
@@ -113,11 +125,21 @@
     _oldBtu.layer.masksToBounds = YES;
     [_oldBtu addTarget:self action:@selector(buttonNameClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_oldBtu];
+    
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 250, 50, 30)];
+    titleLabel.textColor = KGcolor(101, 101, 101, 1);
+    titleLabel.text = @"验证码";
+    titleLabel.font = KGFont(13);
+    [self.view addSubview:titleLabel];
+    
+    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 280, KGscreenWidth - 40, 1)];
+    lineLabel.backgroundColor = KGcolor(200, 200, 200, 1);
+    [self.view addSubview:lineLabel];
 }
 
 #pragma mark -输入新手机号-
 - (void)newPhoneTextField{
-    _phoneText = [[KGPriceTextField alloc]initWithFrame:CGRectMake(50, 300, KGscreenWidth - 100, 30)];
+    _phoneText = [[KGPriceTextField alloc]initWithFrame:CGRectMake(80, 300, KGscreenWidth - 100, 30)];
     _phoneText.placeholder = @"请输入新手机号";
     _phoneText.textColor = [UIColor grayColor];
     _phoneText.keyboardType = UIKeyboardTypePhonePad;
@@ -125,18 +147,24 @@
     _phoneText.font = [UIFont systemFontOfSize:13.0f];
     _phoneText.returnKeyType = UIReturnKeyGo;
     _phoneText.clearButtonMode = UITextFieldViewModeAlways;
-    _phoneText.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"手机号"]];
-    _phoneText.leftViewMode = UITextFieldViewModeAlways;
     _phoneText.layer.cornerRadius = 5.0f;
-    _phoneText.layer.borderWidth = 1.0f;
-    _phoneText.layer.borderColor = [UIColor grayColor].CGColor;
     _phoneText.layer.masksToBounds = YES;
     [self.view addSubview:_phoneText];
+    
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 300, 50, 30)];
+    titleLabel.textColor = KGcolor(101, 101, 101, 1);
+    titleLabel.text = @"手  机";
+    titleLabel.font = KGFont(13);
+    [self.view addSubview:titleLabel];
+    
+    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 330, KGscreenWidth - 40, 1)];
+    lineLabel.backgroundColor = KGcolor(200, 200, 200, 1);
+    [self.view addSubview:lineLabel];
 }
 
 #pragma mark -新手机号验证码-
 - (void)newTestText{
-    _phoneTest = [[KGPriceTextField alloc]initWithFrame:CGRectMake(50, 350, KGscreenWidth - 230, 30)];
+    _phoneTest = [[KGPriceTextField alloc]initWithFrame:CGRectMake(80, 350, KGscreenWidth - 230, 30)];
     _phoneTest.placeholder = @"请输入验证码";
     _phoneTest.textColor = [UIColor grayColor];
     _phoneTest.keyboardType = UIKeyboardTypePhonePad;
@@ -144,18 +172,14 @@
     _phoneTest.font = [UIFont systemFontOfSize:13.0f];
     _phoneTest.returnKeyType = UIReturnKeyGo;
     _phoneTest.clearButtonMode = UITextFieldViewModeAlways;
-    _phoneTest.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"验证码T"]];
-    _phoneTest.leftViewMode = UITextFieldViewModeAlways;
     _phoneTest.layer.cornerRadius = 5.0f;
-    _phoneTest.layer.borderWidth = 1.0f;
-    _phoneTest.layer.borderColor = [UIColor grayColor].CGColor;
     _phoneTest.layer.masksToBounds = YES;
     [self.view addSubview:_phoneTest];
     
-    _sendBtu = [[UIButton alloc]initWithFrame:CGRectMake(KGscreenWidth - 170, 350, 120, 30)];
-    [_sendBtu setTitle:@"发送验证码" forState:UIControlStateNormal];
+    _sendBtu = [[UIButton alloc]initWithFrame:CGRectMake(KGscreenWidth - 120, 345, 100, 30)];
+    [_sendBtu setTitle:@"获取验证码" forState:UIControlStateNormal];
     [_sendBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    _sendBtu.backgroundColor = KGOrangeColor;
+    _sendBtu.backgroundColor = KGcolor(231, 99, 40, 1);
     _sendBtu.titleLabel.font = [UIFont systemFontOfSize:13.0f];
     _sendBtu.layer.cornerRadius = 5.0f;
     _sendBtu.layer.borderColor = [UIColor clearColor].CGColor;
@@ -163,25 +187,21 @@
     _sendBtu.layer.masksToBounds = YES;
     [_sendBtu addTarget:self action:@selector(sendBtuClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_sendBtu];
+    
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 350, 50, 30)];
+    titleLabel.textColor = KGcolor(101, 101, 101, 1);
+    titleLabel.text = @"验证码";
+    titleLabel.font = KGFont(13);
+    [self.view addSubview:titleLabel];
+    
+    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 380, KGscreenWidth - 40, 1)];
+    lineLabel.backgroundColor = KGcolor(200, 200, 200, 1);
+    [self.view addSubview:lineLabel];
 }
 
-#pragma mark -提交按钮-
-- (void)changePhone{
-    UIButton *ButtonName = [[UIButton alloc]initWithFrame:CGRectMake(50, KGscreenHeight - 200 , KGscreenWidth - 100, 30)];
-    [ButtonName setTitle:@"修改" forState:UIControlStateNormal];
-    ButtonName.backgroundColor = KGOrangeColor;
-    [ButtonName setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    ButtonName.titleLabel.font = [UIFont systemFontOfSize:13.0f];
-    ButtonName.layer.cornerRadius = 5.0f;
-    ButtonName.layer.borderColor = [UIColor clearColor].CGColor;
-    ButtonName.layer.borderWidth = 1.0f;
-    ButtonName.layer.masksToBounds = YES;
-    [ButtonName addTarget:self action:@selector(changePhoneClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:ButtonName];
-}
 
 #pragma mark -提交按钮点击事件-
-- (void)changePhoneClick:(UIButton *)sender{
+- (void)jionOutClick:(UIButton *)sender{
     [self sendSMSFrameText:_oldPhone.text phone:_phoneTextField.text];
     [self sendSMSFrameText:_phoneTest.text phone:_phoneText.text];
     

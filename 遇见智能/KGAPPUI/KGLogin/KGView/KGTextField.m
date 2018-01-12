@@ -12,7 +12,7 @@
 
 //指定矩形边距
 - (CGRect)borderRectForBounds:(CGRect)bounds{
-    return CGRectMake(50, 0, self.frame.size.width - 100, 50);
+    return CGRectMake(50, 0, self.frame.size.width - 100, 30);
 }
 //文本显示的边距
 //- (CGRect)textRectForBounds:(CGRect)bounds{
@@ -23,11 +23,11 @@
 //- (CGRect)clearButtonRectForBounds:(CGRect)bounds;//指定显示清楚按钮的边距
 //指定左边附着视图的边距
 - (CGRect)leftViewRectForBounds:(CGRect)bounds{
-    return CGRectMake(10, 10, 30, 30);
+    return CGRectMake(10, 5, 20, 20);
 }
 //指定右边附着视图的边距
 - (CGRect)rightViewRectForBounds:(CGRect)bounds{
-    return CGRectMake(self.frame.size.width - 40, 10, 30, 30);
+    return CGRectMake(self.frame.size.width - 40, 5, 20, 20);
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{

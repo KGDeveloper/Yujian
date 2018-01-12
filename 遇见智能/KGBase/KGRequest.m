@@ -23,57 +23,45 @@ static KGRequest *sharedObj = nil;
     return sharedObj;
 }
 
+- (AFHTTPSessionManager *)manger{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:@"application/json",@"text/json", @"text/html", nil]];
+    return  manager;
+}
+
 #pragma mark -登录请求-
 - (void)loginWithPhone:(NSString *)phone passWord:(NSString *)passWord succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:phone forKey:@"tel"];
-    [dic setObject:passWord forKey:@"password"];
-    [KGManager POST:KGLogin parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if ([responseObject[@"data"] isEqualToString:@"登录成功"]) {
-            succ(@"登录成功",responseObject);
+    [dic setObject:phone forKey:@"phoneNo"];
+    [dic setObject:passWord forKey:@"passWord"];
+    [dic setObject:@"iphone" forKey:@"type"];
+    
+    [[self manger] POST:KGLogin parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"登录成功"]) {
+            succ(@"登录成功",responseObject[@"data"]);
         }else{
-            fail(@"账号或密码错误");
+            succ(@"登录失败",responseObject[@"data"]);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (fail)
-        {
-            fail(@"登录服务器失败");
-        }
-    }];
-}
-
-#pragma mark -绑定店名-
-- (void)lookingPhone:(NSString *)phone homeName:(NSString *)homeName succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:phone forKey:@"tel"];
-    [dic setObject:homeName forKey:@"hotelName"];
-    [KGManager POST:KGHomeName parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if ([responseObject[@"data"] isEqualToString:@"验证成功"]) {
-            succ(@"验证成功",responseObject);
-        }else{
-            fail(@"该店不存在，请重新输入！");
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (fail)
-        {
-            fail(@"登录服务器失败");
-        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        fail(@"登录失败");
     }];
 }
 
 #pragma mark -忘记密码请求-
 - (void)forgetPassWord:(NSString *)phone passWord:(NSString *)passWord succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:phone forKey:@"tel"];
-    [dic setObject:passWord forKey:@"newPsw"];
-    KGManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
-    [KGManager POST:KGForget parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if ([responseObject[@"data"] isEqualToString:@"修改成功"]) {
+    [dic setObject:phone forKey:@"phoneNo"];
+    [dic setObject:passWord forKey:@"newPassWord"];
+
+    [[self manger] POST:KGForget parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([responseObject[@"status"] isEqualToString:@"0"]) {
             succ(@"修改成功",responseObject);
         }else{
             fail(@"修改失败");
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if (fail)
         {
             fail(@"登录服务器失败");
@@ -84,17 +72,66 @@ static KGRequest *sharedObj = nil;
 #pragma mark -注册请求-
 - (void)registerUserName:(NSString *)userName phone:(NSString *)phone passWord:(NSString *)passWord succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:userName forKey:@""];
-    [dic setObject:phone forKey:@""];
-    [dic setObject:passWord forKey:@""];
-    [KGManager POST:KGRegister parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (fail)
-        {
-            fail(@"登录服务器失败");
+    [dic setObject:userName forKey:@"userName"];
+    [dic setObject:phone forKey:@"phoneNo"];
+    [dic setObject:passWord forKey:@"passWord"];
+    [[self manger] POST:KGRegister parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"注册成功"]) {
+            succ(@"注册成功",responseObject[@"data"]);
+        }else{
+            succ(@"注册失败",responseObject[@"data"]);
         }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        fail(@"注册失败");
     }];
 }
+
+#pragma mark -商家修改手机号或者修改密码-
+- (void)updateHotelMessageWithnewPassWord:(NSString *)newPassWord userId:(NSString *)userId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:newPassWord forKey:@"newPassWord"];
+    [dic setObject:userId forKey:@"userId"];
+    
+    [[self manger] POST:KGRegister parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"注册成功"]) {
+            succ(@"注册成功",responseObject[@"data"]);
+        }else{
+            succ(@"注册失败",responseObject[@"data"]);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        fail(@"注册失败");
+    }];
+}
+
+- (void)addHotellMessageWithDictionary:(NSDictionary *)dci succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    [[self manger] POST:KGAddHotel parameters:dci success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"添加成功",responseObject[@"data"]);
+        }else{
+            succ(@"添加失败",responseObject[@"data"]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        fail(@"网络出错");
+    }];
+}
+
+- (void)homeUserPhone:(NSString *)phoneNo page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:phoneNo forKey:@"phoneNo"];
+    [dic setObject:page forKey:@"page"];
+    [dic setObject:pageSize forKey:@"pageSize"];
+    [dic setObject:@"iphone" forKey:@"type"];
+    
+    [[self manger] POST:KGHomeName parameters:dic success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject[@"data"]);
+        }else{
+            fail(@"请求失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        fail(@"访问失败");
+    }];
+}
+
 
 @end

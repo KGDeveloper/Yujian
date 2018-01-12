@@ -21,8 +21,12 @@
 #define KGManager [AFHTTPRequestOperationManager manager]
 //判断是否是iPhone X
 #define KGDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
-
 //设置字号
-#define KGFont(h) [UIFont systemFontOfSize:h]
+#define KGFont(Font) [UIFont systemFontOfSize:Font]
+//设置字体和颜色
+#define KGAttributesFont(Font,Color) @{ NSForegroundColorAttributeName:Color,NSFontAttributeName:[UIFont fontWithName:@"Marion-Italic" size:Font]}
+
+#define KGCellHave [UIColor colorWithRed:226/255.0 green:17/255.0 blue:38/255.0 alpha:1]
+#define KGCellDont [UIColor colorWithRed:154/255.0 green:154/255.0 blue:154/255.0 alpha:1]
 
 #endif /* KGDefine_h */

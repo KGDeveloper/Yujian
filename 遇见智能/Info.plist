@@ -20,6 +20,12 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>Camera Usage Description App</key>
+	<string>需要访问相机</string>
+	<key>Media Library Usage DescriptionApp</key>
+	<string>需要访问媒体资源库</string>
+	<key>Photo Library Usage Description</key>
+	<string>photoLibararyDescription</string>
 	<key>MOBAppSecret</key>
 	<string>14431307eca7455cd0e93ca141874be1</string>
 	<key>NSContactsUsageDescription</key>

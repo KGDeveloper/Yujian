@@ -30,6 +30,7 @@
     _roomData = [NSMutableArray arrayWithArray:roomArr];
     
     [self setUpRightNavButtonItmeTitle:@"提交" icon:nil];
+    [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
     
     [self setLabelFromArray];
     [self.view addSubview:[self setRoomNameTextField]];
@@ -68,7 +69,7 @@
 
 #pragma mark -创建房间按钮-
 - (void)setRoomButton{
-    _room = [[KGRoomView alloc]initWithFrame:CGRectMake(KGscreenWidth/4 + 20, 435, KGscreenWidth - KGscreenWidth/4 - 50, KGscreenHeight - 435 - 30)];
+    _room = [[KGRoomView alloc]initWithFrame:CGRectMake(KGscreenWidth/4 + 20, 435, KGscreenWidth - KGscreenWidth/4 - 50, KGscreenHeight - 435 - 130)];
     _room.myDelegate = self;
     [_room sendArrayToCreateTextField:_roomData];
     [self.view addSubview:_room];

@@ -9,11 +9,15 @@
 #import "KGAddHomeViewController.h"
 #import "KGAddRomeViewController.h"
 
-@interface KGAddHomeViewController ()<UITextFieldDelegate>
+@interface KGAddHomeViewController ()<UITextFieldDelegate,UIImagePickerControllerDelegate>
 
 @property (nonatomic,strong) KGRoomTextField *infoTextField;
 @property (nonatomic,strong) UIButton *finishButton;
 @property (nonatomic,assign) BOOL isWrite;
+@property (nonatomic,strong) UIButton *cityBut;
+@property (nonatomic,strong) UIButton *pictureBtu;
+@property (nonatomic,strong) UIImageView *pictureImage;
+@property (nonatomic,strong) UIImageView *returnImage;
 
 @end
 
@@ -28,17 +32,11 @@
     [super viewDidLoad];
     
     self.title = @"添加门店";
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = KGcolor(200, 200, 200, 1);
     _isWrite = NO;
-    
-    UILabel *LabelName = [[UILabel alloc]initWithFrame:CGRectMake(30, 165,KGscreenWidth - 50, 270)];
-    LabelName.backgroundColor = KGcolor(201, 216, 223, 1);
-    LabelName.layer.borderWidth = 1.0f;
-    LabelName.layer.borderColor = [UIColor grayColor].CGColor;
-    LabelName.layer.cornerRadius = 5.0f;
-    LabelName.layer.masksToBounds = YES;
-    [self.view addSubview:LabelName];
-    
+
+    [self setUpLeftNavButtonItmeTitle:nil icon:@"Return"];
+    [self pictureBtuAndImage];
     [self setLabelFromArray];
     [self setTextFieldFromArray];
     [self setFinishButton];
@@ -48,11 +46,12 @@
 
 #pragma mark -创建添加门店提示语-
 - (void)setLabelFromArray{
-    NSArray *titleArr = @[@"门店名称",@"所在省份",@"所在城市",@"详细地址",@"前台电话"];
+    NSArray *titleArr = @[@"所在城市:",@"门店名称:",@"详细地址:",@"前台电话:",@"店长电话:"];
     for (int i = 0; i < titleArr.count ; i++) {
-        UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
-        titleLabel.center = CGPointMake(KGscreenWidth/4, 200 + 50 * i);
+        UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 210 + (50 * i), 80, 40)];
         titleLabel.text = titleArr[i];
+        titleLabel.textAlignment = NSTextAlignmentRight;
+        titleLabel.backgroundColor = [UIColor whiteColor];
         titleLabel.tintColor = [UIColor grayColor];
         titleLabel.font = [UIFont systemFontOfSize:15.0f];
         [self.view addSubview:titleLabel];
@@ -62,28 +61,108 @@
 #pragma mark -创建输入框-
 - (void)setTextFieldFromArray{
     
-    NSArray *placeholderArr = @[@"请填写您的门店名称",@"请填写门店所在省份",@"请填写门店所在市区",@"请填写门店详细地址",@"请填写前台电话"];
+    NSArray *placeholderArr = @[@"",@"请填写您的门店名称",@"请填写门店详细地址",@"请填写前台电话",@"请填写店长电话"];
     for (int i = 0; i < placeholderArr.count; i++) {
-        _infoTextField = [[KGRoomTextField alloc]initWithFrame:CGRectMake(KGscreenWidth/4 + 20,  185 + 50 * i, KGscreenWidth - KGscreenWidth/4 - 50, 30)];
-        _infoTextField.placeholder = placeholderArr[i];
-        _infoTextField.textColor = [UIColor grayColor];
-        _infoTextField.font = [UIFont systemFontOfSize:15.0f];
-        _infoTextField.delegate = self;
-        _infoTextField.tag = 101 + i;
-        _infoTextField.layer.cornerRadius = 5.0f;
-        _infoTextField.layer.borderWidth = 1.0f;
-        _infoTextField.layer.borderColor = [UIColor grayColor].CGColor;
-        _infoTextField.layer.masksToBounds = YES;
-        [self.view addSubview:_infoTextField];
+        if (i == 0) {
+            _cityBut = [[UIButton alloc]initWithFrame:CGRectMake(79,  210 + 50 * i, KGscreenWidth - 80, 40)];
+            _cityBut.backgroundColor = [UIColor whiteColor];
+            [_cityBut addTarget:self action:@selector(cityClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:_cityBut];
+            _returnImage = [[UIImageView alloc]initWithFrame:CGRectMake(KGscreenWidth - 40, 220 + 50 * i, 20, 20)];
+            _returnImage.image = [UIImage imageNamed:@"下一个"];
+            [self.view addSubview:_returnImage];
+            
+        }else{
+            _infoTextField = [[KGRoomTextField alloc]initWithFrame:CGRectMake(79,  210 + 50 * i, KGscreenWidth - 80, 40)];
+            _infoTextField.placeholder = placeholderArr[i];
+            _infoTextField.textColor = [UIColor grayColor];
+            _infoTextField.backgroundColor = [UIColor whiteColor];
+            _infoTextField.font = KGFont(15);
+            _infoTextField.delegate = self;
+            _infoTextField.tag = 101 + i;
+            [self.view addSubview:_infoTextField];
+        }
     }
 }
+
+- (void)pictureBtuAndImage{
+    
+    UILabel *backLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 66, KGscreenWidth, 130)];
+    backLabel.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:backLabel];
+    
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 66, 80, 40)];
+    titleLabel.text = @"选择照片";
+    titleLabel.backgroundColor = [UIColor whiteColor];
+    titleLabel.textAlignment = NSTextAlignmentRight;
+    titleLabel.tintColor = [UIColor grayColor];
+    titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.view addSubview:titleLabel];
+
+    _pictureImage = [[UIImageView alloc] initWithFrame:CGRectMake(20,106,100, 60)];
+    _pictureImage.image = [UIImage imageNamed:@"添加照片"];
+    _pictureImage.layer.cornerRadius = 5;
+    _pictureImage.layer.masksToBounds = YES;
+    [self.view addSubview:_pictureImage];
+    
+    _pictureBtu = [[UIButton alloc]initWithFrame:_pictureImage.frame];
+    [_pictureBtu addTarget:self action:@selector(pictureClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_pictureBtu];
+}
+
+- (void)cityClick:(UIButton *)sender{
+    [[MOFSPickerManager shareManger] showMOFSAddressPickerWithTitle:@"选择省市县" cancelTitle:@"取消" commitTitle:@"完成" commitBlock:^(NSString *address, NSString *zipcode) {
+        sender.titleEdgeInsets = UIEdgeInsetsMake(0,20, 0, 0);
+        sender.titleLabel.font = KGFont(15);
+        sender.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [sender setTitle:address forState:UIControlStateNormal];
+    } cancelBlock:^{
+        
+    }];
+}
+
+- (void)pictureClick:(UIButton *)sender{
+    //调用系统相册的类
+    UIImagePickerController *pickerController = [[UIImagePickerController alloc]init];
+    
+    
+    //设置选取的照片是否可编辑
+    pickerController.allowsEditing = YES;
+    //设置相册呈现的样式
+    pickerController.sourceType =  UIImagePickerControllerSourceTypeSavedPhotosAlbum;//图片分组列表样式
+    //照片的选取样式还有以下两种
+    //UIImagePickerControllerSourceTypePhotoLibrary,直接全部呈现系统相册
+    //UIImagePickerControllerSourceTypeCamera//调取摄像头
+    
+    //选择完成图片或者点击取消按钮都是通过代理来操作我们所需要的逻辑过程
+    pickerController.delegate = self;
+    //使用模态呈现相册
+    [self.navigationController presentViewController:pickerController animated:YES completion:^{
+        
+    }];
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    
+    //info是所选择照片的信息
+    
+    //    UIImagePickerControllerEditedImage//编辑过的图片
+    //    UIImagePickerControllerOriginalImage//原图
+    
+    _pictureImage.image = info[@"UIImagePickerControllerEditedImage"];
+
+    //使用模态返回到软件界面
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
 
 #pragma mark -完成按钮-
 - (void)setFinishButton{
     _finishButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _finishButton.frame = CGRectMake(50, KGscreenHeight - 200, KGscreenWidth - 100, 30);
+    _finishButton.frame = CGRectMake(50, KGscreenHeight - 100, KGscreenWidth - 100, 30);
     [_finishButton setTitle:@"确定添加" forState:UIControlStateNormal];
-    _finishButton.backgroundColor = KGOrangeColor;
+    _finishButton.backgroundColor = KGcolor(231, 99, 40, 1);
     [_finishButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_finishButton addTarget:self action:@selector(finishButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     _finishButton.layer.cornerRadius = 5.0f;
@@ -94,6 +173,7 @@
 
 #pragma mark -确定按钮的点击事件-
 - (void)finishButtonClick:(UIButton *)sender{
+    
     for (UITextField *textField in self.view.subviews) {
         if (textField.tag >= 101) {
             if ([textField.text isEqualToString: @""]) {
@@ -104,9 +184,48 @@
             }
         }
     }
+    if ([_cityBut.titleLabel.text isEqualToString:@"点击选择城市"]) {
+        _isWrite = NO;
+        [self alertViewControllerTitle:@"提示" message:@"请选择所属城市" name:@"确定" type:0 preferredStyle:1];
+    }
+    if (_pictureImage.image == NULL) {
+        _isWrite = NO;
+        [self alertViewControllerTitle:@"提示" message:@"请选择酒店描述照片" name:@"确定" type:0 preferredStyle:1];
+    }
+    
     if (_isWrite == YES) {
-        KGAddRomeViewController *rome = [[KGAddRomeViewController alloc]init];
-        [self.navigationController pushViewController:rome animated:YES];
+        NSString *imageData = [UIImageJPEGRepresentation(_pictureImage.image, 1) base64Encoding];
+        NSString *province = [[_cityBut.titleLabel.text componentsSeparatedByString:@"-"] firstObject];
+        NSArray *cityArr = [_cityBut.titleLabel.text componentsSeparatedByString:@"-"];
+        NSString *city = [cityArr[1] stringByAppendingString:[NSString stringWithFormat:@"-%@",cityArr[2]]];
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"userPhone"] forKey:@"phoneNo"];
+        [dic setObject:imageData forKey:@"hotelPict"];
+        [dic setObject:province forKey:@"province"];
+        [dic setObject:city forKey:@"city"];
+        
+        for (UITextField *tmp in self.view.subviews) {
+            if (tmp.tag == 101) {
+                [dic setObject:tmp.text forKey:@"hotelName"];
+            }else if (tmp.tag == 103){
+                [dic setObject:tmp.text forKey:@"detailAddress"];
+            }else if (tmp.tag == 104){
+                [dic setObject:tmp.text forKey:@"customeServicePhoneNo"];
+            }else if (tmp.tag == 105){
+                [dic setObject:tmp.text forKey:@"hotelPhoneNo"];
+            }
+        }
+        __weak typeof(self) weakSelf = self;
+        [[KGRequest sharedInstance] addHotellMessageWithDictionary:dic succ:^(NSString *msg, id data) {
+            if ([msg isEqualToString:@"添加成功"]) {
+                [weakSelf alertViewControllerTitle:@"提示" message:@"添加成功" name:@"确定" type:0 preferredStyle:1];
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            }else{
+                [weakSelf alertViewControllerTitle:@"提示" message:@"添加失败" name:@"确定" type:0 preferredStyle:1];
+            }
+        } fail:^(NSString *error) {
+            [weakSelf alertViewControllerTitle:@"提示" message:@"网络出错，请重试" name:@"确定" type:0 preferredStyle:1];
+        }];
     }
 }
 
@@ -139,6 +258,7 @@
     
 }
 
+
 #pragma mark -收件盘-
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     for (UITextField *textField in self.view.subviews) {
@@ -146,6 +266,7 @@
             [textField resignFirstResponder];
         }
     }
+    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFHTTPRequestOperationManager.h"
 
 /**
  成功回调
@@ -60,18 +59,9 @@ typedef void (^KGRequestFail)(NSString *error);
  @param fail 失败回调
  */
 - (void)registerUserName:(NSString *)userName phone:(NSString *)phone passWord:(NSString *)passWord succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
-/**
- 绑定店名
-
- @param phone 店长手机号
- @param homeName 店名
- @param succ 成功回调
- @param fail 失败回调
- */
-- (void)lookingPhone:(NSString *)phone homeName:(NSString *)homeName succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
-
-
-
+- (void)updateHotelMessageWithnewPassWord:(NSString *)newPassWord userId:(NSString *)userId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+- (void)addHotellMessageWithDictionary:(NSDictionary *)dci succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+- (void)homeUserPhone:(NSString *)phoneNo page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
 
 
 

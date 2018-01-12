@@ -30,26 +30,29 @@
     [super viewDidLoad];
     
     self.title = @"修改密码";
-    
-    self.view.backgroundColor = KGOrangeColor;
-    [self setUpRightNavButtonItmeTitle:@"修改" icon:nil];
-    
-    UILabel *LabelName = [[UILabel alloc]initWithFrame:CGRectMake(0, 0,KGscreenWidth - 80, 170)];
-    LabelName.center = CGPointMake(KGscreenWidth/2, 265);
-    LabelName.backgroundColor = [UIColor whiteColor];
-    LabelName.layer.borderWidth = 1.0f;
-    LabelName.layer.borderColor = [UIColor grayColor].CGColor;
-    LabelName.layer.cornerRadius = 5.0f;
-    LabelName.layer.masksToBounds = YES;
-    [self.view addSubview:LabelName];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
+
     [self setOldPass];
     [self setNewPass];
     [self setSureNewPass];
-    
+    [self initJoinOutBtu];
+    [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
+
 }
 
-- (void)rightBarItmeClick:(UIButton *)sender{
+- (void)initJoinOutBtu{
+    UIButton *jionOutBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth - 100, 30)];
+    jionOutBtu.center = CGPointMake(KGscreenWidth/2,KGscreenHeight - 100);
+    [jionOutBtu setTitle:@"确定" forState:UIControlStateNormal];
+    jionOutBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    [jionOutBtu setTitleColor:KGcolor(255, 255, 255, 1) forState:UIControlStateNormal];
+    [jionOutBtu addTarget:self action:@selector(jionOutClick:) forControlEvents:UIControlEventTouchUpInside];
+    jionOutBtu.layer.cornerRadius = 5;
+    jionOutBtu.layer.masksToBounds = YES;
+    [self.view addSubview:jionOutBtu];
+}
+
+- (void)jionOutClick:(UIButton *)sender{
     if (_oldPassWord.text.length < 1) {
         [self alertViewControllerTitle:@"提示" message:@"请输入旧密码" name:@"确定" type:0 preferredStyle:1];
     }else if (_firstPass.text.length < 1){
@@ -58,7 +61,17 @@
         [self alertViewControllerTitle:@"提示" message:@"请再次确认新密码" name:@"确定" type:0 preferredStyle:1];
     }else{
         if ([_firstPass.text isEqualToString:_sencedPass.text]) {
-            [self.navigationController popViewControllerAnimated:YES];
+            [[KGRequest sharedInstance] updateHotelMessageWithnewPassWord:_firstPass.text userId:[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"] succ:^(NSString *msg, id data) {
+                if ([msg isEqualToString:@"修改成功"]) {
+                    [self alertViewControllerTitle:@"提示" message:@"修改成功,请返回登录页面,使用新密码登录" name:@"确定" type:0 preferredStyle:1];
+                    //                        // 验证成功
+                    //                        [self.navigationController popViewControllerAnimated:YES];
+                }else{
+                    [self alertViewControllerTitle:@"提示" message:@"修改失败" name:@"确定" type:0 preferredStyle:1];
+                }
+            } fail:^(NSString *error) {
+                [self alertViewControllerTitle:@"提示" message:@"访问服务器失败" name:@"确定" type:0 preferredStyle:1];
+            }];
         }else{
             [self alertViewControllerTitle:@"提示" message:@"两次输入的新密码不一样，请查看确认！" name:@"确定" type:0 preferredStyle:1];
         }
@@ -67,56 +80,74 @@
 
 #pragma mark -创建旧密码-
 - (void)setOldPass{
-    _oldPassWord = [[KGPriceTextField alloc]initWithFrame:CGRectMake(50, 200, KGscreenWidth - 100, 30)];
+    _oldPassWord = [[KGPriceTextField alloc]initWithFrame:CGRectMake(90, 200, KGscreenWidth - 130, 30)];
     _oldPassWord.placeholder = @"请输入旧密码";
     _oldPassWord.textColor = [UIColor grayColor];
     _oldPassWord.delegate = self;
     _oldPassWord.font = [UIFont systemFontOfSize:13.0f];
     _oldPassWord.returnKeyType = UIReturnKeyGo;
     _oldPassWord.clearButtonMode = UITextFieldViewModeAlways;
-    _oldPassWord.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"密码-2"]];
-    _oldPassWord.leftViewMode = UITextFieldViewModeAlways;
     _oldPassWord.layer.cornerRadius = 5.0f;
-    _oldPassWord.layer.borderWidth = 1.0f;
-    _oldPassWord.layer.borderColor = [UIColor grayColor].CGColor;
     _oldPassWord.layer.masksToBounds = YES;
     [self.view addSubview:_oldPassWord];
+    
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 200, 80, 30)];
+    titleLabel.textColor = KGcolor(101, 101, 101, 1);
+    titleLabel.text = @"原 密 码:";
+    titleLabel.font = KGFont(13);
+    [self.view addSubview:titleLabel];
+    
+    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 230, KGscreenWidth - 40, 1)];
+    lineLabel.backgroundColor = KGcolor(200, 200, 200, 1);
+    [self.view addSubview:lineLabel];
 }
 
 #pragma mark -创建新密码-
 - (void)setNewPass{
-    _firstPass = [[KGPriceTextField alloc]initWithFrame:CGRectMake(50, 250, KGscreenWidth - 100, 30)];
+    _firstPass = [[KGPriceTextField alloc]initWithFrame:CGRectMake(90, 250, KGscreenWidth - 130, 30)];
     _firstPass.placeholder = @"请输入新密码";
     _firstPass.textColor = [UIColor grayColor];
     _firstPass.delegate = self;
     _firstPass.font = [UIFont systemFontOfSize:13.0f];
     _firstPass.returnKeyType = UIReturnKeyGo;
     _firstPass.clearButtonMode = UITextFieldViewModeAlways;
-    _firstPass.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"密码-2"]];
-    _firstPass.leftViewMode = UITextFieldViewModeAlways;
     _firstPass.layer.cornerRadius = 5.0f;
-    _firstPass.layer.borderWidth = 1.0f;
-    _firstPass.layer.borderColor = [UIColor grayColor].CGColor;
     _firstPass.layer.masksToBounds = YES;
     [self.view addSubview:_firstPass];
+    
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 250, 80, 30)];
+    titleLabel.textColor = KGcolor(101, 101, 101, 1);
+    titleLabel.text = @"设置密码:";
+    titleLabel.font = KGFont(13);
+    [self.view addSubview:titleLabel];
+    
+    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 280, KGscreenWidth - 40, 1)];
+    lineLabel.backgroundColor = KGcolor(200, 200, 200, 1);
+    [self.view addSubview:lineLabel];
 }
 
 #pragma mark -确认新密码-
 - (void)setSureNewPass{
-    _sencedPass = [[KGPriceTextField alloc]initWithFrame:CGRectMake(50, 300, KGscreenWidth - 100, 30)];
+    _sencedPass = [[KGPriceTextField alloc]initWithFrame:CGRectMake(90, 300, KGscreenWidth - 130, 30)];
     _sencedPass.placeholder = @"请确认新密码";
     _sencedPass.textColor = [UIColor grayColor];
     _sencedPass.delegate = self;
     _sencedPass.font = [UIFont systemFontOfSize:13.0f];
     _sencedPass.returnKeyType = UIReturnKeyGo;
     _sencedPass.clearButtonMode = UITextFieldViewModeAlways;
-    _sencedPass.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"密码-2"]];
-    _sencedPass.leftViewMode = UITextFieldViewModeAlways;
     _sencedPass.layer.cornerRadius = 5.0f;
-    _sencedPass.layer.borderWidth = 1.0f;
-    _sencedPass.layer.borderColor = [UIColor grayColor].CGColor;
     _sencedPass.layer.masksToBounds = YES;
     [self.view addSubview:_sencedPass];
+    
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 300, 80, 30)];
+    titleLabel.textColor = KGcolor(101, 101, 101, 1);
+    titleLabel.text = @"再次输入:";
+    titleLabel.font = KGFont(13);
+    [self.view addSubview:titleLabel];
+    
+    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 330, KGscreenWidth - 40, 1)];
+    lineLabel.backgroundColor = KGcolor(200, 200, 200, 1);
+    [self.view addSubview:lineLabel];
 }
 
 /**

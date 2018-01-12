@@ -22,7 +22,7 @@
  @param title 如若是显示文字填写title，否则填写nil
  @param icon 如若是显示图片填写icon，否则填写nil
  */
-- (UIBarButtonItem *)setUpLeftNavButtonItmeTitle:(NSString *)title icon:(NSString *)icon;
+- (void)setUpLeftNavButtonItmeTitle:(NSString *)title icon:(NSString *)icon;
 /**
  导航栏右侧按钮
  
@@ -57,5 +57,13 @@
  警告框点击按钮后要执行的方法在这里实现
  */
 - (void)alertControllerAction;
+/**
+ 返回字典
+
+ @param font 字体大小
+ @param color 字体颜色
+ @return 设置富文本
+ */
+- (NSDictionary *)dictionaryWithFont:(NSInteger)font andColor:(UIColor *)color;
 
 @end

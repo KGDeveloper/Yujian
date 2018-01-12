@@ -31,7 +31,7 @@
 
 #pragma mark -导航栏订房退房标签-
 - (UISegmentedControl *)setFinishOrWait{
-    NSArray *titleArr = @[@"已完成",@"未完成",@"全部"];
+    NSArray *titleArr = @[@"未完成",@"已完成",@"全部"];
     _finishOrWait = [[UISegmentedControl alloc]initWithItems:titleArr];
     if (KGDevice_Is_iPhoneX == YES) {
         _finishOrWait.frame = CGRectMake(0, 88, KGscreenWidth, 30);
@@ -39,17 +39,18 @@
         _finishOrWait.frame = CGRectMake(0, 64, KGscreenWidth, 30);
     }
     _finishOrWait.selectedSegmentIndex = 0;
-    _finishOrWait.tintColor = KGcolor(81, 159, 250, 1);
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+    _finishOrWait.tintColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
+    _finishOrWait.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:KGcolor(231, 99, 40, 1),
                          NSForegroundColorAttributeName,
-                         [UIFont systemFontOfSize:12],
+                         [UIFont systemFontOfSize:17],
                          NSFontAttributeName,nil];
     
     [_finishOrWait setTitleTextAttributes:dic forState:UIControlStateSelected];
     
-    NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:KGcolor(81, 159, 250, 1),
+    NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:KGCellDont,
                           NSForegroundColorAttributeName,
-                          [UIFont systemFontOfSize:12],
+                          [UIFont systemFontOfSize:17],
                           NSFontAttributeName,nil];
     [_finishOrWait setTitleTextAttributes:dic1 forState:UIControlStateNormal];
     
@@ -77,7 +78,11 @@
 
 #pragma mark -创建tableView-
 - (void)setTableView{
-    _listView = [[KGTableView alloc]initWithFrame:CGRectMake(0, 118, KGscreenWidth, KGscreenHeight - 118 - 49)];
+    if (KGDevice_Is_iPhoneX == YES) {
+        _listView = [[KGTableView alloc]initWithFrame:CGRectMake(0, 118, KGscreenWidth, KGscreenHeight - 118 - 49)];
+    }else{
+        _listView = [[KGTableView alloc]initWithFrame:CGRectMake(0, 94, KGscreenWidth, KGscreenHeight - 94 - 49)];
+    }
     _listView.titleArr = [NSMutableArray array];
     [self.view addSubview:_listView];
 }

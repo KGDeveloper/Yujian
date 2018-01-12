@@ -7,11 +7,12 @@
 //
 
 #import "KGIdeaViewController.h"
+#import <MessageUI/MessageUI.h>
 
-@interface KGIdeaViewController ()<UITextViewDelegate>{
+@interface KGIdeaViewController ()<UITextViewDelegate,MFMessageComposeViewControllerDelegate>{
     UITextView *contentTextView;
     //在UITextView上面覆盖个UILable
-    UILabel *promptLabel;
+    UILabel *placeHolder;
 }
 
 @end
@@ -25,69 +26,90 @@
     self.tabBarController.tabBar.hidden = YES;
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     contentTextView.text = @"";
-    promptLabel.hidden = NO;
+    placeHolder.hidden = NO;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = @"投诉建议";
-    self.view.backgroundColor = KGOrangeColor;
-    [self setUpRightNavButtonItmeTitle:@"提交" icon:nil];
+    self.view.backgroundColor = KGCellDont;
+    
+    [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
+    
     [self setTextView];
 }
 
-- (void)rightBarItmeClick:(UIButton *)sender{
+- (void)jionOutClick:(UIButton *)sender{
     if (contentTextView.text.length > 1) {
-        [self.navigationController popViewControllerAnimated:YES];
+        if( [MFMessageComposeViewController canSendText] )
+        {
+            MFMessageComposeViewController *message = [[MFMessageComposeViewController alloc]init];
+            message.body = contentTextView.text;
+            message.recipients = @[@"18801496926"];
+            message.messageComposeDelegate = self;
+            [self presentViewController:message animated:YES completion:nil];
+        }
+        
     }else{
         [self alertViewControllerTitle:@"提示" message:@"请输入您宝贵的意见" name:@"确定" type:0 preferredStyle:1];
+    }
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    if (result == MessageComposeResultCancelled) {
+        [self alertViewControllerTitle:@"提示" message:@"已取消发送意见" name:@"确定" type:0 preferredStyle:1];
+    }else if (result == MessageComposeResultSent) {
+        [self alertViewControllerTitle:@"提示" message:@"意见发送成功" name:@"确定" type:0 preferredStyle:1];
+    }else {
+        [self alertViewControllerTitle:@"提示" message:@"意见发送失败" name:@"确定" type:0 preferredStyle:1];
     }
 }
 
 #pragma mark -创建意见-
 - (void)setTextView{
     //意见内容
-    contentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 44, KGscreenWidth, 350)];
+    contentTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 100, KGscreenWidth - 20, KGscreenHeight/2)];
     contentTextView.font = KGFont(13);
+    contentTextView.textColor = [UIColor blackColor];
     contentTextView.delegate = self;
+    contentTextView.layer.cornerRadius = 10;
+    contentTextView.layer.masksToBounds = YES;
     [self.view addSubview:contentTextView];
     
-    UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(14, 0, 60, 35)];
-    contentLabel.font = KGFont(13);
-    contentLabel.text = @"*您的意见";
-    [contentTextView addSubview:contentLabel];
+    placeHolder = [[UILabel alloc]initWithFrame:CGRectMake(20, 110, 100, 20)];
+    placeHolder.textColor = [UIColor lightGrayColor];
+    placeHolder.text = @"请输入您的意见";
+    placeHolder.font = KGFont(13);
+    [self.view addSubview:placeHolder];
     
-    //在UITextView上面覆盖个UILable
-    promptLabel = [[UILabel alloc] init];
-    promptLabel.frame =CGRectMake(5,5,200,25);
-    promptLabel.text = @"                         请输入意见";
-    promptLabel.enabled = NO;
-    promptLabel.backgroundColor = [UIColor clearColor];
-    promptLabel.font =  [UIFont systemFontOfSize:13];
-    promptLabel.textColor = KGOrangeColor;
-    [contentTextView addSubview:promptLabel];
-    
-    //改变五角星的颜色
-    NSMutableAttributedString *contentStr = [[NSMutableAttributedString alloc] initWithString:contentLabel.text];
-    [contentStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 1)];
-    contentLabel.attributedText = contentStr;
+    UIButton *jionOutBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth - 100, 30)];
+    jionOutBtu.center = CGPointMake(KGscreenWidth/2,KGscreenHeight - 100);
+    [jionOutBtu setTitle:@"提交" forState:UIControlStateNormal];
+    jionOutBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    [jionOutBtu setTitleColor:KGcolor(255, 255, 255, 1) forState:UIControlStateNormal];
+    [jionOutBtu addTarget:self action:@selector(jionOutClick:) forControlEvents:UIControlEventTouchUpInside];
+    jionOutBtu.layer.cornerRadius = 5;
+    jionOutBtu.layer.masksToBounds = YES;
+    [self.view addSubview:jionOutBtu];
 }
 
 #pragma mark -UITextView的代理方法
 -(void)textViewDidChange:(UITextView *)textView{
-    if (textView.text.length == 0) {
-        promptLabel.hidden = NO;
-    }else{
-        promptLabel.hidden = YES;
+
+    if (placeHolder.hidden == NO) {
+        placeHolder.hidden = YES;
     }
+    
     //首行缩进
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineSpacing = 3;    //行间距
-    //    paragraphStyle.maximumLineHeight = 60;   /**最大行高*/
-    paragraphStyle.firstLineHeadIndent = 93.f;    /**首行缩进宽度*/
+    paragraphStyle.maximumLineHeight = 30;   /**最大行高*/
+    paragraphStyle.firstLineHeadIndent = 20.f;    /**首行缩进宽度*/
     paragraphStyle.alignment = NSTextAlignmentJustified;
     NSDictionary *attributes = @{
                                  NSFontAttributeName:[UIFont systemFontOfSize:13],

@@ -16,11 +16,11 @@
 
 #pragma mark -----------------三方库头文件导入区域->->->->->->->->->
 #import "AFNetworking.h"
-#import "HttpRequest.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
 #import "MJRefresh.h"
 #import <SMS_SDK/SMSSDK.h>
+#import "MOFSPickerManager.h"
 #pragma mark -<-<-<-<-<-<-<-<-三方库头文件导入区域------------------
 
 #pragma mark -----------------自定义头文件导入区域->->->->->->->->->

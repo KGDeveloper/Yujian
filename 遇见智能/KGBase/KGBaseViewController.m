@@ -21,16 +21,25 @@
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     
     //设置view的背景色
-    [self.view setBackgroundColor:[UIColor grayColor]];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //设置导航栏的颜色
-    [self.navigationController.navigationBar setBarTintColor:KGOrangeColor];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1]];
     
     //设置导航栏的字体大小以及颜色，是一个字典类型
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize:17.0f]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont boldSystemFontOfSize:17.0f]}];
     
     //绑定到导航栏左侧按钮
-    self.navigationItem.leftBarButtonItem = [self setUpLeftNavButtonItmeTitle:nil icon:@"返回"];
+    
+}
+
+- (NSDictionary *)dictionaryWithFont:(NSInteger)font andColor:(UIColor *)color{
+    // 创建一个富文本对象
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    // 设置富文本对象的颜色
+    attributes[NSForegroundColorAttributeName] = color;
+    attributes[NSFontAttributeName] = KGFont(font);
+    return attributes;
 }
 
 
@@ -40,22 +49,27 @@
  @param title 如若是显示文字填写title，否则填写nil
  @param icon 如若是显示图片填写icon，否则填写nil
  */
-- (UIBarButtonItem *)setUpLeftNavButtonItmeTitle:(NSString *)title icon:(NSString *)icon{
+- (void)setUpLeftNavButtonItmeTitle:(NSString *)title icon:(NSString *)icon{
     
     //规定按钮风格
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     //设置按钮大小
     leftButton.frame = CGRectMake(0, 0, 30, 30);
-    //设置按钮标题
-    [leftButton setTitle:title forState:UIControlStateNormal];
-    //设置按钮背景图
-    [leftButton setImage:[UIImage imageNamed:icon] forState:UIControlStateNormal];
+    if (title != nil) {
+        //设置按钮标题
+        [leftButton setTitle:title forState:UIControlStateNormal];
+    }
+    if (icon != nil) {
+        //设置按钮背景图
+        [leftButton setImage:[UIImage imageNamed:icon] forState:UIControlStateNormal];
+    }
+    
     //设置按钮点击事件
     [leftButton addTarget:self action:@selector(leftBarItmeClick:) forControlEvents:UIControlEventTouchUpInside];
     //绑定按钮，即替换系统的返回按钮
     UIBarButtonItem *leftItme = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
     
-    return leftItme;
+    self.navigationItem.leftBarButtonItem = leftItme;
 }
 
 /**
@@ -81,6 +95,8 @@
     rightButton.frame = CGRectMake(0, 0, 30, 30);
     //设置按钮标题
     [rightButton setTitle:title forState:UIControlStateNormal];
+    
+    [rightButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     //设置按钮背景图
     [rightButton setImage:[UIImage imageNamed:icon] forState:UIControlStateNormal];
     //设置按钮点击事件

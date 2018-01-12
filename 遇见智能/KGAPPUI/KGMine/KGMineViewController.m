@@ -13,6 +13,7 @@
 #import "KGIdeaViewController.h"
 #import "KGCustomerViewController.h"
 #import "KGAboutViewController.h"
+#import "KGLoginViewController.h"
 
 @interface KGMineViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -53,7 +54,7 @@
 #pragma mark -个人中心-
 - (void)setMineUI{
     UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, 300)];
-    backView.backgroundColor = KGOrangeColor;
+    backView.backgroundColor = KGcolor(231, 99, 40, 1);
     
     UIImageView *headImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
     headImage.center = CGPointMake(backView.frame.size.width/2, backView.frame.size.height/2);
@@ -70,10 +71,26 @@
     _mineTableView.delegate = self;
     _mineTableView.dataSource = self;
     _mineTableView.tableHeaderView = backView;
-    _mineTableView.tableFooterView = [UIView new];
+    UIView *footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, _mineTableView.frame.size.height - 550)];
+    UIButton *jionOutBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth - 100, 30)];
+    jionOutBtu.center = CGPointMake(KGscreenWidth/2, footView.frame.size.height/2);
+    [jionOutBtu setTitle:@"退出登录" forState:UIControlStateNormal];
+    jionOutBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    [jionOutBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [jionOutBtu addTarget:self action:@selector(jionOutClick:) forControlEvents:UIControlEventTouchUpInside];
+    jionOutBtu.layer.cornerRadius = 5;
+    jionOutBtu.layer.masksToBounds = YES;
+    [footView addSubview:jionOutBtu];
+    _mineTableView.tableFooterView = footView;
     _mineTableView.scrollEnabled = NO;
     _mineTableView.rowHeight = 50;
     [self.view addSubview:_mineTableView];
+}
+
+- (void)jionOutClick:(UIButton *)sender{
+    KGLoginViewController *login = [[KGLoginViewController alloc]init];
+    [self.navigationController pushViewController:login animated:YES];
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

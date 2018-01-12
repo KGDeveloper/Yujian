@@ -29,6 +29,8 @@
     
     self.title = @"客服";
     
+    [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
+    
     [self setUpTableView];
 }
 
@@ -42,7 +44,6 @@
     [_listView setDelegate:self];
     
     [_listView setDataSource:self];
-    _listView.backgroundColor = KGOrangeColor;
     _listView.rowHeight = 50;
     _listView.tableFooterView = [UIView new];
     _listView.scrollEnabled = NO;
@@ -58,7 +59,7 @@
     
     // -- 返回数组的元素个数
     
-    return 5;
+    return 1;
 }
 
 // -- 返回cell
@@ -84,7 +85,7 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"KGCustomeTableViewCell" owner:self options:nil] lastObject];
     }
     cell.backgroundColor = [UIColor clearColor];
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
     
