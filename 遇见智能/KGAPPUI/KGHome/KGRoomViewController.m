@@ -38,6 +38,7 @@
 - (KGDetaialViewController *)room{
     if (_room == nil) {
         _room = [[KGDetaialViewController alloc]init];
+        _room.hotellId = _hotellId;
     }
     return _room;
 }

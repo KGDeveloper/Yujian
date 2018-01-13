@@ -8,18 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol KGRoomViewDelegate <NSObject>
-@required
-
-- (void)deleteTextField:(NSArray *)arr;
-
-@end
-
 @interface KGRoomView : UIView
 
-- (void)sendArrayToCreateTextField:(NSArray *)arr;
-
-@property (nonatomic, strong) id<KGRoomViewDelegate> myDelegate;
-@property (nonatomic,strong) UIScrollView *backView;
+@property (nonatomic,strong) NSMutableArray *dataArr;
+@property (nonatomic,strong) UITableView *roomView;
 
 @end

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="KGRoomTypeTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="29.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="豪华双人间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="44Q-8J-gRU">
+                        <rect key="frame" x="20" y="5" width="240" height="19.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="1" green="0.4676474873" blue="0.1075249898" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="82T-gx-wVI">
+                        <rect key="frame" x="280" y="5" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="8eM-qf-gJ2"/>
+                            <constraint firstAttribute="width" constant="20" id="saa-Do-PBS"/>
+                        </constraints>
+                        <state key="normal" image="difference"/>
+                        <connections>
+                            <action selector="deleBtuClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="lSJ-5L-BMT"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="44Q-8J-gRU" secondAttribute="bottom" constant="5" id="4Vk-6R-Xeq"/>
+                    <constraint firstItem="44Q-8J-gRU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="MWy-0B-TnK"/>
+                    <constraint firstItem="44Q-8J-gRU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="bMo-ln-Gwl"/>
+                    <constraint firstItem="82T-gx-wVI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="nCe-rf-1HU"/>
+                    <constraint firstAttribute="trailing" secondItem="82T-gx-wVI" secondAttribute="trailing" constant="20" id="ptD-3H-it2"/>
+                    <constraint firstItem="82T-gx-wVI" firstAttribute="leading" secondItem="44Q-8J-gRU" secondAttribute="trailing" constant="20" id="tc7-eU-6qy"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="deleBtu" destination="H2p-sc-9uM" id="ljZ-8U-f8b"/>
+                <outlet property="namelabel" destination="44Q-8J-gRU" id="IZ6-tL-kne"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="difference" width="16" height="17"/>
+    </resources>
+</document>

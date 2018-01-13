@@ -117,7 +117,7 @@ static KGRequest *sharedObj = nil;
 
 - (void)homeUserPhone:(NSString *)phoneNo page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:phoneNo forKey:@"phoneNo"];
+    [dic setObject:phoneNo forKey:@"userId"];
     [dic setObject:page forKey:@"page"];
     [dic setObject:pageSize forKey:@"pageSize"];
     [dic setObject:@"iphone" forKey:@"type"];
@@ -133,5 +133,24 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
+- (void)roomHotellId:(NSString *)hotelId page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:hotelId forKey:@"hotelId"];
+    [dic setObject:page forKey:@"page"];
+    [dic setObject:pageSize forKey:@"pageSize"];
+    
+    [[self manger] POST:KGHotelQueryRooms parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject[@"data"]);
+        }else{
+            fail(@"请求失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        fail(@"网络出错");
+    }];
+    
+}
 
 @end

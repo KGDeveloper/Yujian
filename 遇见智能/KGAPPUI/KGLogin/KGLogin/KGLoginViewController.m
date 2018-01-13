@@ -117,9 +117,9 @@
 #pragma mark -创建按钮-
 - (void)setButton{
     
-    [self setButtonWithTitle:@"登录" frame:CGRectMake(50,KGscreenHeight - 200,KGscreenWidth - 100,30) action:@selector(loginClick:) addView:self.view color:[UIColor colorWithRed:34/255.0 green:116/255.0 blue:255/255.0 alpha:1] titleColor:[UIColor whiteColor]];
-    [self setButtonWithTitle:@"注册" frame:CGRectMake(50,KGscreenHeight - 170,150,30) action:@selector(regsiterClick:) addView:self.view color:[UIColor clearColor] titleColor:[UIColor colorWithRed:34/255.0 green:116/255.0 blue:255/255.0 alpha:1]];
-    [self setButtonWithTitle:@"忘记密码" frame:CGRectMake(KGscreenWidth - 200,KGscreenHeight - 170,150,30) action:@selector(forgetClick:) addView:self.view color:[UIColor clearColor] titleColor:[UIColor colorWithRed:34/255.0 green:116/255.0 blue:255/255.0 alpha:1]];
+    [self setButtonWithTitle:@"登录" frame:CGRectMake(50,KGscreenHeight - 200,KGscreenWidth - 100,30) action:@selector(loginClick:) addView:self.view color:KGcolor(231, 99, 40, 1) titleColor:[UIColor whiteColor]];
+    [self setButtonWithTitle:@"注册" frame:CGRectMake(50,KGscreenHeight - 170,150,30) action:@selector(regsiterClick:) addView:self.view color:[UIColor clearColor] titleColor:KGcolor(231, 99, 40, 1)];
+    [self setButtonWithTitle:@"忘记密码" frame:CGRectMake(KGscreenWidth - 200,KGscreenHeight - 170,150,30) action:@selector(forgetClick:) addView:self.view color:[UIColor clearColor] titleColor:KGcolor(231, 99, 40, 1)];
 }
 
 #pragma mark -创建公共按钮-
@@ -154,7 +154,6 @@
             //跳转的时候切换Tabbar
             UIWindow *window = [[UIApplication sharedApplication] keyWindow];
             window.rootViewController = [[KGTabBarViewController alloc] init];
-            
             [[NSUserDefaults standardUserDefaults] setObject:_userName.text forKey:@"userPhone"];
             [[NSUserDefaults standardUserDefaults] setObject:data[@"id"] forKey:@"userId"];
             [[NSUserDefaults standardUserDefaults] synchronize];

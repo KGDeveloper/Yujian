@@ -10,4 +10,6 @@
 
 @interface KGAddRomeViewController : KGBaseViewController
 
+@property (nonatomic,strong) NSArray *typeArr;
+
 @end

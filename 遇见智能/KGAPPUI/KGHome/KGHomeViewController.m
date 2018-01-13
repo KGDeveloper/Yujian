@@ -47,7 +47,7 @@
 - (void)setDataArr{
     _dataArr = [NSMutableArray array];
     __weak typeof(self) weakSelf = self;
-    [[KGRequest sharedInstance] homeUserPhone:[[NSUserDefaults standardUserDefaults] objectForKey:@"userPhone"] page:[NSString stringWithFormat:@"%ld",(long)page] pageSize:[NSString stringWithFormat:@"%ld",(long)pageSize] succ:^(NSString *msg, id data) {
+    [[KGRequest sharedInstance] homeUserPhone:[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"] page:[NSString stringWithFormat:@"%ld",(long)page] pageSize:[NSString stringWithFormat:@"%ld",(long)pageSize] succ:^(NSString *msg, id data) {
         if ([msg isEqualToString:@"成功"]) {
             NSArray *dataArray = data;
             for (int i = 0; i < dataArray.count; i++) {
@@ -137,6 +137,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     KGRoomViewController *controller = [[KGRoomViewController alloc]init];
+    KGHomeModel *model = _dataArr[indexPath.row];
+    controller.hotellId = model.hotelId;
     [self.navigationController pushViewController:controller animated:YES];
 }
 

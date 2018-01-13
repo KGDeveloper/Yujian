@@ -58,6 +58,12 @@
 		CAD0CF4F2008B4DC000643AB /* KGRubbishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD0CF4E2008B4DC000643AB /* KGRubbishViewController.m */; };
 		CAD0CF542008B6E7000643AB /* KGRubbishHotelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD0CF532008B6E7000643AB /* KGRubbishHotelViewController.m */; };
 		CAD0CF572008B6F4000643AB /* KGrubbishRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD0CF562008B6F4000643AB /* KGrubbishRoomViewController.m */; };
+		CAD0CF5A2008C6EE000643AB /* KGRoomModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD0CF592008C6EE000643AB /* KGRoomModel.m */; };
+		CAF4C50A2009A1240078E6FA /* KGAddRoomTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF4C5092009A1240078E6FA /* KGAddRoomTypeViewController.m */; };
+		CAF4C50E2009A4540078E6FA /* KGRoomTypeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF4C50C2009A4540078E6FA /* KGRoomTypeTableViewCell.m */; };
+		CAF4C50F2009A4540078E6FA /* KGRoomTypeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAF4C50D2009A4540078E6FA /* KGRoomTypeTableViewCell.xib */; };
+		CAF4C5132009E88E0078E6FA /* KGAddRoomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF4C5112009E88E0078E6FA /* KGAddRoomTableViewCell.m */; };
+		CAF4C5142009E88E0078E6FA /* KGAddRoomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAF4C5122009E88E0078E6FA /* KGAddRoomTableViewCell.xib */; };
 		CAFE62471FEA04D900C75537 /* KGAddHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFE62461FEA04D900C75537 /* KGAddHomeViewController.m */; };
 		CAFE624A1FEA04E400C75537 /* KGAddRomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFE62491FEA04E400C75537 /* KGAddRomeViewController.m */; };
 		CAFE624E1FEA16DF00C75537 /* KGRoomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFE624D1FEA16DF00C75537 /* KGRoomTextField.m */; };
@@ -165,6 +171,16 @@
 		CAD0CF532008B6E7000643AB /* KGRubbishHotelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGRubbishHotelViewController.m; sourceTree = "<group>"; };
 		CAD0CF552008B6F4000643AB /* KGrubbishRoomViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGrubbishRoomViewController.h; sourceTree = "<group>"; };
 		CAD0CF562008B6F4000643AB /* KGrubbishRoomViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGrubbishRoomViewController.m; sourceTree = "<group>"; };
+		CAD0CF582008C6EE000643AB /* KGRoomModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGRoomModel.h; sourceTree = "<group>"; };
+		CAD0CF592008C6EE000643AB /* KGRoomModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGRoomModel.m; sourceTree = "<group>"; };
+		CAF4C5082009A1240078E6FA /* KGAddRoomTypeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGAddRoomTypeViewController.h; sourceTree = "<group>"; };
+		CAF4C5092009A1240078E6FA /* KGAddRoomTypeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGAddRoomTypeViewController.m; sourceTree = "<group>"; };
+		CAF4C50B2009A4540078E6FA /* KGRoomTypeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGRoomTypeTableViewCell.h; sourceTree = "<group>"; };
+		CAF4C50C2009A4540078E6FA /* KGRoomTypeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGRoomTypeTableViewCell.m; sourceTree = "<group>"; };
+		CAF4C50D2009A4540078E6FA /* KGRoomTypeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KGRoomTypeTableViewCell.xib; sourceTree = "<group>"; };
+		CAF4C5102009E88E0078E6FA /* KGAddRoomTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGAddRoomTableViewCell.h; sourceTree = "<group>"; };
+		CAF4C5112009E88E0078E6FA /* KGAddRoomTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGAddRoomTableViewCell.m; sourceTree = "<group>"; };
+		CAF4C5122009E88E0078E6FA /* KGAddRoomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KGAddRoomTableViewCell.xib; sourceTree = "<group>"; };
 		CAFE62451FEA04D900C75537 /* KGAddHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGAddHomeViewController.h; sourceTree = "<group>"; };
 		CAFE62461FEA04D900C75537 /* KGAddHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGAddHomeViewController.m; sourceTree = "<group>"; };
 		CAFE62481FEA04E400C75537 /* KGAddRomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGAddRomeViewController.h; sourceTree = "<group>"; };
@@ -223,6 +239,8 @@
 			children = (
 				CA19CAEF2008A4F600310391 /* KGHomeModel.h */,
 				CA19CAF02008A4F600310391 /* KGHomeModel.m */,
+				CAD0CF582008C6EE000643AB /* KGRoomModel.h */,
+				CAD0CF592008C6EE000643AB /* KGRoomModel.m */,
 			);
 			path = KGModel;
 			sourceTree = "<group>";
@@ -474,6 +492,9 @@
 				CAFF36C41FEB8DE300782BFF /* KGDetaialTableViewCell.h */,
 				CAFF36C51FEB8DE300782BFF /* KGDetaialTableViewCell.m */,
 				CAFF36C61FEB8DE300782BFF /* KGDetaialTableViewCell.xib */,
+				CAF4C50B2009A4540078E6FA /* KGRoomTypeTableViewCell.h */,
+				CAF4C50C2009A4540078E6FA /* KGRoomTypeTableViewCell.m */,
+				CAF4C50D2009A4540078E6FA /* KGRoomTypeTableViewCell.xib */,
 			);
 			path = KGView;
 			sourceTree = "<group>";
@@ -610,6 +631,8 @@
 				CAFE624B1FEA169E00C75537 /* KGRoomTextFieldView */,
 				CAFE62481FEA04E400C75537 /* KGAddRomeViewController.h */,
 				CAFE62491FEA04E400C75537 /* KGAddRomeViewController.m */,
+				CAF4C5082009A1240078E6FA /* KGAddRoomTypeViewController.h */,
+				CAF4C5092009A1240078E6FA /* KGAddRoomTypeViewController.m */,
 			);
 			path = KGAddRome;
 			sourceTree = "<group>";
@@ -623,6 +646,9 @@
 				CAFE62501FEA30AA00C75537 /* KGPriceTextField.m */,
 				CAFE62521FEA34FB00C75537 /* KGRoomView.h */,
 				CAFE62531FEA34FB00C75537 /* KGRoomView.m */,
+				CAF4C5102009E88E0078E6FA /* KGAddRoomTableViewCell.h */,
+				CAF4C5112009E88E0078E6FA /* KGAddRoomTableViewCell.m */,
+				CAF4C5122009E88E0078E6FA /* KGAddRoomTableViewCell.xib */,
 			);
 			path = KGRoomTextFieldView;
 			sourceTree = "<group>";
@@ -688,6 +714,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAF4C50F2009A4540078E6FA /* KGRoomTypeTableViewCell.xib in Resources */,
 				CAFF36C81FEB8DE300782BFF /* KGDetaialTableViewCell.xib in Resources */,
 				CA8A37221FE8BDBA0094BE19 /* LaunchScreen.storyboard in Resources */,
 				CA43ECF720075151002C5436 /* province_data.xml in Resources */,
@@ -695,6 +722,7 @@
 				CA8A38511FE914C90094BE19 /* KGMineTableViewCell.xib in Resources */,
 				CA8A383F1FE8F8F50094BE19 /* KGHomeListTableViewCell.xib in Resources */,
 				CAFF36BB1FEB667200782BFF /* KGCustomeTableViewCell.xib in Resources */,
+				CAF4C5142009E88E0078E6FA /* KGAddRoomTableViewCell.xib in Resources */,
 				CAFF36D21FEB928700782BFF /* KGOrderDetaialTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -808,15 +836,19 @@
 				CAFE62541FEA34FB00C75537 /* KGRoomView.m in Sources */,
 				CA8A38591FE919C20094BE19 /* KGAboutViewController.m in Sources */,
 				CA43ECFB20075151002C5436 /* AddressModel.m in Sources */,
+				CAF4C5132009E88E0078E6FA /* KGAddRoomTableViewCell.m in Sources */,
 				CA8A38471FE9048D0094BE19 /* KGWaitViewController.m in Sources */,
 				CAFF36C71FEB8DE300782BFF /* KGDetaialTableViewCell.m in Sources */,
 				CA8A38431FE9029C0094BE19 /* KGOrderListViewController.m in Sources */,
 				CA8A38501FE914C90094BE19 /* KGMineTableViewCell.m in Sources */,
 				CA43ED012007515A002C5436 /* GDataXMLNode.m in Sources */,
+				CAF4C50A2009A1240078E6FA /* KGAddRoomTypeViewController.m in Sources */,
 				CA8A37341FE8BE6A0094BE19 /* KGUserInfo.m in Sources */,
+				CAD0CF5A2008C6EE000643AB /* KGRoomModel.m in Sources */,
 				CA8A37461FE8BF1D0094BE19 /* KGResigetViewController.m in Sources */,
 				CA8A38621FE919E50094BE19 /* KGPassWordViewController.m in Sources */,
 				CA8A37321FE8BE6A0094BE19 /* KGBaseViewController.m in Sources */,
+				CAF4C50E2009A4540078E6FA /* KGRoomTypeTableViewCell.m in Sources */,
 				CA8A38391FE8E3180094BE19 /* KGOrderViewController.m in Sources */,
 				CAFE62511FEA30AA00C75537 /* KGPriceTextField.m in Sources */,
 				CA8A382E1FE8C2CB0094BE19 /* KGHomeViewController.m in Sources */,

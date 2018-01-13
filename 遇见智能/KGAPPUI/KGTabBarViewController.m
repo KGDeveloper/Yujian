@@ -37,25 +37,25 @@
     KGOrderViewController *order = [[KGOrderViewController alloc]init];
     UINavigationController *orderNv = [[UINavigationController alloc]initWithRootViewController:order];
     
-    KGRubbishViewController *rubbish = [[KGRubbishViewController alloc]init];
-    UINavigationController *rubbishNv = [[UINavigationController alloc]initWithRootViewController:rubbish];
+//    KGRubbishViewController *rubbish = [[KGRubbishViewController alloc]init];
+//    UINavigationController *rubbishNv = [[UINavigationController alloc]initWithRootViewController:rubbish];
     
     //个人信息页面
     KGMineViewController *mine = [[KGMineViewController alloc]init];
     UINavigationController *mineNv = [[UINavigationController alloc]initWithRootViewController:mine];
     
-    self.viewControllers = [NSArray arrayWithObjects:homeNv,orderNv,rubbishNv,mineNv, nil];
+    self.viewControllers = [NSArray arrayWithObjects:homeNv,orderNv,mineNv, nil];
     
     self.delegate = self;
     
     UITabBarItem *homeItme = [self.tabBar.items objectAtIndex:0];
     UITabBarItem *orderItme = [self.tabBar.items objectAtIndex:1];
-    UITabBarItem *rubbishItem = [self.tabBar.items objectAtIndex:2];
-    UITabBarItem *mineItme = [self.tabBar.items objectAtIndex:3];
+//    UITabBarItem *rubbishItem = [self.tabBar.items objectAtIndex:2];
+    UITabBarItem *mineItme = [self.tabBar.items objectAtIndex:2];
     
     [self setTabBarItem:homeItme withNormalImageName:@"Hotel" andSelectedImageName:@"Hotel1" andTitle:@"酒店"];
     [self setTabBarItem:orderItme withNormalImageName:@"Order1" andSelectedImageName:@"Order" andTitle:@"订单"];
-    [self setTabBarItem:rubbishItem withNormalImageName:@"垃圾-2" andSelectedImageName:@"垃圾" andTitle:@"回收"];
+//    [self setTabBarItem:rubbishItem withNormalImageName:@"垃圾-2" andSelectedImageName:@"垃圾" andTitle:@"回收"];
     [self setTabBarItem:mineItme withNormalImageName:@"My1" andSelectedImageName:@"My" andTitle:@"个人"];
     
     //设置tabbar选中和正常状态下的字体大小和颜色

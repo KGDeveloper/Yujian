@@ -8,11 +8,13 @@
 
 #import "KGDetaialViewController.h"
 #import "KGDetaialTableViewCell.h"
-#import "KGAddRomeViewController.h"
+#import "KGAddRoomTypeViewController.h"
+#import "KGRoomModel.h"
 
 @interface KGDetaialViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) UITableView *listTableView;
 @property (nonatomic,strong) UIButton *addHotell;
+@property (nonatomic,strong) NSMutableArray *dataArr;
 
 @end
 
@@ -24,6 +26,8 @@
     self.title = @"房间信息";
     
     [self setUpRightNavButtonItmeTitle:@"编辑" icon:nil];
+    
+    [self setDataArray];
 
     if (KGDevice_Is_iPhoneX == YES) {
         _listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 88, KGscreenWidth, KGscreenHeight - 88)];
@@ -39,6 +43,21 @@
     [self initAddHotellBut];
 }
 
+- (void)setDataArray{
+    _dataArr = [NSMutableArray array];
+    [[KGRequest sharedInstance] roomHotellId:_hotellId page:@"0" pageSize:@"10" succ:^(NSString *msg, id data) {
+        NSArray *dataArray = data;
+        for (int i = 0; i < dataArray.count; i++) {
+            NSDictionary *dic = dataArray[i];
+            KGRoomModel *model = [[KGRoomModel alloc]initWithDictionary:dic];
+            [_dataArr addObject:model];
+        }
+        [_listTableView reloadData];
+    } fail:^(NSString *error) {
+        
+    }];
+}
+
 #pragma mark -添加酒店-
 - (void)initAddHotellBut{
     _addHotell = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 60)];
@@ -50,7 +69,7 @@
 
 #pragma mark -导航栏右侧添加按钮-
 - (void)addHotell:(UIButton *)sender{
-    KGAddRomeViewController *addRoom = [[KGAddRomeViewController alloc]init];
+    KGAddRoomTypeViewController *addRoom = [[KGAddRoomTypeViewController alloc]init];
     [[self navigationController] pushViewController:addRoom animated:YES];
 }
 
@@ -85,7 +104,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return _dataArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

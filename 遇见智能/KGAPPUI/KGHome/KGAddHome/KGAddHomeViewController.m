@@ -90,8 +90,13 @@
     UILabel *backLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 66, KGscreenWidth, 130)];
     backLabel.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:backLabel];
-    
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 66, 80, 40)];
+    NSInteger heightNv;
+    if (KGDevice_Is_iPhoneX == YES) {
+        heightNv = 88;
+    }else{
+        heightNv = 64;
+    }
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, heightNv + 2, 80, 40)];
     titleLabel.text = @"选择照片";
     titleLabel.backgroundColor = [UIColor whiteColor];
     titleLabel.textAlignment = NSTextAlignmentRight;
@@ -99,7 +104,7 @@
     titleLabel.font = [UIFont systemFontOfSize:15.0f];
     [self.view addSubview:titleLabel];
 
-    _pictureImage = [[UIImageView alloc] initWithFrame:CGRectMake(20,106,100, 60)];
+    _pictureImage = [[UIImageView alloc] initWithFrame:CGRectMake(20,heightNv + 42,100, 60)];
     _pictureImage.image = [UIImage imageNamed:@"添加照片"];
     _pictureImage.layer.cornerRadius = 5;
     _pictureImage.layer.masksToBounds = YES;
@@ -114,6 +119,7 @@
     [[MOFSPickerManager shareManger] showMOFSAddressPickerWithTitle:@"选择省市县" cancelTitle:@"取消" commitTitle:@"完成" commitBlock:^(NSString *address, NSString *zipcode) {
         sender.titleEdgeInsets = UIEdgeInsetsMake(0,20, 0, 0);
         sender.titleLabel.font = KGFont(15);
+        [sender setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         sender.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [sender setTitle:address forState:UIControlStateNormal];
     } cancelBlock:^{

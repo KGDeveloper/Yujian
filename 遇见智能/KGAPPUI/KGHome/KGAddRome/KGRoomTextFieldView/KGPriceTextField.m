@@ -11,11 +11,11 @@
 @implementation KGPriceTextField
 
 - (CGRect)leftViewRectForBounds:(CGRect)bounds{
-    return CGRectMake(10, 5, 20, 20);
+    return CGRectMake(10, 10, 20, 20);
 }
 
 - (CGRect)rightViewRectForBounds:(CGRect)bounds{
-    return CGRectMake(bounds.size.width - 30, 5, 20, 20);
+    return CGRectMake(bounds.size.width - 20, 10, 20, 20);
 }
 
 /*

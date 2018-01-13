@@ -33,7 +33,9 @@
 ////指定左边附着视图的边距
 //- (CGRect)leftViewRectForBounds:(CGRect)bounds;
 ////指定右边附着视图的边距
-//- (CGRect)rightViewRectForBounds:(CGRect)bounds;
+- (CGRect)rightViewRectForBounds:(CGRect)bounds{
+    return CGRectMake(bounds.size.width - 20, 10, 20, 20);
+}
 ////这是字体显示复写方法
 //- (void)drawTextInRect:(CGRect)rect;
 ////这是预留字显示复写方法
