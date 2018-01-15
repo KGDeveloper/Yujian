@@ -81,7 +81,11 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="IDLabel" destination="g4i-la-ySq" id="gem-3W-soz"/>
+                <outlet property="endLabel" destination="6oa-Jt-Kem" id="qMz-cd-reR"/>
                 <outlet property="headerImage" destination="wzK-g1-XR3" id="MY2-EC-SaN"/>
+                <outlet property="nameLabel" destination="WFm-m0-HEZ" id="Mlw-KV-tV4"/>
+                <outlet property="starLabel" destination="W4S-Bb-iQi" id="ayH-xS-Odx"/>
             </connections>
             <point key="canvasLocation" x="74" y="88.5"/>
         </tableViewCell>

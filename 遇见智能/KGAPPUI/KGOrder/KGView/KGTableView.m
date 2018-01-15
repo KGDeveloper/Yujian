@@ -9,7 +9,7 @@
 #import "KGTableView.h"
 #import "KGOrderDetaialTableViewCell.h"
 
-@interface KGTableView ()<UITableViewDataSource,UITableViewDelegate>
+@interface KGTableView ()<UITableViewDataSource,UITableViewDelegate,KGOrderDetaialTableViewCellDelegate>
 
 @end
 
@@ -30,7 +30,8 @@
     _listView.delegate = self;
     _listView.dataSource = self;
     _listView.tableFooterView = [UIView new];
-    _listView.rowHeight = 140;
+    _listView.rowHeight = 160;
+    _listView.backgroundColor = KGcolor(244, 246, 244, 1);
     return _listView;
 }
 
@@ -44,10 +45,18 @@
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"KGOrderDetaialTableViewCell" owner:self options:nil] lastObject];
     }
+    cell.Mydelegate = self;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
-
+- (void)sendOrderIdToViewController:(NSString *)orderId type:(NSString *)type{
+    if ([type isEqualToString:@"refuse"]) {
+        //拒绝
+    }else{
+        //同意
+    }
+}
 
 
 

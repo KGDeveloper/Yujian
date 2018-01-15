@@ -9,8 +9,9 @@
 #import "KGAddRomeViewController.h"
 #import "KGRoomView.h"
 #import "KGDetaialViewController.h"
+#import "KGRoomTextView.h"
 
-@interface KGAddRomeViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate>
+@interface KGAddRomeViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,KGRoomTextViewDelegate>
 
 @property (nonatomic,strong) UIButton *roomType;
 @property (nonatomic,strong) KGPriceTextField *priceTextField;
@@ -32,6 +33,10 @@
 @property (nonatomic,assign) BOOL refrigerator;
 @property (nonatomic,assign) BOOL wifi;
 @property (nonatomic,assign) BOOL breakfast;
+@property (nonatomic,strong) NSMutableDictionary *postDic;
+@property (nonatomic,strong) KGRoomTextView *roomDetaile;
+@property (nonatomic,assign) BOOL isWrite;
+@property (nonatomic,assign) BOOL isChoose;
 
 @end
 
@@ -43,67 +48,241 @@
     self.title = @"添加房型";
     self.view.backgroundColor = KGcolor(200, 200, 200, 1);
     _roomData = [NSMutableArray array];
+    _postDic = [NSMutableDictionary dictionary];
+    _toilet = NO;
+    _refrigerator = NO;
+    _wifi = NO;
+    _breakfast = NO;
+    _isWrite = NO;
+    _isChoose = NO;
     
     [self setUpRightNavButtonItmeTitle:@"提交" icon:nil];
     [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
     [self pictureBtuAndImage];
-    [self initPickView];
     [self setLabelFromArray];
     [self setRoomNameTextField];
     [self setPriceTextFieldUI];
     [self setRoomButton];
     [self setRoomText];
     [self initButton];
+    [self initPickView];
+    [self initRoomDetaial];
 }
 
+#pragma mark -设置附加信息等参数View-
+- (void)initRoomDetaial{
+    _roomDetaile = [[KGRoomTextView alloc]initWithFrame:self.view.frame];
+    _roomDetaile.hidden = YES;
+    _roomDetaile.Mydelegate = self;
+    [self.view insertSubview:_roomDetaile atIndex:999];
+}
+
+#pragma mark -设置附加信息等参数按钮-
 - (void)initButton{
-    _toiletBtu = [[UIButton alloc]initWithFrame:CGRectMake(10, 500,80, 40)];
+    
+    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(10, 500, 80, 275)];
+    backView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:backView];
+    
+    UILabel *msgLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80, 30)];
+    msgLabel.text = @"添加附加信息";
+    msgLabel.font = KGFont(11);
+    msgLabel.textAlignment = NSTextAlignmentCenter;
+    [backView addSubview:msgLabel];
+ #pragma mark -设置附加信息等参数-
+    _toiletBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 30,80, 30)];
     [_toiletBtu setTitle:@"独立卫浴" forState:UIControlStateNormal];
-    _toiletBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    _toiletBtu.backgroundColor = [UIColor grayColor];
+    _toiletBtu.titleLabel.font = KGFont(11);
     [_toiletBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:_toiletBtu];
-    
-    _refrigeratorBtu = [[UIButton alloc]initWithFrame:CGRectMake(10, 550,80, 40)];
+    [_toiletBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [backView addSubview:_toiletBtu];
+#pragma mark -设置附加信息等参数-
+    _refrigeratorBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 65,80, 30)];
     [_refrigeratorBtu setTitle:@"有无冰箱" forState:UIControlStateNormal];
-    _refrigeratorBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    _refrigeratorBtu.backgroundColor = [UIColor grayColor];
+    _refrigeratorBtu.titleLabel.font = KGFont(11);
     [_refrigeratorBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:_refrigeratorBtu];
-    
-    _wifiBtu = [[UIButton alloc]initWithFrame:CGRectMake(10, 600,80, 40)];
+    [_refrigeratorBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [backView addSubview:_refrigeratorBtu];
+#pragma mark -设置附加信息等参数-
+    _wifiBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 100,80, 30)];
     [_wifiBtu setTitle:@"有无wifi" forState:UIControlStateNormal];
-    _wifiBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    _wifiBtu.backgroundColor = [UIColor grayColor];
+    _wifiBtu.titleLabel.font = KGFont(11);
     [_wifiBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:_wifiBtu];
-    
-    _breakfastBtu = [[UIButton alloc]initWithFrame:CGRectMake(10, 650,80, 40)];
+    [_wifiBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [backView addSubview:_wifiBtu];
+#pragma mark -设置附加信息等参数-
+    _breakfastBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 135,80, 30)];
     [_breakfastBtu setTitle:@"有无早餐" forState:UIControlStateNormal];
-    _breakfastBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    _breakfastBtu.backgroundColor = [UIColor grayColor];
+    _breakfastBtu.titleLabel.font = KGFont(11);
     [_breakfastBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:_breakfastBtu];
-    
-    _additionalInformationBtu = [[UIButton alloc]initWithFrame:CGRectMake(10, 650,80, 40)];
+    [_breakfastBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [backView addSubview:_breakfastBtu];
+#pragma mark -设置附加信息等参数-
+    _additionalInformationBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 170,80, 30)];
     [_additionalInformationBtu setTitle:@"附加信息" forState:UIControlStateNormal];
-    _additionalInformationBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    _additionalInformationBtu.backgroundColor = [UIColor grayColor];
+    _additionalInformationBtu.titleLabel.font = KGFont(11);
     [_additionalInformationBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:_additionalInformationBtu];
-    
-    _bedTypeBtu = [[UIButton alloc]initWithFrame:CGRectMake(10, 700,80, 40)];
+    [_additionalInformationBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [backView addSubview:_additionalInformationBtu];
+#pragma mark -设置附加信息等参数-
+    _bedTypeBtu = [[UIButton alloc]initWithFrame:CGRectMake(00, 205,80, 30)];
     [_bedTypeBtu setTitle:@"设置床型" forState:UIControlStateNormal];
-    _bedTypeBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    _bedTypeBtu.backgroundColor = [UIColor grayColor];
+    _bedTypeBtu.titleLabel.font = KGFont(11);
     [_bedTypeBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:_bedTypeBtu];
-    
-    _captaionBtu = [[UIButton alloc]initWithFrame:CGRectMake(10, 750,80, 40)];
+    [_bedTypeBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [backView addSubview:_bedTypeBtu];
+#pragma mark -设置附加信息等参数-
+    _captaionBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 240,80, 30)];
     [_captaionBtu setTitle:@"设置人数" forState:UIControlStateNormal];
-    _captaionBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    _captaionBtu.backgroundColor = [UIColor grayColor];
+    _captaionBtu.titleLabel.font = KGFont(11);
     [_captaionBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:_captaionBtu];
+    [_captaionBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [backView addSubview:_captaionBtu];
 }
 
+#pragma mark -设置附加信息等参数的点击事件-
+- (void)buttonClick:(UIButton *)sender{
+    if ([sender.titleLabel.text isEqualToString:@"独立卫浴"]) {
+        if (_toilet == YES) {
+            sender.backgroundColor = [UIColor grayColor];
+            _toilet = NO;
+        }else{
+            sender.backgroundColor = KGcolor(231, 99, 40, 1);
+            _toilet = YES;
+        }
+    }else if ([sender.titleLabel.text isEqualToString:@"有无冰箱"]){
+        if (_refrigerator == YES) {
+            sender.backgroundColor = [UIColor grayColor];
+            _refrigerator = NO;
+        }else{
+            sender.backgroundColor = KGcolor(231, 99, 40, 1);
+            _refrigerator = YES;
+        }
+    }else if ([sender.titleLabel.text isEqualToString:@"有无wifi"]){
+        if (_wifi == YES) {
+            sender.backgroundColor = [UIColor grayColor];
+            _wifi = NO;
+        }else{
+            sender.backgroundColor = KGcolor(231, 99, 40, 1);
+            _wifi = YES;
+        }
+    }else if ([sender.titleLabel.text isEqualToString:@"有无早餐"]){
+        if (_breakfast == YES) {
+            sender.backgroundColor = [UIColor grayColor];
+            _breakfast = NO;
+        }else{
+            sender.backgroundColor = KGcolor(231, 99, 40, 1);
+            _breakfast = YES;
+        }
+    }else if ([sender.titleLabel.text isEqualToString:@"附加信息"]){
+        sender.backgroundColor = KGcolor(231, 99, 40, 1);
+        _roomDetaile.hidden = NO;
+        [_roomDetaile showTextViewtype:300];
+    }else if ([sender.titleLabel.text isEqualToString:@"设置床型"]){
+        sender.backgroundColor = KGcolor(231, 99, 40, 1);
+        _roomDetaile.hidden = NO;
+        [_roomDetaile showTextFieldtype:400];
+    }else{
+        sender.backgroundColor = KGcolor(231, 99, 40, 1);
+        _roomDetaile.hidden = NO;
+        [_roomDetaile showPickViewtype:500];
+    }
+}
+
+#pragma mark -右侧确认创建房间按钮点击事件-
 - (void)rightBarItmeClick:(UIButton *)sender{
-    [self.navigationController popToViewController:[[KGDetaialViewController alloc]init] animated:YES];
+    
+    for (UITextField *obj in self.view.subviews) {
+        switch (obj.tag) {
+            case 101:
+                if (obj.text.length > 0) {
+                    [_postDic setObject:obj.text forKey:@"defaultPrice"];
+                    _isWrite = YES;
+                }else{
+                    _isWrite = NO;
+                }
+                break;
+            case 102:
+                [_postDic setObject:obj.text forKey:@"weekdaysPrice"];
+                break;
+            case 103:
+                [_postDic setObject:obj.text forKey:@"hourPrice"];
+                break;
+            case 104:
+                if (obj.text.length > 0) {
+                    _isWrite = YES;
+                    [_postDic setObject:obj.text forKey:@"deposit"];
+                }else{
+                    _isWrite = NO;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    if (_isChoose == NO) {
+        [self alertViewControllerTitle:@"提示" message:@"请选择房型" name:@"确定" type:0 preferredStyle:1];
+    }else if (_isWrite == NO){
+        [self alertViewControllerTitle:@"提示" message:@"请填写价格" name:@"确定" type:0 preferredStyle:1];
+    }else if (_roomData.count == 0){
+        [self alertViewControllerTitle:@"提示" message:@"请添加房间号" name:@"确定" type:0 preferredStyle:1];
+    }else if (_toilet == NO && _breakfast == NO && _wifi == NO && _refrigerator == NO){
+        [self alertViewControllerTitle:@"提示" message:@"请在左下角设置附加信息" name:@"确定" type:0 preferredStyle:1];
+    }else{
+        if (_toilet == YES) {
+            [_postDic setObject:@"0" forKey:@"toilet"];
+        }else{
+            [_postDic setObject:@"1" forKey:@"toilet"];
+        }
+        if (_breakfast == YES ) {
+            [_postDic setObject:@"0" forKey:@"breakfast"];
+        }else{
+            [_postDic setObject:@"1" forKey:@"breakfast"];
+        }
+        if (_wifi == YES) {
+            [_postDic setObject:@"0" forKey:@"wifi"];
+        }else{
+            [_postDic setObject:@"1" forKey:@"wifi"];
+        }
+        if (_refrigerator == YES ) {
+            [_postDic setObject:@"0" forKey:@"refrigerator"];
+        }else{
+            [_postDic setObject:@"1" forKey:@"refrigerator"];
+        }
+        [_postDic setObject:@"" forKey:@"roomDetailAddress"];
+        NSString *roomNo = @"";
+        for (NSString *obj in _roomData) {
+            if ([roomNo isEqualToString:@""]) {
+                roomNo = obj;
+            }else{
+                roomNo = [[NSString stringWithFormat:@"%@,",roomNo] stringByAppendingString:obj];
+            }
+        }
+        [_postDic setObject:roomNo forKey:@"roomNo"];
+        NSData *imageData = UIImageJPEGRepresentation(_pictureImage.image, 1);
+        NSString *imageStr = [imageData base64Encoding];
+        [_postDic setObject:imageStr forKey:@"roomPictureAddr"];
+        [_postDic setObject:@"1" forKey:@"count"];
+        [_postDic setObject:_hotellId forKey:@"hotelId"];
+        [[KGRequest sharedInstance] addRoomWithDictionary:_postDic succ:^(NSString *msg, id data) {
+            [self alertViewControllerTitle:@"提示" message:msg name:@"确定" type:0 preferredStyle:1];
+            [self.navigationController popToViewController:[[KGDetaialViewController alloc]init] animated:YES];
+        } fail:^(NSString *error) {
+            [self alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
+        }];
+    }
+    
+    
 }
 
+#pragma mark -设置房型pickview-
 - (void)initPickView{
     // 初始化pickerView
     self.pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, KGscreenHeight - 200, self.view.bounds.size.width, 200)];
@@ -129,21 +308,22 @@
     [close addTarget:self action:@selector(closeClick:) forControlEvents:UIControlEventTouchUpInside];
     _roomAdd.rightView = close;
     _roomAdd.rightViewMode = UITextFieldViewModeAlways;
-//    _roomAdd.layer.cornerRadius = 5;
-//    _roomAdd.layer.masksToBounds = YES;
     [self.view addSubview:_roomAdd];
 }
 
+#pragma mark -添加房间点击事件-
 - (void)closeClick:(UIButton *)sender{
     if ([self deptNumInputShouldNumber:_roomAdd.text] == YES) {
         [_roomData addObject:_roomAdd.text];
         _room.dataArr = _roomData;
+        _room.roomView.frame = CGRectMake(0, 0, _room.frame.size.width, _roomData.count * 50);
         [_room.roomView reloadData];
     }else{
         [self alertViewControllerTitle:@"提示" message:@"请输入数字" name:@"确定" type:0 preferredStyle:1];
     }
 }
 
+#pragma mark -判断输入是否是数字-
 - (BOOL) deptNumInputShouldNumber:(NSString *)str
 {
     if (str.length == 0) {
@@ -163,9 +343,9 @@
     [self.view addSubview:_room];
 }
 
+#pragma mark -删除房间号代理事件-
 - (void)deleteTextField:(NSArray *)arr{
     _roomData = [NSMutableArray arrayWithArray:arr];
-//    [self alertViewControllerTitle:@"提示" message:@"确定删除该房型？" name:@"Yes" type:0 preferredStyle:1];
 }
 
 #pragma mark -创建提示标签-
@@ -187,15 +367,20 @@
     _roomType = [[UIButton alloc]initWithFrame:CGRectMake(100,  200, KGscreenWidth - 100, 40)];
     _roomType.backgroundColor = [UIColor whiteColor];
     [_roomType addTarget:self action:@selector(cityClick:) forControlEvents:UIControlEventTouchUpInside];
-//    _roomType.layer.cornerRadius = 5;
-//    _roomType.layer.masksToBounds = YES;
+    [_roomType setTitle:@"" forState:UIControlStateNormal];
     [self.view addSubview:_roomType];
     _returnImage = [[UIImageView alloc]initWithFrame:CGRectMake(KGscreenWidth - 20, 210, 20, 20)];
     _returnImage.image = [UIImage imageNamed:@"下一个"];
     [self.view addSubview:_returnImage];
 }
 
+#pragma mark -选择房型-
 - (void)cityClick:(UIButton *)sender{
+    if (sender.titleLabel.text.length > 0) {
+        _isChoose = YES;
+    }else{
+        _isChoose = NO;
+    }
     _pickerView.hidden = NO;
 }
 
@@ -214,8 +399,6 @@
         _priceTextField.rightViewMode = UITextFieldViewModeAlways;
         _priceTextField.font = [UIFont systemFontOfSize:13.0f];
         _priceTextField.tag = 101 + i;
-//        _priceTextField.layer.cornerRadius = 5;
-//        _priceTextField.layer.masksToBounds = YES;
         [self.view addSubview:_priceTextField];
     }
 }
@@ -286,8 +469,10 @@
     [_roomType setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     _roomType.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_roomType setTitle:_typeArr[row] forState:UIControlStateNormal];
+    [_postDic setObject:_typeArr[row] forKey:@"roomName"];
 }
 
+#pragma mark -添加房间描述图片-
 - (void)pictureBtuAndImage{
     
     UILabel *backLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 66, KGscreenWidth, 130)];
@@ -318,6 +503,7 @@
     [self.view addSubview:_pictureBtu];
 }
 
+#pragma mark -访问手机相册-
 - (void)pictureClick:(UIButton *)sender{
     //调用系统相册的类
     UIImagePickerController *pickerController = [[UIImagePickerController alloc]init];
@@ -339,6 +525,7 @@
     }];
 }
 
+#pragma mark -获取手机相册选择的图片-
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     
     //info是所选择照片的信息
@@ -351,6 +538,18 @@
     //使用模态返回到软件界面
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     
+}
+
+- (void)sendAdditionalInformation:(NSString *)additionalInformation{
+    [_postDic setObject:additionalInformation forKey:@"additionalInformation"];
+}
+
+- (void)sendBedType:(NSString *)bedType{
+    [_postDic setObject:bedType forKey:@"bedType"];
+}
+
+- (void)sendCaptaion:(NSString *)captaion{
+    [_postDic setObject:captaion forKey:@"captaion"];
 }
 
 - (void)didReceiveMemoryWarning {

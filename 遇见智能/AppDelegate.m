@@ -22,7 +22,7 @@
     
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:[[KGAddRoomTypeViewController alloc]init]];
+    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:[[KGLoginViewController alloc]init]];
 //    self.window.rootViewController = [[KGTabBarViewController alloc]init];
     [self.window makeKeyAndVisible];
 

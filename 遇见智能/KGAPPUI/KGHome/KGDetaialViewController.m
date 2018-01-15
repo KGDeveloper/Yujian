@@ -45,14 +45,15 @@
 
 - (void)setDataArray{
     _dataArr = [NSMutableArray array];
+    __weak typeof(self) weakSelf = self;
     [[KGRequest sharedInstance] roomHotellId:_hotellId page:@"0" pageSize:@"10" succ:^(NSString *msg, id data) {
         NSArray *dataArray = data;
         for (int i = 0; i < dataArray.count; i++) {
             NSDictionary *dic = dataArray[i];
             KGRoomModel *model = [[KGRoomModel alloc]initWithDictionary:dic];
-            [_dataArr addObject:model];
+            [weakSelf.dataArr addObject:model];
         }
-        [_listTableView reloadData];
+        [weakSelf.listTableView reloadData];
     } fail:^(NSString *error) {
         
     }];
@@ -70,6 +71,7 @@
 #pragma mark -导航栏右侧添加按钮-
 - (void)addHotell:(UIButton *)sender{
     KGAddRoomTypeViewController *addRoom = [[KGAddRoomTypeViewController alloc]init];
+    addRoom.hotellId = _hotellId;
     [[self navigationController] pushViewController:addRoom animated:YES];
 }
 
@@ -111,6 +113,16 @@
     KGDetaialTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"KGDetaialTableViewCell" owner:self options:nil] lastObject];
+    }
+    if (_dataArr.count > 0) {
+        KGRoomModel *model = _dataArr[indexPath.row];
+        NSData *decodedImageData = [[NSData alloc]initWithBase64EncodedString:model.roomPictureAddr options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        UIImage *imageUrl = [UIImage imageWithData:decodedImageData];
+        cell.headerImage.image = imageUrl;
+        cell.nameLabel.text = model.roomName;
+        cell.IDLabel.text = [NSString stringWithFormat:@"%@房间",model.roomNo];
+        cell.starLabel.text = @"未入住";
+        cell.endLabel.text = model.bedType;
     }
     return cell;
 }

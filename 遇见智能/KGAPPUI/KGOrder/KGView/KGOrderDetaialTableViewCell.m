@@ -15,6 +15,25 @@
     // Initialization code
 }
 
+- (void)setFrame:(CGRect)frame{
+    frame.size.height -= 10;
+    [super setFrame:frame];
+}
+
+- (IBAction)shureClick:(UIButton *)sender {
+    if ([_Mydelegate respondsToSelector:@selector(sendOrderIdToViewController:type:)]) {
+        [_Mydelegate sendOrderIdToViewController:self.orderLabel.text type:@"agree"];
+    }
+}
+
+- (IBAction)cancelClick:(UIButton *)sender {
+    if ([_Mydelegate respondsToSelector:@selector(sendOrderIdToViewController:type:)]) {
+        [_Mydelegate sendOrderIdToViewController:self.orderLabel.text type:@"refuse"];
+    }
+}
+
+
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

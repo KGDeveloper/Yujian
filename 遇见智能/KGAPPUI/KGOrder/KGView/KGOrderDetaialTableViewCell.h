@@ -8,30 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol KGOrderDetaialTableViewCellDelegate <NSObject>
+
+- (void)sendOrderIdToViewController:(NSString *)orderId type:(NSString *)type;
+
+@end
+
 @interface KGOrderDetaialTableViewCell : UITableViewCell
-/**
- 房间图片
- */
-@property (weak, nonatomic) IBOutlet UIImageView *headerImage;
-/**
- 房间名称
- */
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-/**
- 房间床位号
- */
-@property (weak, nonatomic) IBOutlet UILabel *roomLabel;
-/**
- 是否入住状态
- */
-@property (weak, nonatomic) IBOutlet UILabel *stateLabel;
-/**
- 入住用户姓名
- */
-@property (weak, nonatomic) IBOutlet UILabel *userLabel;
-/**
- 入住时间
- */
+
+@property (weak, nonatomic) IBOutlet UILabel *roomType;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *orderLabel;
+
+@property (nonatomic,assign) id<KGOrderDetaialTableViewCellDelegate>Mydelegate;
+
 
 @end

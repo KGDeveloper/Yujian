@@ -11,5 +11,6 @@
 @interface KGAddRomeViewController : KGBaseViewController
 
 @property (nonatomic,strong) NSArray *typeArr;
+@property (nonatomic,copy) NSString *hotellId;
 
 @end

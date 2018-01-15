@@ -24,7 +24,8 @@
 }
 
 - (void)initTableView{
-    _roomView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+
+    _roomView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width,0)];
     _roomView.delegate = self;
     _roomView.dataSource = self;
     _roomView.rowHeight = 50;

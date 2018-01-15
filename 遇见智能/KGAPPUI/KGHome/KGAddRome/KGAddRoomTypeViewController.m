@@ -34,6 +34,7 @@
     if (_roomArr.count > 0) {
         KGAddRomeViewController *addRoom = [[KGAddRomeViewController alloc]init];
         addRoom.typeArr = _roomArr;
+        addRoom.hotellId = _hotellId;
         [self.navigationController pushViewController:addRoom animated:YES];
     }else{
         [self alertViewControllerTitle:@"提示" message:@"请先添加房型" name:@"确定" type:0 preferredStyle:1];

@@ -81,7 +81,6 @@
     NSUInteger segIndex = [sender selectedSegmentIndex];
     UIViewController *controller = [self controllerForSegIndex:segIndex];
     NSArray *array2 = [self.view subviews];
-    //NSLog(@"array2-->%@",array2);
     //将当旧VC的view移除，然后在添加新VC的view
     if (array2.count != 0) {
         if (segIndex == 0) {

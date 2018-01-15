@@ -10,4 +10,6 @@
 
 @interface KGRoomStarViewController : KGBaseViewController
 
+@property (nonatomic,copy) NSString *hotellId;
+
 @end

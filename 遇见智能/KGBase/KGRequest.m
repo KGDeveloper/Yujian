@@ -153,4 +153,56 @@ static KGRequest *sharedObj = nil;
     
 }
 
+- (void)addRoomWithDictionary:(NSMutableDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    [[self manger] POST:KGAddHotelRoom parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"添加房间成功"]) {
+            succ(@"添加成功",responseObject[@"data"]);
+        }else{
+            fail(@"添加失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        fail(@"访问服务器失败");
+    }];
+}
+
+- (void)roomStareHotellId:(NSString *)hotelId page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:hotelId forKey:@"hotelId"];
+    [dic setObject:page forKey:@"page"];
+    [dic setObject:pageSize forKey:@"pageSize"];
+    
+    [[self manger] POST:KGRoomStare parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"%@",responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@",error);
+    }];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @end

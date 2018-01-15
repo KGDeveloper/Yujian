@@ -19,7 +19,10 @@
 #define KGRegister [URL_ENTRY stringByAppendingString:@"/merchantRegist"]//注册
 #define KGUpdatePassWord [URL_ENTRY stringByAppendingString:@"/updateHotelMessage"]//更改密码
 #define KGUpdatePhone [URL_ENTRY stringByAppendingString:@"/updatePhoneNumber"]//更改手机号
-#define KGAddHotel [URL_ENTRY stringByAppendingString:@"/addHotel"]//添加酒店hotelQueryRooms
+#define KGAddHotel [URL_ENTRY stringByAppendingString:@"/addHotel"]//添加酒店
 #define KGHotelQueryRooms [URL_ENTRY stringByAppendingString:@"/hotelQueryRooms"]//查看酒店所有房间
+#define KGAddHotelRoom [URL_ENTRY stringByAppendingString:@"/addHotelRoom"]//添加酒店房间信息
+#define KGRoomStare [URL_ENTRY stringByAppendingString:@"/addHotelRoom"]//查看酒店住户信息
+
 
 #endif /* KGWebsites_h */
