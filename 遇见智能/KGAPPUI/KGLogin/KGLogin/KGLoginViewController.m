@@ -147,10 +147,11 @@
 
 #pragma mark -登录按钮点击事件-
 - (void)loginClick:(UIButton *)sender{
-    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     __weak typeof(self) weakSelf = self;
     [[KGRequest sharedInstance] loginWithPhone:_userName.text passWord:_passWord.text succ:^(NSString *msg, id data) {
         if ([msg isEqualToString:@"登录成功"]) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             //跳转的时候切换Tabbar
             UIWindow *window = [[UIApplication sharedApplication] keyWindow];
             window.rootViewController = [[KGTabBarViewController alloc] init];
@@ -159,9 +160,11 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             
         }else{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [weakSelf alertViewControllerTitle:@"提示" message:@"手机号或密码输入错误，请重新输入！" name:@"确定" type:0 preferredStyle:1];
         }
     } fail:^(NSString *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [weakSelf alertViewControllerTitle:@"提示" message:@"访问失败失败！" name:@"确定" type:0 preferredStyle:1];
     }];
 }

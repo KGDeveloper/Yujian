@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol KGtableviewDelegate <NSObject>
+
+- (void)pushToDetaialController;
+
+@end
+
 @interface KGTableView : UIView
 
 @property (nonatomic,strong) NSMutableArray *titleArr;
 @property (nonatomic,strong) UITableView *listView;
+@property (nonatomic,assign) id<KGtableviewDelegate>Mydelegate;
 
 @end

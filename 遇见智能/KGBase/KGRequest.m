@@ -176,18 +176,89 @@ static KGRequest *sharedObj = nil;
     [[self manger] POST:KGRoomStare parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"%@",responseObject);
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject[@"data"]);
+        }else{
+            fail(@"查询失败");
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"%@",error);
+        if (error) {
+            fail(@"访问服务器失败");
+        }
     }];
 }
 
+- (void)deleteHotell:(NSString *)hotellId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:hotellId forKey:@"hotelId"];
+    
+    [[self manger] POST:KGDeleteHotel parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject);
+        }else{
+            fail(@"失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
+    }];
+}
 
+- (void)deleteRoom:(NSString *)roomId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:roomId forKey:@"roomId"];
+    
+    [[self manger] POST:KGDeleteHotelRoom parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject);
+        }else{
+            fail(@"删除失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
+    }];
+}
 
+- (void)changeHotelWithDictionary:(NSDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    [[self manger] POST:KGChangeHotelDetail parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"修改酒店信息成功"]) {
+            succ(@"修改酒店信息成功",responseObject);
+        }else{
+            fail(@"修改酒店信息失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
+    }];
+}
 
-
-
-
+- (void)changeHotelRoomWithDictionary:(NSMutableDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    
+    [[self manger] POST:KGUpdateHotelRoom parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([responseObject[@"msg"] isEqualToString:@"修改房间成功"]) {
+            succ(@"修改房间信息成功",responseObject);
+        }else{
+            fail(@"修改房间信息信息失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
+    }];
+}
 
 
 

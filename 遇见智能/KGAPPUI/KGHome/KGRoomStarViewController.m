@@ -7,8 +7,9 @@
 //
 
 #import "KGRoomStarViewController.h"
-#import "KGDetaialTableViewCell.h"
-#import "KGRoomStarDetaialViewController.h"
+#import "KGRoomStarTableViewCell.h"
+#import "KGRoomStarDetaialView.h"
+#import "KGUserInfo.h"
 
 @interface KGRoomStarViewController ()<UITableViewDelegate,UITableViewDataSource>{
     NSInteger page;
@@ -17,6 +18,8 @@
 
 @property (strong, nonatomic) UITableView *listTableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
+@property (nonatomic,strong) KGRoomStarDetaialView *detaialView;
+@property (nonatomic,strong) NSMutableArray *dateArray;
 
 @end
 
@@ -28,65 +31,83 @@
     page = 0;
     pageSize = 10;
     
+    _dateArray = [NSMutableArray array];
+    _dataArr = [NSMutableArray array];
+    
     if (KGDevice_Is_iPhoneX == YES) {
         _listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 88, KGscreenWidth, KGscreenHeight - 88)];
     }else{
         _listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, KGscreenWidth, KGscreenHeight - 64)];
     }
-    _listTableView.rowHeight = 110.0f;
+    _listTableView.rowHeight = 100.0f;
     _listTableView.tableFooterView = [UIView new];
     _listTableView.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
     _listTableView.delegate = self;
     _listTableView.dataSource = self;
     [self.view addSubview:_listTableView];
     [self setDataArray];
+    [self setDetaialView];
 }
 
 - (void)setDataArray{
-    _dataArr = [NSMutableArray array];
-//    __weak typeof(self) weakSelf = self;
-//    [[KGRequest sharedInstance] roomStareHotellId:_hotellId page:[NSString stringWithFormat:@"%ld",page] pageSize:[NSString stringWithFormat:@"%ld",pageSize] succ:^(NSString *msg, id data) {
-//
-//    } fail:^(NSString *error) {
-//
-//    }];
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self alertViewControllerTitle:@"提示" message:@"是否删除该房间" name:@"删除" type:0 preferredStyle:1];
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @"删除";
+    
+    __weak typeof(self) mySelf = self;
+    [[KGRequest sharedInstance] roomStareHotellId:_hotellId page:[NSString stringWithFormat:@"%ld",page] pageSize:[NSString stringWithFormat:@"%ld",pageSize] succ:^(NSString *msg, id data) {
+        if ([msg isEqualToString:@"成功"]) {
+            NSArray *dateAr = data;
+            for (int i = 0; i < dateAr.count; i++) {
+                NSDictionary *dateDic = dateAr[i];
+                [_dateArray addObject:dateDic[@"checkInTime"]];
+                NSArray *userInfoArr = dateDic[@"data"];
+                for (int j = 0; j < userInfoArr.count; j++) {
+                    NSDictionary *userDic = userInfoArr[j];
+                    KGUserInfoModel *model = [[KGUserInfoModel alloc]initWithDictionary:userDic];
+                    [_dataArr addObject:model];
+                }
+            }
+            [_listTableView reloadData];
+        }
+    } fail:^(NSString *error) {
+        [mySelf alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return _dataArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    KGDetaialTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    KGRoomStarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if (!cell) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"KGDetaialTableViewCell" owner:self options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"KGRoomStarTableViewCell" owner:self options:nil] lastObject];
     }
     if (_dataArr.count > 0) {
-//        KGRoomModel *model = _dataArr[indexPath.row];
-//        NSData *decodedImageData = [[NSData alloc]initWithBase64EncodedString:model.roomPictureAddr options:NSDataBase64DecodingIgnoreUnknownCharacters];
-//        UIImage *imageUrl = [UIImage imageWithData:decodedImageData];
-//        cell.headerImage.image = imageUrl;
-//        cell.nameLabel.text = model.roomName;
-//        cell.IDLabel.text = [NSString stringWithFormat:@"%@房间",model.roomNo];
-//        cell.starLabel.text = @"未入住";
-//        cell.endLabel.text = model.bedType;
+        KGUserInfoModel *model = _dataArr[indexPath.row];
+        cell.namelabel.text = [NSString stringWithFormat:@"姓名:%@",model.customName];
+        cell.timeLabel.text = [NSString stringWithFormat:@"住房时间:%@-%@",model.checkInTime,model.checkOutTime];
+        cell.orderLabel.text = [NSString stringWithFormat:@"联系方式:%@",model.customPhone];
     }
     return cell;
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return _dateArray.count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    return _dateArray[section];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    KGRoomStarDetaialViewController *star = [[KGRoomStarDetaialViewController alloc]init];
-    [self.navigationController pushViewController:star animated:YES];
+    _detaialView.hidden = NO;
+    KGUserInfoModel *model = _dataArr[indexPath.row];
+    [_detaialView changeMessageWithModel:model];
+}
+
+- (void)setDetaialView{
+    _detaialView = [[KGRoomStarDetaialView alloc]initWithFrame:self.view.frame];
+    _detaialView.hidden = YES;
+    [self.view insertSubview:_detaialView atIndex:99];
 }
 
 - (void)didReceiveMemoryWarning {

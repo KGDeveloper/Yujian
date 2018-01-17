@@ -8,12 +8,16 @@
 
 #import "KGOrderListViewController.h"
 #import "KGTableView.h"
+#import "KGOrderDetaialViewController.h"
 
-@interface KGOrderListViewController ()
+@interface KGOrderListViewController ()<KGtableviewDelegate>
 
 @property (nonatomic,strong) KGTableView *listView;
 
 @property (nonatomic,strong) UISegmentedControl *finishOrWait;
+@property (nonatomic,strong) NSMutableArray *waitArr;
+@property (nonatomic,strong) NSMutableArray *finishArr;
+@property (nonatomic,strong) NSMutableArray *allArr;
 
 @end
 
@@ -21,12 +25,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = KGOrangeColor;
     
-    [self.view addSubview:[self setFinishOrWait]];
+    _waitArr = [NSMutableArray array];
+    _finishArr = [NSMutableArray array];
+    _allArr = [NSMutableArray array];
     
+    [self.view addSubview:[self setFinishOrWait]];
     [self setTableView];
+    
+    
+}
+
+- (void)setDataArr{
+    
+    
+    
 }
 
 #pragma mark -导航栏订房退房标签-
@@ -82,8 +96,25 @@
     }else{
         _listView = [[KGTableView alloc]initWithFrame:CGRectMake(0, 94, KGscreenWidth, KGscreenHeight - 94 - 49)];
     }
+    _listView.Mydelegate = self;
     _listView.titleArr = [NSMutableArray arrayWithObjects:@"一",nil];
     [self.view addSubview:_listView];
+}
+
+- (void)pushToDetaialController{
+    
+    KGOrderDetaialViewController *orderDetaial = [[KGOrderDetaialViewController alloc]init];
+    [[self viewController].navigationController pushViewController:orderDetaial animated:YES];
+}
+
+- (UIViewController *)viewController {
+    for (UIView* next = [self.view superview]; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)nextResponder;
+        }
+    }
+    return nil;
 }
 
 

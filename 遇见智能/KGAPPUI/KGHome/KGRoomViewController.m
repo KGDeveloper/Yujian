@@ -30,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
+//    [self setUpRightNavButtonItmeTitle:@"编辑" icon:nil];
 
     self.navigationItem.titleView = [self setFinishOrWait];
     [self.view addSubview:self.room.view];

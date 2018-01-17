@@ -22,7 +22,11 @@
 #define KGAddHotel [URL_ENTRY stringByAppendingString:@"/addHotel"]//添加酒店
 #define KGHotelQueryRooms [URL_ENTRY stringByAppendingString:@"/hotelQueryRooms"]//查看酒店所有房间
 #define KGAddHotelRoom [URL_ENTRY stringByAppendingString:@"/addHotelRoom"]//添加酒店房间信息
-#define KGRoomStare [URL_ENTRY stringByAppendingString:@"/addHotelRoom"]//查看酒店住户信息
+#define KGRoomStare [URL_ENTRY stringByAppendingString:@"/hotelDetail"]//房态
+#define KGDeleteHotel [URL_ENTRY stringByAppendingString:@"/deleteHotel"]//删除酒店
+#define KGDeleteHotelRoom [URL_ENTRY stringByAppendingString:@"/deleteHotelRoom"]//删除房间
+#define KGChangeHotelDetail [URL_ENTRY stringByAppendingString:@"/changeHotelDetail"]//修改酒店信息
+#define KGUpdateHotelRoom [URL_ENTRY stringByAppendingString:@"/updateHotelRoom"]//修改酒店房间信息
 
 
 #endif /* KGWebsites_h */

@@ -59,7 +59,7 @@
     _finishOrWait = [[UISegmentedControl alloc]initWithItems:titleArr];
     _finishOrWait.selectedSegmentIndex = 0;
     _finishOrWait.tintColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
-    _finishOrWait.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
+    _finishOrWait.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1]
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:KGcolor(231, 99, 40, 1),
                          NSForegroundColorAttributeName,
                          [UIFont systemFontOfSize:17],

@@ -35,6 +35,11 @@
         KGAddRomeViewController *addRoom = [[KGAddRomeViewController alloc]init];
         addRoom.typeArr = _roomArr;
         addRoom.hotellId = _hotellId;
+        addRoom.type = _type;
+        if ([_type isEqualToString:@"修改"]) {
+            addRoom.roomId = _roomId;
+            addRoom.roomNo = _roomNo;
+        }
         [self.navigationController pushViewController:addRoom animated:YES];
     }else{
         [self alertViewControllerTitle:@"提示" message:@"请先添加房型" name:@"确定" type:0 preferredStyle:1];
@@ -133,40 +138,6 @@
     }];
 }
 
-/**
- 警告框
- 
- @param title 显示警告框标题
- @param message 显示警告框信息
- @param name 按钮显示信息
- */
-- (void)alertViewControllerTitle:(NSString *)title message:(NSString *)message name:(NSString *)name type:(NSInteger)type preferredStyle:(UIAlertControllerStyle)preferredStyle{
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle];
-    
-    //如果参数是0表示只有一个按钮点击后警告框消失
-    if (type == 0) {
-        
-        UIAlertAction *action = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:nil];
-        
-        [alert addAction:action];
-    }else{
-        
-        UIAlertAction *sureAct = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self alertControllerAction];
-        }];
-        
-        UIAlertAction *canalAct = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        
-        [alert addAction:sureAct];
-        [alert addAction:canalAct];
-    }
-    
-    
-    
-    [self presentViewController:alert animated:YES completion:nil];
-    
-}
 
 - (BOOL)isChineseStr:(NSString *)str
 {

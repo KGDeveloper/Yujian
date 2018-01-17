@@ -222,46 +222,26 @@
             }
         }
         __weak typeof(self) weakSelf = self;
-        [[KGRequest sharedInstance] addHotellMessageWithDictionary:dic succ:^(NSString *msg, id data) {
-            if ([msg isEqualToString:@"添加成功"]) {
-                [weakSelf alertViewControllerTitle:@"提示" message:@"添加成功" name:@"确定" type:0 preferredStyle:1];
-                [weakSelf.navigationController popViewControllerAnimated:YES];
-            }else{
-                [weakSelf alertViewControllerTitle:@"提示" message:@"添加失败" name:@"确定" type:0 preferredStyle:1];
-            }
-        } fail:^(NSString *error) {
-            [weakSelf alertViewControllerTitle:@"提示" message:@"网络出错，请重试" name:@"确定" type:0 preferredStyle:1];
-        }];
+        if ([_type isEqualToString:@"添加"]) {
+            [[KGRequest sharedInstance] addHotellMessageWithDictionary:dic succ:^(NSString *msg, id data) {
+                if ([msg isEqualToString:@"添加成功"]) {
+                    [weakSelf alertViewControllerTitle:@"提示" message:@"添加成功" name:@"确定" type:0 preferredStyle:1];
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }else{
+                    [weakSelf alertViewControllerTitle:@"提示" message:@"添加失败" name:@"确定" type:0 preferredStyle:1];
+                }
+            } fail:^(NSString *error) {
+                [weakSelf alertViewControllerTitle:@"提示" message:@"网络出错，请重试" name:@"确定" type:0 preferredStyle:1];
+            }];
+        }else{
+            [dic setObject:_hotelId forKey:@"hotelId"];
+            [[KGRequest sharedInstance] changeHotelWithDictionary:dic succ:^(NSString *msg, id data) {
+                
+            } fail:^(NSString *error) {
+                
+            }];
+        }
     }
-}
-
-#pragma mark -警告框-
-- (void)alertViewControllerTitle:(NSString *)title message:(NSString *)message name:(NSString *)name type:(NSInteger)type preferredStyle:(UIAlertControllerStyle)preferredStyle{
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle];
-    
-    //如果参数是0表示只有一个按钮点击后警告框消失
-    if (type == 0) {
-        
-        UIAlertAction *action = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:nil];
-        
-        [alert addAction:action];
-    }else{
-        
-        UIAlertAction *sureAct = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self alertControllerAction];
-        }];
-        
-        UIAlertAction *canalAct = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        
-        [alert addAction:sureAct];
-        [alert addAction:canalAct];
-    }
-    
-    
-    
-    [self presentViewController:alert animated:YES completion:nil];
-    
 }
 
 

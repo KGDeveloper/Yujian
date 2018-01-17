@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "KGTabBarViewController.h"
 #import "KGLoginViewController.h"
-#import "KGAddRoomTypeViewController.h"
+#import "KGHomeViewController.h"
 
 @interface AppDelegate ()
 

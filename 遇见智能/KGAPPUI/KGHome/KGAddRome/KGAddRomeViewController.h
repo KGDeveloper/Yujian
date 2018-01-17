@@ -12,5 +12,8 @@
 
 @property (nonatomic,strong) NSArray *typeArr;
 @property (nonatomic,copy) NSString *hotellId;
+@property (nonatomic,copy) NSString *type;
+@property (nonatomic,copy) NSString *roomId;
+@property (nonatomic,copy) NSString *roomNo;
 
 @end

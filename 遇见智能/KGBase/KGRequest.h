@@ -59,17 +59,94 @@ typedef void (^KGRequestFail)(NSString *error);
  @param fail 失败回调
  */
 - (void)registerUserName:(NSString *)userName phone:(NSString *)phone passWord:(NSString *)passWord succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 修改密码
+
+ @param newPassWord 新密码
+ @param userId 用户id
+ @param succ 成功返回值
+ @param fail 失败返回值
+ */
 - (void)updateHotelMessageWithnewPassWord:(NSString *)newPassWord userId:(NSString *)userId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 添加酒店信息
+
+ @param dci 酒店信息
+ @param succ 成功返回
+ @param fail 失败返回
+ */
 - (void)addHotellMessageWithDictionary:(NSDictionary *)dci succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 首页接口
+
+ @param phoneNo 用户电话
+ @param page 页数
+ @param pageSize 行数
+ @param succ 成功返回
+ @param fail 失败返回
+ */
 - (void)homeUserPhone:(NSString *)phoneNo page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 酒店房间接口
+
+ @param hotelId 酒店id
+ @param page 页数
+ @param pageSize 行数
+ @param succ 成功返回
+ @param fail 失败返回
+ */
 - (void)roomHotellId:(NSString *)hotelId page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 添加房间信息
+
+ @param dic 房间信息
+ @param succ 成功返回
+ @param fail 失败返回
+ */
 - (void)addRoomWithDictionary:(NSDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 房态
+
+ @param hotelId 酒店id
+ @param page 页数
+ @param pageSize 行数
+ @param succ 成功返回
+ @param fail 失败返回
+ */
 - (void)roomStareHotellId:(NSString *)hotelId page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 删除酒店
 
+ @param hotellId 酒店id
+ @param succ 成功返回
+ @param fail 失败返回
+ */
+- (void)deleteHotell:(NSString *)hotellId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 删除房间
 
+ @param roomId 房间id
+ @param succ 成功返回
+ @param fail 失败返回
+ */
+- (void)deleteRoom:(NSString *)roomId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 修改酒店信息
 
+ @param dic 酒店信息
+ @param succ 成功返回
+ @param fail 失败返回
+ */
+- (void)changeHotelWithDictionary:(NSDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 修改房间信息
 
-
+ @param dic 房间信息
+ @param succ 成功返回
+ @param fail 失败返回
+ */
+- (void)changeHotelRoomWithDictionary:(NSMutableDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+- (void)hotelOrderList:(NSString *)hotelId
 
 
 

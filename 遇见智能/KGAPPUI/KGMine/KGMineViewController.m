@@ -88,6 +88,9 @@
 }
 
 - (void)jionOutClick:(UIButton *)sender{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userPhone"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userId"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     KGLoginViewController *login = [[KGLoginViewController alloc]init];
     [self.navigationController pushViewController:login animated:YES];
     

@@ -25,8 +25,6 @@
     
     self.title = @"房间信息";
     
-    [self setUpRightNavButtonItmeTitle:@"编辑" icon:nil];
-    
     [self setDataArray];
 
     if (KGDevice_Is_iPhoneX == YES) {
@@ -72,6 +70,7 @@
 - (void)addHotell:(UIButton *)sender{
     KGAddRoomTypeViewController *addRoom = [[KGAddRoomTypeViewController alloc]init];
     addRoom.hotellId = _hotellId;
+    addRoom.type = @"添加";
     [[self navigationController] pushViewController:addRoom animated:YES];
 }
 
@@ -95,14 +94,30 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self alertViewControllerTitle:@"提示" message:@"是否删除该房间" name:@"删除" type:0 preferredStyle:1];
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @"删除";
+-(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
+    __weak typeof(self) Myself = self;
+    KGRoomModel *model = _dataArr[indexPath.row];
+    UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        [[KGRequest sharedInstance] deleteRoom:model.roomId succ:^(NSString *msg, id data) {
+            if ([msg isEqualToString:@"成功"]) {
+                [Myself.dataArr removeObject:model];
+                [Myself.listTableView reloadData];
+                [Myself alertViewControllerTitle:@"提示" message:@"删除成功" name:@"确定" type:0 preferredStyle:1];
+            }
+        } fail:^(NSString *error) {
+            [Myself alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
+        }];
+    }];
+    UITableViewRowAction *actionTwo = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"修改" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        KGAddRoomTypeViewController *room = [[KGAddRoomTypeViewController alloc]init];
+        room.type = @"修改";
+        room.roomId = model.roomId;
+        room.hotellId = _hotellId;
+        room.roomNo = model.roomNo;
+        [Myself.navigationController pushViewController:room animated:YES];
+    }];
+    actionTwo.backgroundColor = [UIColor grayColor];
+    return @[action,actionTwo];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

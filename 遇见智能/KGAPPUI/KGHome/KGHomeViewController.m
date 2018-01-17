@@ -37,15 +37,16 @@
     
     page = 0;
     pageSize = 10;
+    _dataArr = [NSMutableArray array];
     
-    [self setUpRightNavButtonItmeTitle:@"编辑" icon:nil];
+//    [self setUpRightNavButtonItmeTitle:@"编辑" icon:nil];
     [self setDataArr];
     [self setListView];
     [self initAddHotellBut];
 }
 
 - (void)setDataArr{
-    _dataArr = [NSMutableArray array];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     __weak typeof(self) weakSelf = self;
     [[KGRequest sharedInstance] homeUserPhone:[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"] page:[NSString stringWithFormat:@"%ld",(long)page] pageSize:[NSString stringWithFormat:@"%ld",(long)pageSize] succ:^(NSString *msg, id data) {
         if ([msg isEqualToString:@"成功"]) {
@@ -55,30 +56,48 @@
                 KGHomeModel *model = [[KGHomeModel alloc]initWithDictionary:dic];
                 [weakSelf.dataArr addObject:model];
             }
+            weakSelf.listView.tableFooterView = [UIView new];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [weakSelf.listView.mj_header endRefreshing];
+            [weakSelf.listView.mj_footer endRefreshing];
             [weakSelf.listView reloadData];
         }
     } fail:^(NSString *error) {
-        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [weakSelf.listView.mj_header endRefreshing];
+        [weakSelf.listView.mj_footer endRefreshing];
     }];
     
 }
 
-- (void)rightBarItmeClick:(UIButton *)sender{
-    if (_listView.editing == YES) {
-        _listView.editing = NO;
-    }else{
-        _listView.editing = YES;
-    }
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self alertViewControllerTitle:@"提示" message:@"是否删除该酒店" name:@"删除" type:0 preferredStyle:1];
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @"删除";
+-(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
+    __weak typeof(self) Myself = self;
+    KGHomeModel *model = _dataArr[indexPath.row];
+    UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[KGRequest sharedInstance] deleteHotell:model.hotelId succ:^(NSString *msg, id data) {
+            if ([msg isEqualToString:@"成功"]) {
+                [Myself.dataArr removeObject:model];
+                [Myself.listView reloadData];
+            }else{
+                [self alertViewControllerTitle:@"提示" message:@"删除失败" name:@"确定" type:0 preferredStyle:1];
+            }
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        } fail:^(NSString *error) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [Myself alertViewControllerTitle:@"提示" message:@"访问服务器失败" name:@"确定" type:0 preferredStyle:1];
+        }];
+    }];
+    UITableViewRowAction *actionTwo = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"修改" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        
+        KGAddHomeViewController *addHotel = [[KGAddHomeViewController alloc]init];
+        addHotel.type = @"修改";
+        addHotel.hotelId = model.hotelId;
+        [Myself.navigationController pushViewController:addHotel animated:YES];
+        
+    }];
+    actionTwo.backgroundColor = [UIColor grayColor];
+    return @[action,actionTwo];
 }
 
 #pragma mark -添加酒店-
@@ -93,22 +112,41 @@
 #pragma mark -导航栏右侧添加按钮-
 - (void)addHotell:(UIButton *)sender{
     KGAddHomeViewController *home = [[KGAddHomeViewController alloc]init];
+    home.type = @"添加";
     [self.navigationController pushViewController:home animated:YES];
 }
 
 #pragma mark -创建显示酒店名称的列表-
 - (void)setListView{
     
+    UIImageView *normalIamge = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, KGscreenWidth*5/7)];
+    normalIamge.image = KGImage(@"zhanwei");
+    
     _listView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, KGscreenWidth, KGscreenHeight - 49 - 64)];
     _listView.delegate = self;
     _listView.dataSource = self;
+    if (_dataArr.count == 0) {
+        _listView.tableFooterView = normalIamge;
+    }
     _listView.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
-    _listView.tableFooterView = [UIView new];
     if (KGDevice_Is_iPhoneX == YES) {
         _listView.rowHeight = 315;
     }else{
         _listView.rowHeight = 340;
     }
+    __weak typeof(self) weakSelf = self;
+    _listView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        page = 0;
+        [weakSelf.dataArr removeAllObjects];
+        [weakSelf.listView.mj_header beginRefreshing];
+        [weakSelf setDataArr];
+    }];
+    
+    _listView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        page ++;
+        [weakSelf.listView.mj_footer beginRefreshing];
+        [weakSelf setDataArr];
+    }];
     
     [self.view addSubview:_listView];
 }

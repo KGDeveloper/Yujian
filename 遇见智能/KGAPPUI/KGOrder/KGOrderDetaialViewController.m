@@ -1,22 +1,23 @@
 //
-//  KGRoomStarDetaialViewController.m
+//  KGOrderDetaialViewController.m
 //  遇见智能
 //
-//  Created by KG on 2018/1/15.
+//  Created by KG on 2018/1/16.
 //  Copyright © 2018年 KG祁增奎. All rights reserved.
 //
 
-#import "KGRoomStarDetaialViewController.h"
+#import "KGOrderDetaialViewController.h"
 
-@interface KGRoomStarDetaialViewController ()
+@interface KGOrderDetaialViewController ()
 
 @end
 
-@implementation KGRoomStarDetaialViewController
+@implementation KGOrderDetaialViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
 }
 
 - (void)didReceiveMemoryWarning {

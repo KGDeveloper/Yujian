@@ -23,8 +23,8 @@
     //设置view的背景色
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
-    //设置导航栏的颜色
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1]];
+    //设置导航栏的颜色[UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1]
+    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
     
     //设置导航栏的字体大小以及颜色，是一个字典类型
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont boldSystemFontOfSize:17.0f]}];

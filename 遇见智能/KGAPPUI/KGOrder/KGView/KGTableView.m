@@ -50,6 +50,12 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([_Mydelegate respondsToSelector:@selector(pushToDetaialController)]) {
+        [_Mydelegate pushToDetaialController];
+    }
+}
+
 - (void)sendOrderIdToViewController:(NSString *)orderId type:(NSString *)type{
     if ([type isEqualToString:@"refuse"]) {
         //拒绝

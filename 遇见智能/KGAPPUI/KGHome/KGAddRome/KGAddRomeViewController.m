@@ -63,7 +63,11 @@
     [self setRoomNameTextField];
     [self setPriceTextFieldUI];
     [self setRoomButton];
-    [self setRoomText];
+    if ([_type isEqualToString:@"修改"]) {
+        
+    }else{
+        [self setRoomText];
+    }
     [self initButton];
     [self initPickView];
     [self initRoomDetaial];
@@ -231,8 +235,6 @@
         [self alertViewControllerTitle:@"提示" message:@"请选择房型" name:@"确定" type:0 preferredStyle:1];
     }else if (_isWrite == NO){
         [self alertViewControllerTitle:@"提示" message:@"请填写价格" name:@"确定" type:0 preferredStyle:1];
-    }else if (_roomData.count == 0){
-        [self alertViewControllerTitle:@"提示" message:@"请添加房间号" name:@"确定" type:0 preferredStyle:1];
     }else if (_toilet == NO && _breakfast == NO && _wifi == NO && _refrigerator == NO){
         [self alertViewControllerTitle:@"提示" message:@"请在左下角设置附加信息" name:@"确定" type:0 preferredStyle:1];
     }else{
@@ -257,29 +259,46 @@
             [_postDic setObject:@"1" forKey:@"refrigerator"];
         }
         [_postDic setObject:@"" forKey:@"roomDetailAddress"];
-        NSString *roomNo = @"";
-        for (NSString *obj in _roomData) {
-            if ([roomNo isEqualToString:@""]) {
-                roomNo = obj;
-            }else{
-                roomNo = [[NSString stringWithFormat:@"%@,",roomNo] stringByAppendingString:obj];
+        if ([_type isEqualToString:@"修改"]) {
+            [_postDic setObject:_roomNo forKey:@"roomNo"];
+        }else{
+            NSString *roomNo = @"";
+            for (NSString *obj in _roomData) {
+                if ([roomNo isEqualToString:@""]) {
+                    roomNo = obj;
+                }else{
+                    roomNo = [[NSString stringWithFormat:@"%@,",roomNo] stringByAppendingString:obj];
+                }
             }
+            [_postDic setObject:roomNo forKey:@"roomNo"];
         }
-        [_postDic setObject:roomNo forKey:@"roomNo"];
+        
         NSData *imageData = UIImageJPEGRepresentation(_pictureImage.image, 1);
         NSString *imageStr = [imageData base64Encoding];
         [_postDic setObject:imageStr forKey:@"roomPictureAddr"];
         [_postDic setObject:@"1" forKey:@"count"];
         [_postDic setObject:_hotellId forKey:@"hotelId"];
-        [[KGRequest sharedInstance] addRoomWithDictionary:_postDic succ:^(NSString *msg, id data) {
-            [self alertViewControllerTitle:@"提示" message:msg name:@"确定" type:0 preferredStyle:1];
-            [self.navigationController popToViewController:[[KGDetaialViewController alloc]init] animated:YES];
-        } fail:^(NSString *error) {
-            [self alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
-        }];
+        __weak typeof(self) MySelf = self;
+        if ([_type isEqualToString:@"修改"]) {
+            [_postDic removeObjectForKey:@"hotelId"];
+            [_postDic setObject:_roomId forKey:@"roomId"];
+            
+            [[KGRequest sharedInstance] changeHotelRoomWithDictionary:_postDic succ:^(NSString *msg, id data) {
+                if ([msg isEqualToString:@"修改房间信息成功"]) {
+                    [MySelf alertViewControllerTitle:@"提示" message:msg name:@"确定" type:0 preferredStyle:1];
+                }
+            } fail:^(NSString *error) {
+                [MySelf alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
+            }];
+        }else{
+            [[KGRequest sharedInstance] addRoomWithDictionary:_postDic succ:^(NSString *msg, id data) {
+                [self alertViewControllerTitle:@"提示" message:msg name:@"确定" type:0 preferredStyle:1];
+                [self.navigationController popToViewController:[[KGDetaialViewController alloc]init] animated:YES];
+            } fail:^(NSString *error) {
+                [self alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
+            }];
+        }
     }
-    
-    
 }
 
 #pragma mark -设置房型pickview-
@@ -351,14 +370,26 @@
 #pragma mark -创建提示标签-
 - (void)setLabelFromArray{
     NSArray *titleLabelArr = @[@"房型名称:",@"默认房价:",@"周末房价:",@"小时房价:",@"押金金额:",@"房间号码:"];
-    for (int i = 0; i < titleLabelArr.count ; i++) {
-        UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200 + 50 * i, 100, 40)];
-        titleLabel.text = titleLabelArr[i];
-        titleLabel.tintColor = [UIColor grayColor];
-        titleLabel.backgroundColor = [UIColor whiteColor];
-        titleLabel.textAlignment = NSTextAlignmentRight;
-        titleLabel.font = [UIFont systemFontOfSize:13.0f];
-        [self.view addSubview:titleLabel];
+    if ([_type isEqualToString:@"修改"]) {
+        for (int i = 0; i < 5 ; i++) {
+            UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200 + 50 * i, 100, 40)];
+            titleLabel.text = titleLabelArr[i];
+            titleLabel.tintColor = [UIColor grayColor];
+            titleLabel.backgroundColor = [UIColor whiteColor];
+            titleLabel.textAlignment = NSTextAlignmentRight;
+            titleLabel.font = [UIFont systemFontOfSize:13.0f];
+            [self.view addSubview:titleLabel];
+        }
+    }else{
+        for (int i = 0; i < titleLabelArr.count ; i++) {
+            UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200 + 50 * i, 100, 40)];
+            titleLabel.text = titleLabelArr[i];
+            titleLabel.tintColor = [UIColor grayColor];
+            titleLabel.backgroundColor = [UIColor whiteColor];
+            titleLabel.textAlignment = NSTextAlignmentRight;
+            titleLabel.font = [UIFont systemFontOfSize:13.0f];
+            [self.view addSubview:titleLabel];
+        }
     }
 }
 
@@ -414,36 +445,6 @@
     _pickerView.hidden = YES;
 }
 
-/**
- 警告框
- 
- @param title 显示警告框标题
- @param message 显示警告框信息
- @param name 按钮显示信息
- */
-- (void)alertViewControllerTitle:(NSString *)title message:(NSString *)message name:(NSString *)name type:(NSInteger)type preferredStyle:(UIAlertControllerStyle)preferredStyle{
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle];
-    
-    //如果参数是0表示只有一个按钮点击后警告框消失
-    if (type == 0) {
-        
-        UIAlertAction *action = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:nil];
-        
-        [alert addAction:action];
-    }else{
-        
-        UIAlertAction *sureAct = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
-        }];
-        
-        UIAlertAction *canalAct = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [alert addAction:sureAct];
-        [alert addAction:canalAct];
-    }
-    [self presentViewController:alert animated:YES completion:nil];
-    
-}
 
 //指定pickerview有几个表盘
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
