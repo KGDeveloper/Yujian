@@ -10,7 +10,7 @@
 #define KGWebsites_h
 
 
-#define URL_ENTRY @"http://192.168.1.19:8080"
+#define URL_ENTRY @"https://192.168.1.19:8080/"
 #define IMG_APPEND_PREFIX(url) [IMG_PREFIX stringByAppendingString:url]
 
 #define KGLogin [URL_ENTRY stringByAppendingString:@"/login"]//登录

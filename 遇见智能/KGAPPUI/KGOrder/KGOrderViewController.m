@@ -24,9 +24,15 @@
  */
 @property (nonatomic,strong) KGWaitViewController *waitVC;
 
+
 @end
 
 @implementation KGOrderViewController
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = NO;
+}
 
 #pragma mark --
 
@@ -37,6 +43,7 @@
     
     self.navigationItem.titleView = [self setFinishOrWait];
     [self.view addSubview:self.finishVC.view];
+    
 }
 
 - (KGOrderListViewController *)finishVC{

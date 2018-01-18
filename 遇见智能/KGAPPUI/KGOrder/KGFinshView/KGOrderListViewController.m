@@ -9,6 +9,7 @@
 #import "KGOrderListViewController.h"
 #import "KGTableView.h"
 #import "KGOrderDetaialViewController.h"
+#import "KGAddOrderViewController.h"
 
 @interface KGOrderListViewController ()<KGtableviewDelegate>
 
@@ -18,6 +19,7 @@
 @property (nonatomic,strong) NSMutableArray *waitArr;
 @property (nonatomic,strong) NSMutableArray *finishArr;
 @property (nonatomic,strong) NSMutableArray *allArr;
+@property (nonatomic,strong) UIButton *addHotell;
 
 @end
 
@@ -33,9 +35,26 @@
     
     [self.view addSubview:[self setFinishOrWait]];
     [self setTableView];
+    [self initAddHotellBut];
     
     
 }
+
+#pragma mark -添加酒店-
+- (void)initAddHotellBut{
+    _addHotell = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 60)];
+    _addHotell.center = CGPointMake(KGscreenWidth - 50, KGscreenHeight - 150);
+    [_addHotell setImage:[UIImage imageNamed:@"Addto"] forState:UIControlStateNormal];
+    [_addHotell addTarget:self action:@selector(addHotell:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view insertSubview:_addHotell atIndex:99];
+}
+
+#pragma mark -导航栏右侧添加按钮-
+- (void)addHotell:(UIButton *)sender{
+    KGAddOrderViewController *addOrder = [[KGAddOrderViewController alloc]init];
+    [[self viewController].navigationController pushViewController:addOrder animated:YES];
+}
+
 
 - (void)setDataArr{
     

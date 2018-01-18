@@ -146,7 +146,7 @@ typedef void (^KGRequestFail)(NSString *error);
  @param fail 失败返回
  */
 - (void)changeHotelRoomWithDictionary:(NSMutableDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
-- (void)hotelOrderList:(NSString *)hotelId
+- (void)hotelOrderList:(NSString *)hotelId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
 
 
 

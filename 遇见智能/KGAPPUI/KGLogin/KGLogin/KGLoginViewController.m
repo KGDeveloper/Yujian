@@ -165,7 +165,7 @@
         }
     } fail:^(NSString *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [weakSelf alertViewControllerTitle:@"提示" message:@"访问失败失败！" name:@"确定" type:0 preferredStyle:1];
+        [weakSelf alertViewControllerTitle:@"提示" message:@"访问失败！" name:@"确定" type:0 preferredStyle:1];
     }];
 }
 

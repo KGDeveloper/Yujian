@@ -19,6 +19,7 @@
 @property (nonatomic,strong) NSMutableArray *finishArr;
 @property (nonatomic,strong) NSMutableArray *allArr;
 
+
 @end
 
 @implementation KGWaitViewController
@@ -35,6 +36,7 @@
     [self.view addSubview:[self setFinishOrWait]];
     
     [self setTableView];
+    
 }
 
 - (void)setDataArr{

@@ -17,6 +17,9 @@
 		CA377DC1200DCA57000E6EDE /* KGRoomStarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA377DBF200DCA57000E6EDE /* KGRoomStarTableViewCell.xib */; };
 		CA377DC4200DDD87000E6EDE /* KGRoomStarDetaialView.m in Sources */ = {isa = PBXBuildFile; fileRef = CA377DC3200DDD87000E6EDE /* KGRoomStarDetaialView.m */; };
 		CA377DC7200DE099000E6EDE /* KGUserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CA377DC6200DE099000E6EDE /* KGUserInfoModel.m */; };
+		CA3AE4C32010856300F59ED1 /* zhu.cer in Resources */ = {isa = PBXBuildFile; fileRef = CA3AE4C22010856300F59ED1 /* zhu.cer */; };
+		CA3D9F7E20109EEC00E196FC /* KGCustomLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3D9F7D20109EEC00E196FC /* KGCustomLabel.m */; };
+		CA3D9F812010AAE400E196FC /* KGAddOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3D9F802010AAE400E196FC /* KGAddOrderViewController.m */; };
 		CA43ECE8200750BA002C5436 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43ECE7200750BA002C5436 /* libxml2.2.tbd */; };
 		CA43ECF720075151002C5436 /* province_data.xml in Resources */ = {isa = PBXBuildFile; fileRef = CA43ECED20075151002C5436 /* province_data.xml */; };
 		CA43ECF820075151002C5436 /* MOFSDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = CA43ECEE20075151002C5436 /* MOFSDatePicker.m */; };
@@ -104,6 +107,11 @@
 		CA377DC3200DDD87000E6EDE /* KGRoomStarDetaialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGRoomStarDetaialView.m; sourceTree = "<group>"; };
 		CA377DC5200DE099000E6EDE /* KGUserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGUserInfoModel.h; sourceTree = "<group>"; };
 		CA377DC6200DE099000E6EDE /* KGUserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGUserInfoModel.m; sourceTree = "<group>"; };
+		CA3AE4C22010856300F59ED1 /* zhu.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = zhu.cer; sourceTree = "<group>"; };
+		CA3D9F7C20109EEC00E196FC /* KGCustomLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGCustomLabel.h; sourceTree = "<group>"; };
+		CA3D9F7D20109EEC00E196FC /* KGCustomLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGCustomLabel.m; sourceTree = "<group>"; };
+		CA3D9F7F2010AAE400E196FC /* KGAddOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGAddOrderViewController.h; sourceTree = "<group>"; };
+		CA3D9F802010AAE400E196FC /* KGAddOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGAddOrderViewController.m; sourceTree = "<group>"; };
 		CA43ECE7200750BA002C5436 /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		CA43ECEA20075151002C5436 /* AddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressModel.h; sourceTree = "<group>"; };
 		CA43ECEB20075151002C5436 /* MOFSPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOFSPickerView.h; sourceTree = "<group>"; };
@@ -340,6 +348,7 @@
 				CA8A372D1FE8BE6A0094BE19 /* KGBaseViewController.m */,
 				CA8A37301FE8BE6A0094BE19 /* KGRequest.h */,
 				CA8A372F1FE8BE6A0094BE19 /* KGRequest.m */,
+				CA3AE4C22010856300F59ED1 /* zhu.cer */,
 				CA8A372C1FE8BE6A0094BE19 /* KGUserInfo.h */,
 				CA8A37311FE8BE6A0094BE19 /* KGUserInfo.m */,
 			);
@@ -485,6 +494,8 @@
 				CA8A38381FE8E3180094BE19 /* KGOrderViewController.m */,
 				CA377DBA200D9606000E6EDE /* KGOrderDetaialViewController.h */,
 				CA377DBB200D9606000E6EDE /* KGOrderDetaialViewController.m */,
+				CA3D9F7F2010AAE400E196FC /* KGAddOrderViewController.h */,
+				CA3D9F802010AAE400E196FC /* KGAddOrderViewController.m */,
 			);
 			path = KGOrder;
 			sourceTree = "<group>";
@@ -548,6 +559,8 @@
 			children = (
 				CA8A38491FE90BA50094BE19 /* KGTableView.h */,
 				CA8A384A1FE90BA50094BE19 /* KGTableView.m */,
+				CA3D9F7C20109EEC00E196FC /* KGCustomLabel.h */,
+				CA3D9F7D20109EEC00E196FC /* KGCustomLabel.m */,
 				CAFF36D11FEB928700782BFF /* KGOrderDetaialTableViewCell.h */,
 				CAFF36D01FEB928700782BFF /* KGOrderDetaialTableViewCell.m */,
 				CAFF36CF1FEB928700782BFF /* KGOrderDetaialTableViewCell.xib */,
@@ -748,6 +761,7 @@
 				CA43ECF720075151002C5436 /* province_data.xml in Resources */,
 				CA377DC1200DCA57000E6EDE /* KGRoomStarTableViewCell.xib in Resources */,
 				CA8A371F1FE8BDBA0094BE19 /* Assets.xcassets in Resources */,
+				CA3AE4C32010856300F59ED1 /* zhu.cer in Resources */,
 				CA8A38511FE914C90094BE19 /* KGMineTableViewCell.xib in Resources */,
 				CA8A383F1FE8F8F50094BE19 /* KGHomeListTableViewCell.xib in Resources */,
 				CAFF36BB1FEB667200782BFF /* KGCustomeTableViewCell.xib in Resources */,
@@ -844,6 +858,7 @@
 				CAFF36C21FEB8BDA00782BFF /* KGDetaialViewController.m in Sources */,
 				CA8A383E1FE8F8F50094BE19 /* KGHomeListTableViewCell.m in Sources */,
 				CAFF36D31FEB928700782BFF /* KGOrderDetaialTableViewCell.m in Sources */,
+				CA3D9F7E20109EEC00E196FC /* KGCustomLabel.m in Sources */,
 				CA8A384B1FE90BA50094BE19 /* KGTableView.m in Sources */,
 				CA377DBC200D9606000E6EDE /* KGOrderDetaialViewController.m in Sources */,
 				CA15777D200C4BC7005641FC /* KGRoomTextView.m in Sources */,
@@ -872,6 +887,7 @@
 				CAF4C5132009E88E0078E6FA /* KGAddRoomTableViewCell.m in Sources */,
 				CA8A38471FE9048D0094BE19 /* KGWaitViewController.m in Sources */,
 				CAFF36C71FEB8DE300782BFF /* KGDetaialTableViewCell.m in Sources */,
+				CA3D9F812010AAE400E196FC /* KGAddOrderViewController.m in Sources */,
 				CA8A38431FE9029C0094BE19 /* KGOrderListViewController.m in Sources */,
 				CA8A38501FE914C90094BE19 /* KGMineTableViewCell.m in Sources */,
 				CA43ED012007515A002C5436 /* GDataXMLNode.m in Sources */,
