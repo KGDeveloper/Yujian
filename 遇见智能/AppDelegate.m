@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "KGTabBarViewController.h"
 #import "KGLoginViewController.h"
+#import "KGAddOrderViewController.h"
 
 @interface AppDelegate ()
 
@@ -21,7 +22,7 @@
     
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:[[KGLoginViewController alloc]init]];
+    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:[[KGAddOrderViewController alloc]init]];
     [self.window makeKeyAndVisible];
 
     return YES;

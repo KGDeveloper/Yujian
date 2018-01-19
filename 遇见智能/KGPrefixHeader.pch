@@ -32,6 +32,7 @@
 #import "KGRoomTextField.h"
 #import "KGPriceTextField.h"
 #import "KGCustomLabel.h"
+#import "KGHotel+RoomType.h"
 
 #pragma mark -<-<-<-<-<-<-<-<-自定义头文件导入区域------------------
 
