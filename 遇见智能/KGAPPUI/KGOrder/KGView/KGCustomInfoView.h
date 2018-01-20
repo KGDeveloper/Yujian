@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol KGCustomInfoViewDelegate <NSObject>
+
+- (void)sendUsername:(NSString *)userName userPhone:(NSString *)userPhone;
+
+@end
+
 @interface KGCustomInfoView : UIView
+
+@property (nonatomic,weak) id<KGCustomInfoViewDelegate>myDelegate;
 
 @end

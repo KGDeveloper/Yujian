@@ -13,7 +13,7 @@
 #import "KGDayPickView.h"
 #import "KGCustomInfoView.h"
 
-@interface KGAddOrderViewController ()<KGHotel_RoomTypeDelegate,KGDayPickViewDelegate>{
+@interface KGAddOrderViewController ()<KGHotel_RoomTypeDelegate,KGDayPickViewDelegate,KGCustomInfoViewDelegate>{
     NSInteger navHight;
 }
 
@@ -45,6 +45,7 @@
     
     self.view.backgroundColor = KGcolor(244, 246, 244, 1);
     [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
+    [self setUpRightNavButtonItmeTitle:@"提交" icon:nil];
     
     _hotelArr = [NSMutableArray array];
     _roomArr = [NSMutableArray array];
@@ -61,6 +62,10 @@
     [self initUserLabel];
     [self initPickView];
     [self initCustomInfo];
+    
+}
+
+- (void)rightBarItmeClick:(UIButton *)sender{
     
 }
 
@@ -304,11 +309,17 @@
 - (void)initCustomInfo{
     _customInfo = [[KGCustomInfoView alloc]initWithFrame:self.view.frame];
     _customInfo.hidden = YES;
+    _customInfo.myDelegate = self;
     [self.view addSubview:_customInfo];
 }
 
 - (void)customNameBtu:(UIButton *)sender{
     _customInfo.hidden = NO;
+}
+
+- (void)sendUsername:(NSString *)userName userPhone:(NSString *)userPhone{
+    _customName.text = userName;
+    _customPhone.text = userPhone;
 }
 
 

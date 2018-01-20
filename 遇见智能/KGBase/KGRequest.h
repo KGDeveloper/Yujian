@@ -146,9 +146,30 @@ typedef void (^KGRequestFail)(NSString *error);
  @param fail 失败返回
  */
 - (void)changeHotelRoomWithDictionary:(NSMutableDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 酒店房型
+
+ @param hotelId 酒店id
+ @param succ 成功返回
+ @param fail 失败返回
+ */
 - (void)hotelOrderList:(NSString *)hotelId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 查询所有酒店接口
 
+ @param userId 商家id
+ @param succ 成功返回
+ @param fail 失败返回
+ */
+- (void)allHodel:(NSString *)userId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 查询酒店所有房型
 
+ @param hotelId 酒店id
+ @param succ 成功返回
+ @param fail 失败返回
+ */
+- (void)hotelAllRoomType:(NSString *)hotelId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
 
 
 
