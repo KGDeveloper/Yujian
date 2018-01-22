@@ -93,7 +93,13 @@
             [_myDelegate sendUsername:_username.text userPhone:_userPhone.text];
         }
         self.hidden = YES;
+    }else{
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text = @"请输入用户信息";
+        hud.minShowTime = 2;
     }
+    [MBProgressHUD hideHUDForView:self animated:YES];
 }
 
 - (void)cancelBtuClick:(UIButton *)sender{

@@ -13,39 +13,51 @@
 #import "KGDayPickView.h"
 #import "KGCustomInfoView.h"
 
-@interface KGAddOrderViewController ()<KGHotel_RoomTypeDelegate,KGDayPickViewDelegate,KGCustomInfoViewDelegate>{
+@interface KGAddOrderViewController ()<KGHotel_RoomTypeDelegate,KGDayPickViewDelegate,KGCustomInfoViewDelegate,UITextFieldDelegate>{
     NSInteger navHight;
 }
 
-@property (nonatomic,strong) UILabel *hotelName;
-@property (nonatomic,strong) UILabel *roomType;
-@property (nonatomic,strong) UILabel *intoTime;
-@property (nonatomic,strong) UILabel *outTime;
-@property (nonatomic,strong) UILabel *waitTime;
+@property (nonatomic,strong) UILabel *hotelName;//显示酒店名称的label
+@property (nonatomic,strong) UILabel *roomType;//显示房型的label
+@property (nonatomic,strong) UILabel *intoTime;//显示入住时间的label
+@property (nonatomic,strong) UILabel *outTime;//显示退房时间的label
+@property (nonatomic,strong) UILabel *waitTime;//住几天label
 
-@property (nonatomic,strong) UILabel *customName;
-@property (nonatomic,strong) UILabel *customPhone;
+@property (nonatomic,strong) UILabel *customName;//显示用户名的label
+@property (nonatomic,strong) UILabel *customPhone;//显示用户联系方式的label
 
-@property (nonatomic,strong) KGHotel_RoomType *myPickView;
-@property (nonatomic,strong) KGDayPickView *dayPickView;
-@property (nonatomic,strong) KGCustomInfoView *customInfo;
+@property (nonatomic,strong) UITextField *priceText;//设置用户需要提交的押金金额
 
-@property (nonatomic,copy) NSString *hotelIdStr;
-@property (nonatomic,copy) NSString *hotelNameStr;
-@property (nonatomic,copy) NSString *roomTypeStr;
-@property (nonatomic,strong) NSMutableArray *hotelArr;
-@property (nonatomic,strong) NSMutableArray *roomArr;
+@property (nonatomic,strong) KGHotel_RoomType *myPickView;//选择酒店名称和房型的选择器
+@property (nonatomic,strong) KGDayPickView *dayPickView;//选择时间的时间选择器
+@property (nonatomic,strong) KGCustomInfoView *customInfo;//填写订单的时候用户信息填写页面
+
+@property (nonatomic,copy) NSString *hotelIdStr;//酒店id
+@property (nonatomic,copy) NSString *hotelNameStr;//酒店名称
+@property (nonatomic,copy) NSString *roomTypeStr;//房型
+@property (nonatomic,strong) NSMutableArray *hotelArr;//保存酒店的数组
+@property (nonatomic,strong) NSMutableArray *roomArr;//保存房型的数组
 
 @end
 
 @implementation KGAddOrderViewController
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.tabBarController.tabBar.hidden = NO;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = YES;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.view.backgroundColor = KGcolor(244, 246, 244, 1);
     [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
-    [self setUpRightNavButtonItmeTitle:@"提交" icon:nil];
+    [self setUpRightNavButtonItmeTitle:@"提示" icon:nil];
     
     _hotelArr = [NSMutableArray array];
     _roomArr = [NSMutableArray array];
@@ -60,13 +72,127 @@
     [self initRoomTypeLabel];
     [self initTimeLabel];
     [self initUserLabel];
+    [self setRoomPrice];
     [self initPickView];
     [self initCustomInfo];
     
 }
 
+- (void)setRoomPrice{
+    KGCustomLabel *price = [[KGCustomLabel alloc]initWithFrame:CGRectMake(0, navHight + 580,100, 60)];
+    price.text = @"设置押金";
+    price.backgroundColor = [UIColor whiteColor];
+    price.textColor = [UIColor blackColor];
+    price.textAlignment = NSTextAlignmentLeft;
+    price.wordSize = UIEdgeInsetsMake(0, 20, 0, 0);
+    [self.view addSubview:price];
+    
+    _priceText = [[UITextField alloc]initWithFrame:CGRectMake(100, navHight + 580,KGscreenWidth - 100, 60)];
+    _priceText.delegate = self;
+    _priceText.placeholder = @"请设置押金金额,注:不填视为不需要押金";
+    _priceText.font = KGFont(15);
+    _priceText.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_priceText];
+    
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    if ([self deptNumInputShouldNumber:textField.text] == YES) {
+        return YES;
+    }else{
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text = @"请输入数字";
+        hud.minShowTime = 2;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        return NO;
+    }
+}
+
+#pragma mark -判断输入是否是数字-
+- (BOOL) deptNumInputShouldNumber:(NSString *)str
+{
+    if (str.length == 0) {
+        return NO;
+    }
+    NSString *regex = @"[0-9]*";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
+    if ([pred evaluateWithObject:str]) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)rightBarItmeClick:(UIButton *)sender{
     
+    BOOL writeMsg = NO;
+    if (_hotelName.text.length > 0) {
+        writeMsg = YES;
+    }else{
+        writeMsg = NO;
+    }
+    
+    if (_roomType.text.length > 0) {
+        writeMsg = YES;
+    }else{
+        writeMsg = NO;
+    }
+    
+    if (_intoTime.text.length > 0) {
+        writeMsg = YES;
+    }else{
+        writeMsg = NO;
+    }
+    
+    if (_outTime.text.length > 0) {
+        writeMsg = YES;
+    }else{
+        writeMsg = NO;
+    }
+    
+    if (_waitTime.text.length > 0) {
+        writeMsg = YES;
+    }else{
+        writeMsg = NO;
+    }
+    
+    if (_customName.text.length > 0) {
+        writeMsg = YES;
+    }else{
+        writeMsg = NO;
+    }
+    
+    if (_customPhone.text.length > 0) {
+        writeMsg = YES;
+    }else{
+        writeMsg = NO;
+    }
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    if (writeMsg == YES) {
+        if ([_priceText.text isEqualToString:@"请设置押金金额,注:不填视为不需要押金"]) {
+            [parameters setObject:@"0" forKey:@"roomPirce"];
+        }else{
+            [parameters setObject:_priceText.text forKey:@"roomPirce"];
+        }
+        [parameters setObject:_hotelIdStr forKey:@"hotelId"];
+        [parameters setObject:_roomTypeStr forKey:@"roomType"];
+        [parameters setObject:_intoTime.text forKey:@"intoTime"];
+        [parameters setObject:_outTime.text forKey:@"outTime"];
+        [parameters setObject:_customName.text forKey:@"customName"];
+        [parameters setObject:_customPhone.text forKey:@"customPhone"];
+        [parameters setObject:_waitTime.text forKey:@"waitTime"];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }else{
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text = @"请填写完整的订单信息";
+        hud.minShowTime = 2;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }
 }
 
 - (void)setDataArr{
@@ -87,6 +213,7 @@
 
 - (void)sendHotelModelToView:(KGOrderHotellModel *)model{
     _hotelNameStr = model.hotelName;
+    _hotelIdStr = model.hotelId;
 }
 
 - (void)sendRoomModelToView:(KGRoomTypeModel *)model{
@@ -322,6 +449,9 @@
     _customPhone.text = userPhone;
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [_priceText resignFirstResponder];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
