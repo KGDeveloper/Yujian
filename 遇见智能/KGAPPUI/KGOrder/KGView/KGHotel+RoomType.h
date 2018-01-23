@@ -12,14 +12,15 @@
 
 @protocol KGHotel_RoomTypeDelegate <NSObject>
 
-- (void)sendRoomModelToView:(KGRoomTypeModel *)model;
-- (void)sendHotelModelToView:(KGOrderHotellModel *)model;
+- (void)sendRoomModelToView:(NSString *)hotelName hotelId:(NSString *)hotelId;
+- (void)sendHotelModelToView:(NSString *)roomType;
 
 @end
 
 @interface KGHotel_RoomType : UIView
 
 @property (nonatomic,assign) BOOL hotelOrRoomType;
+@property (nonatomic,strong) UIPickerView *mypick;
 @property (nonatomic,weak) id<KGHotel_RoomTypeDelegate>myDelegate;
 
 - (void)sendArrayToView:(NSMutableArray *)arr;

@@ -27,6 +27,11 @@
 #define KGDeleteHotelRoom [URL_ENTRY stringByAppendingString:@"/deleteHotelRoom"]//删除房间
 #define KGChangeHotelDetail [URL_ENTRY stringByAppendingString:@"/changeHotelDetail"]//修改酒店信息
 #define KGUpdateHotelRoom [URL_ENTRY stringByAppendingString:@"/updateHotelRoom"]//修改酒店房间信息
+#define KGAllHotel [URL_ENTRY stringByAppendingString:@"/allHotel"]//查询酒店所有房间名称和id
+#define KGHotelAllRoomType [URL_ENTRY stringByAppendingString:@"/hotelAllRoomType"]//查询酒店所有房型
+#define KGAddOrder [URL_ENTRY stringByAppendingString:@"/addOrder"]//添加订单
+#define KGHotelOperateOrder [URL_ENTRY stringByAppendingString:@"/hotelOperateOrder"]//修改订单状态
+#define KGHotelQueryOrder [URL_ENTRY stringByAppendingString:@"/hotelQueryOrder"]//所有订单
 
 
 #endif /* KGWebsites_h */

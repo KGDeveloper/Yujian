@@ -25,6 +25,11 @@
 
 @implementation KGRoomStarViewController
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [_listTableView.mj_header beginRefreshing];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -44,9 +49,33 @@
     _listTableView.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
     _listTableView.delegate = self;
     _listTableView.dataSource = self;
+    __weak typeof(self) MySelf = self;
+    _listTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        page = 0;
+        [MySelf.dataArr removeAllObjects];
+        [MySelf.listTableView.mj_header beginRefreshing];
+        [MySelf show];
+        [MySelf setDataArray];
+    }];
+    
+    _listTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        page ++;
+        [MySelf.listTableView.mj_footer beginRefreshing];
+        [MySelf show];
+        [MySelf setDataArray];
+    }];
+    
     [self.view addSubview:_listTableView];
     [self setDataArray];
     [self setDetaialView];
+}
+
+- (void)show{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
+- (void)hide{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)setDataArray{
@@ -65,6 +94,9 @@
                     [_dataArr addObject:model];
                 }
             }
+            [mySelf hide];
+            [mySelf.listTableView.mj_header endRefreshing];
+            [mySelf.listTableView.mj_footer endRefreshing];
             [_listTableView reloadData];
         }
     } fail:^(NSString *error) {

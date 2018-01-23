@@ -11,7 +11,10 @@
 #import "KGAddRoomTypeViewController.h"
 #import "KGRoomModel.h"
 
-@interface KGDetaialViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface KGDetaialViewController ()<UITableViewDelegate,UITableViewDataSource>{
+    NSInteger page;
+    NSInteger pageSize;
+}
 @property (strong, nonatomic) UITableView *listTableView;
 @property (nonatomic,strong) UIButton *addHotell;
 @property (nonatomic,strong) NSMutableArray *dataArr;
@@ -20,11 +23,19 @@
 
 @implementation KGDetaialViewController
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [_listTableView.mj_header beginRefreshing];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = @"房间信息";
     
+    page = 0;
+    pageSize = 10;
+    _dataArr = [NSMutableArray array];
     [self setDataArray];
 
     if (KGDevice_Is_iPhoneX == YES) {
@@ -37,20 +48,45 @@
     _listTableView.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
     _listTableView.delegate = self;
     _listTableView.dataSource = self;
+    __weak typeof(self) MySelf = self;
+    _listTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        page = 0;
+        [MySelf.dataArr removeAllObjects];
+        [MySelf.listTableView.mj_header beginRefreshing];
+        [MySelf show];
+        [MySelf setDataArray];
+    }];
+    
+    _listTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        page ++;
+        [MySelf.listTableView.mj_footer beginRefreshing];
+        [MySelf show];
+        [MySelf setDataArray];
+    }];
     [self.view addSubview:_listTableView];
     [self initAddHotellBut];
 }
 
+- (void)show{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
+- (void)hide{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
 - (void)setDataArray{
-    _dataArr = [NSMutableArray array];
     __weak typeof(self) weakSelf = self;
-    [[KGRequest sharedInstance] roomHotellId:_hotellId page:@"0" pageSize:@"10" succ:^(NSString *msg, id data) {
+    [[KGRequest sharedInstance] roomHotellId:_hotellId page:[NSString stringWithFormat:@"%ld",(long)page] pageSize:[NSString stringWithFormat:@"%ld",(long)pageSize] succ:^(NSString *msg, id data) {
         NSArray *dataArray = data;
         for (int i = 0; i < dataArray.count; i++) {
             NSDictionary *dic = dataArray[i];
             KGRoomModel *model = [[KGRoomModel alloc]initWithDictionary:dic];
             [weakSelf.dataArr addObject:model];
         }
+        [weakSelf hide];
+        [weakSelf.listTableView.mj_header endRefreshing];
+        [weakSelf.listTableView.mj_footer endRefreshing];
         [weakSelf.listTableView reloadData];
     } fail:^(NSString *error) {
         

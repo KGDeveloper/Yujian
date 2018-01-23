@@ -147,14 +147,6 @@ typedef void (^KGRequestFail)(NSString *error);
  */
 - (void)changeHotelRoomWithDictionary:(NSMutableDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
 /**
- 酒店房型
-
- @param hotelId 酒店id
- @param succ 成功返回
- @param fail 失败返回
- */
-- (void)hotelOrderList:(NSString *)hotelId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
-/**
  查询所有酒店接口
 
  @param userId 商家id
@@ -170,15 +162,32 @@ typedef void (^KGRequestFail)(NSString *error);
  @param fail 失败返回
  */
 - (void)hotelAllRoomType:(NSString *)hotelId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 添加订单接口
 
+ @param parametes 订单信息
+ @param succ 成功返回
+ @param fail 失败返回
+ */
+- (void)addOrderWithDictionary:(NSDictionary *)parametes succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 确认订单
 
+ @param hotelCheckStatus 状态
+ @param orderId 订单号
+ @param succ 成功返回
+ @param fail 失败返回
+ */
+- (void)changeOrderStatushotelCheckStatus:(NSString *)hotelCheckStatus orderId:(NSString *)orderId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 查询所有订单接口
 
-
-
-
-
-
-
+ @param userId 商家id
+ @param queryType 订单类型（退房|订房）
+ @param succ 成功返回
+ @param fail 失败返回
+ */
+- (void)hotelAllOrder:(NSString *)userId queryType:(NSString *)queryType succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
 
 
 @end

@@ -11,7 +11,10 @@
 #import "KGOrderDetaialViewController.h"
 #import "KGAddOrderViewController.h"
 
-@interface KGOrderListViewController ()<KGtableviewDelegate>
+@interface KGOrderListViewController ()<KGtableviewDelegate>{
+    NSInteger page;
+    NSInteger pageSize;
+}
 
 @property (nonatomic,strong) KGTableView *listView;
 
@@ -24,7 +27,9 @@
 @end
 
 @implementation KGOrderListViewController
-
+/*
+ *****************订房页面*****************
+ */
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = KGOrangeColor;
@@ -32,11 +37,12 @@
     _waitArr = [NSMutableArray array];
     _finishArr = [NSMutableArray array];
     _allArr = [NSMutableArray array];
-    
+    page = 0;
+    pageSize = 10;
+    [self setDataArr];
     [self.view addSubview:[self setFinishOrWait]];
     [self setTableView];
     [self initAddHotellBut];
-    
     
 }
 
@@ -57,10 +63,13 @@
 
 
 - (void)setDataArr{
-    
-    
-    
+    [[KGRequest sharedInstance] hotelAllOrder:[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"] queryType:@"订房" succ:^(NSString *msg, id data) {
+        
+    } fail:^(NSString *error) {
+        
+    }];
 }
+
 
 #pragma mark -导航栏订房退房标签-
 - (UISegmentedControl *)setFinishOrWait{
@@ -116,8 +125,33 @@
         _listView = [[KGTableView alloc]initWithFrame:CGRectMake(0, 94, KGscreenWidth, KGscreenHeight - 94 - 49)];
     }
     _listView.Mydelegate = self;
+    __weak typeof(self) MySelf = self;
+    _listView.listView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        page = 0;
+        [MySelf.waitArr removeAllObjects];
+        [MySelf.finishArr removeAllObjects];
+        [MySelf.allArr removeAllObjects];
+        [MySelf.listView.listView.mj_header beginRefreshing];
+        [MySelf show];
+        [MySelf setDataArr];
+    }];
+    
+    _listView.listView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        page ++;
+        [MySelf.listView.listView.mj_footer beginRefreshing];
+        [MySelf show];
+        [MySelf setDataArr];
+    }];
     _listView.titleArr = [NSMutableArray arrayWithObjects:@"一",nil];
     [self.view addSubview:_listView];
+}
+
+- (void)show{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
+- (void)hide{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)pushToDetaialController{

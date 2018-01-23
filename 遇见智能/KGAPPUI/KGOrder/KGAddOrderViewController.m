@@ -57,7 +57,7 @@
     
     self.view.backgroundColor = KGcolor(244, 246, 244, 1);
     [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
-    [self setUpRightNavButtonItmeTitle:@"提示" icon:nil];
+    [self setUpRightNavButtonItmeTitle:@"提交" icon:nil];
     
     _hotelArr = [NSMutableArray array];
     _roomArr = [NSMutableArray array];
@@ -68,33 +68,34 @@
         navHight = 66;
     }
     
+    [self setHotellDataArr];
     [self initHotelLabel];
     [self initRoomTypeLabel];
     [self initTimeLabel];
     [self initUserLabel];
-    [self setRoomPrice];
+//    [self setRoomPrice];
     [self initPickView];
     [self initCustomInfo];
     
 }
 
-- (void)setRoomPrice{
-    KGCustomLabel *price = [[KGCustomLabel alloc]initWithFrame:CGRectMake(0, navHight + 580,100, 60)];
-    price.text = @"设置押金";
-    price.backgroundColor = [UIColor whiteColor];
-    price.textColor = [UIColor blackColor];
-    price.textAlignment = NSTextAlignmentLeft;
-    price.wordSize = UIEdgeInsetsMake(0, 20, 0, 0);
-    [self.view addSubview:price];
-    
-    _priceText = [[UITextField alloc]initWithFrame:CGRectMake(100, navHight + 580,KGscreenWidth - 100, 60)];
-    _priceText.delegate = self;
-    _priceText.placeholder = @"请设置押金金额,注:不填视为不需要押金";
-    _priceText.font = KGFont(15);
-    _priceText.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_priceText];
-    
-}
+//- (void)setRoomPrice{
+//    KGCustomLabel *price = [[KGCustomLabel alloc]initWithFrame:CGRectMake(0, navHight + 580,100, 60)];
+//    price.text = @"设置押金";
+//    price.backgroundColor = [UIColor whiteColor];
+//    price.textColor = [UIColor blackColor];
+//    price.textAlignment = NSTextAlignmentLeft;
+//    price.wordSize = UIEdgeInsetsMake(0, 20, 0, 0);
+//    [self.view addSubview:price];
+//
+//    _priceText = [[UITextField alloc]initWithFrame:CGRectMake(100, navHight + 580,KGscreenWidth - 100, 60)];
+//    _priceText.delegate = self;
+//    _priceText.placeholder = @"请设置押金金额,注:不填视为不需要押金";
+//    _priceText.font = KGFont(15);
+//    _priceText.backgroundColor = [UIColor whiteColor];
+//    [self.view addSubview:_priceText];
+//
+//}
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     if ([self deptNumInputShouldNumber:textField.text] == YES) {
@@ -171,20 +172,23 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     
     if (writeMsg == YES) {
-        if ([_priceText.text isEqualToString:@"请设置押金金额,注:不填视为不需要押金"]) {
-            [parameters setObject:@"0" forKey:@"roomPirce"];
-        }else{
-            [parameters setObject:_priceText.text forKey:@"roomPirce"];
-        }
+    
         [parameters setObject:_hotelIdStr forKey:@"hotelId"];
         [parameters setObject:_roomTypeStr forKey:@"roomType"];
         [parameters setObject:_intoTime.text forKey:@"intoTime"];
         [parameters setObject:_outTime.text forKey:@"outTime"];
         [parameters setObject:_customName.text forKey:@"customName"];
         [parameters setObject:_customPhone.text forKey:@"customPhone"];
-        [parameters setObject:_waitTime.text forKey:@"waitTime"];
+        NSString *waitStr = [[_waitTime.text componentsSeparatedByString:@"晚"] firstObject];
+        [parameters setObject:waitStr forKey:@"waitTime"];
+        __weak typeof(self) MySelf = self;
+        [[KGRequest sharedInstance] addOrderWithDictionary:parameters succ:^(NSString *msg, id data) {
+            [MySelf alertViewControllerTitle:@"提示" message:@"添加成功" name:@"确认" type:0 preferredStyle:1];
+        } fail:^(NSString *error) {
+            [MySelf alertViewControllerTitle:@"提示" message:error name:@"确认" type:0 preferredStyle:1];
+        }];
         
-        [self.navigationController popViewControllerAnimated:YES];
+//        [self.navigationController popViewControllerAnimated:YES];
         
     }else{
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -193,10 +197,6 @@
         hud.minShowTime = 2;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
-}
-
-- (void)setDataArr{
-    
 }
 
 - (void)initPickView{
@@ -211,13 +211,31 @@
     [self.view addSubview:_dayPickView];
 }
 
-- (void)sendHotelModelToView:(KGOrderHotellModel *)model{
-    _hotelNameStr = model.hotelName;
-    _hotelIdStr = model.hotelId;
+- (void)sendRoomModelToView:(NSString *)hotelName hotelId:(NSString *)hotelId{
+    _hotelIdStr = hotelId;
+    _hotelName.text = hotelName;
 }
 
-- (void)sendRoomModelToView:(KGRoomTypeModel *)model{
-    _roomTypeStr = model.roomType;
+- (void)setRoomTypeDataArr{
+    __weak typeof(self) MySelf = self;
+    [[KGRequest sharedInstance] hotelAllRoomType:_hotelIdStr succ:^(NSString *msg, id data) {
+        NSArray *dataArr = data;
+        for (int i = 0; i < dataArr.count; i++) {
+
+            NSDictionary *dic = dataArr[i];
+
+            KGRoomTypeModel *model = [[KGRoomTypeModel alloc]initWithDictionary:dic];
+            [MySelf.roomArr addObject:model];
+        }
+        [MBProgressHUD hideHUDForView:MySelf.view animated:YES];
+    } fail:^(NSString *error) {
+        
+    }];
+}
+
+- (void)sendHotelModelToView:(NSString *)roomType{
+    _roomTypeStr = roomType;
+    _roomType.text = roomType;
 }
 
 - (void)initHotelLabel{
@@ -254,6 +272,8 @@
 
 - (void)hotelClick:(UIButton *)sender{
     _myPickView.hidden = NO;
+    _myPickView.hotelOrRoomType = YES;
+    [_myPickView sendArrayToView:_hotelArr];
 }
 
 - (void)initRoomTypeLabel{
@@ -282,7 +302,11 @@
 }
 
 - (void)roomClick:(UIButton *)sender{
+    [self setRoomTypeDataArr];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _myPickView.hidden = NO;
+    _myPickView.hotelOrRoomType = NO;
+    [_myPickView sendArrayToView:_roomArr];
 }
 
 - (void)initTimeLabel{
@@ -451,6 +475,20 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [_priceText resignFirstResponder];
+}
+
+- (void)setHotellDataArr{
+    __weak typeof(self) MySelf = self;
+    [[KGRequest sharedInstance] allHodel:[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"] succ:^(NSString *msg, id data) {
+        NSArray *arr = data;
+        for (int i = 0; i < arr.count ; i++) {
+            NSDictionary *dic = arr[i];
+            KGOrderHotellModel *model = [[KGOrderHotellModel alloc]initWithDictionary:dic];
+            [MySelf.hotelArr addObject:model];
+        }
+    } fail:^(NSString *error) {
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

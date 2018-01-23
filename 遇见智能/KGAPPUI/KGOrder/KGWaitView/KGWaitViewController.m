@@ -10,7 +10,10 @@
 #import "KGTableView.h"
 #import "KGOrderDetaialViewController.h"
 
-@interface KGWaitViewController ()<KGtableviewDelegate>
+@interface KGWaitViewController ()<KGtableviewDelegate>{
+    NSInteger page;
+    NSInteger pageSize;
+}
 
 @property (nonatomic,strong) KGTableView *listView;
 
@@ -24,6 +27,20 @@
 
 @implementation KGWaitViewController
 
+/*
+ 
+ 
+ *****************退房页面*****************
+ 
+ 
+ 
+ */
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [_listView.listView.mj_header beginRefreshing];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -32,6 +49,10 @@
     _waitArr = [NSMutableArray array];
     _finishArr = [NSMutableArray array];
     _allArr = [NSMutableArray array];
+    page = 0;
+    pageSize = 10;
+    
+    [self setDataArr];
     
     [self.view addSubview:[self setFinishOrWait]];
     
@@ -40,7 +61,11 @@
 }
 
 - (void)setDataArr{
-//    [[KGRequest sharedInstance] ]
+    [[KGRequest sharedInstance] hotelAllOrder:[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"] queryType:@"退房" succ:^(NSString *msg, id data) {
+        
+    } fail:^(NSString *error) {
+        
+    }];
 }
 
 #pragma mark -导航栏订房退房标签-
@@ -97,9 +122,35 @@
     }else{
         _listView = [[KGTableView alloc]initWithFrame:CGRectMake(0, 94, KGscreenWidth, KGscreenHeight - 94 - 49)];
     }
+    
+    __weak typeof(self) MySelf = self;
+    _listView.listView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        page = 0;
+        [MySelf.waitArr removeAllObjects];
+        [MySelf.finishArr removeAllObjects];
+        [MySelf.allArr removeAllObjects];
+        [MySelf.listView.listView.mj_header beginRefreshing];
+        [MySelf show];
+        [MySelf setDataArr];
+    }];
+    
+    _listView.listView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        page ++;
+        [MySelf.listView.listView.mj_footer beginRefreshing];
+        [MySelf show];
+        [MySelf setDataArr];
+    }];
     _listView.Mydelegate = self;
     _listView.titleArr = [NSMutableArray array];
     [self.view addSubview:_listView];
+}
+
+- (void)show{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
+- (void)hide{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)pushToDetaialController{

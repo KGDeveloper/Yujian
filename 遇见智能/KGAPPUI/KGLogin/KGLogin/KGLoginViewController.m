@@ -151,8 +151,9 @@
 
 #pragma mark -登录按钮点击事件-
 - (void)loginClick:(UIButton *)sender{
+    [self AFNetworkStatus];
     __weak typeof(self) weakSelf = self;
-    if ([self AFNetworkStatus] == YES) {
+    if (_trueOrfail == YES) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [[KGRequest sharedInstance] loginWithPhone:_userName.text passWord:_passWord.text succ:^(NSString *msg, id data) {
             if ([msg isEqualToString:@"登录成功"]) {
@@ -207,7 +208,7 @@
     }
 }
 
-- (BOOL)AFNetworkStatus{
+- (void)AFNetworkStatus{
     
     //1.创建网络监测者
     AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
@@ -235,7 +236,7 @@
 
     }] ;
     
-    return _trueOrfail;
+    [manager startMonitoring];
 }
 
 - (void)didReceiveMemoryWarning {

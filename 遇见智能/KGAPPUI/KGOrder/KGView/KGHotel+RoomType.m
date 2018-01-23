@@ -10,12 +10,10 @@
 
 @interface KGHotel_RoomType()<UIPickerViewDelegate,UIPickerViewDataSource>
 
-@property (nonatomic,strong) UIPickerView *mypick;
-@property (nonatomic,copy) NSString *hotellName;
+@property (nonatomic,copy) NSString *hotelName;
 @property (nonatomic,copy) NSString *hotelId;
 @property (nonatomic,strong) NSMutableArray *allArr;
-@property (nonatomic,strong) KGRoomTypeModel *roomType;
-@property (nonatomic,strong) KGOrderHotellModel *hotelModel;
+@property (nonatomic,copy) NSString *roomType;
 
 @end
 
@@ -25,6 +23,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _hotelOrRoomType = YES;
+        self.backgroundColor = [UIColor whiteColor];
         [self initPickView];
     }
     return self;
@@ -50,19 +49,20 @@
 #pragma mark -点击传值-
 - (void)finishClick:(UIButton *)sender{
     if (_hotelOrRoomType == YES) {
-        if ([_myDelegate respondsToSelector:@selector(sendHotelModelToView:)]) {
-            [_myDelegate sendHotelModelToView:_hotelModel];
+        if ([_myDelegate respondsToSelector:@selector(sendRoomModelToView:hotelId:)]) {
+            [_myDelegate sendRoomModelToView:_hotelName hotelId:_hotelId];
         }
     }else{
-        if ([_myDelegate respondsToSelector:@selector(sendRoomModelToView:)]) {
-            [_myDelegate sendRoomModelToView:_roomType];
+        if ([_myDelegate respondsToSelector:@selector(sendHotelModelToView:)]) {
+            [_myDelegate sendHotelModelToView:_roomType];
         }
     }
     self.hidden = YES;
 }
 
 - (void)sendArrayToView:(NSMutableArray *)arr{
-    _allArr = [NSMutableArray arrayWithArray:arr];
+    _allArr = [NSMutableArray array];
+    _allArr = arr;
     [_mypick reloadAllComponents];
 }
 
@@ -75,14 +75,24 @@
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    return _allArr[row];
+    if (_hotelOrRoomType == YES) {
+        KGOrderHotellModel *model = _allArr[row];
+        return model.hotelName;
+    }else{
+        KGRoomTypeModel *model = _allArr[row];
+        return model.roomType;
+    }
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    
     if (_hotelOrRoomType == YES) {
-        _hotelModel = _allArr[row];
+        KGOrderHotellModel * model = _allArr[row];
+        _hotelName = model.hotelName;
+        _hotelId = model.hotelId;
     }else{
-        _roomType = _allArr[row];
+        KGRoomTypeModel *model = _allArr[row];
+        _roomType = model.roomType;
     }
 }
 

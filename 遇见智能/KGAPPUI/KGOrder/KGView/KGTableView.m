@@ -32,6 +32,7 @@
     _listView.tableFooterView = [UIView new];
     _listView.rowHeight = 160;
     _listView.backgroundColor = KGcolor(244, 246, 244, 1);
+    
     return _listView;
 }
 
@@ -57,11 +58,20 @@
 }
 
 - (void)sendOrderIdToViewController:(NSString *)orderId type:(NSString *)type{
+    NSString *orderType = @"";
     if ([type isEqualToString:@"refuse"]) {
         //拒绝
+        orderType = @"拒绝";
     }else{
         //同意
+        orderType = @"同意";
     }
+    [[KGRequest sharedInstance] changeOrderStatushotelCheckStatus:orderType orderId:orderId succ:^(NSString *msg, id data) {
+        
+    } fail:^(NSString *error) {
+        
+    }];
+    
 }
 
 

@@ -111,6 +111,7 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
+#pragma mark -添加酒店-
 - (void)addHotellMessageWithDictionary:(NSDictionary *)dci succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     [[self manger] POST:KGAddHotel parameters:dci success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
@@ -123,6 +124,7 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
+#pragma mark -酒店首页-
 - (void)homeUserPhone:(NSString *)phoneNo page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:phoneNo forKey:@"userId"];
@@ -141,6 +143,7 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
+#pragma mark -酒店房间-
 - (void)roomHotellId:(NSString *)hotelId page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:hotelId forKey:@"hotelId"];
@@ -161,6 +164,7 @@ static KGRequest *sharedObj = nil;
     
 }
 
+#pragma mark -添加房间-
 - (void)addRoomWithDictionary:(NSMutableDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     [[self manger] POST:KGAddHotelRoom parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -175,6 +179,7 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
+#pragma mark -房态-
 - (void)roomStareHotellId:(NSString *)hotelId page:(NSString *)page pageSize:(NSString *)pageSize succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:hotelId forKey:@"hotelId"];
@@ -196,6 +201,7 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
+#pragma mark -删除酒店-
 - (void)deleteHotell:(NSString *)hotellId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:hotellId forKey:@"hotelId"];
@@ -215,6 +221,7 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
+#pragma mark -删除房间-
 - (void)deleteRoom:(NSString *)roomId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:roomId forKey:@"roomId"];
@@ -234,6 +241,7 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
+#pragma mark -修改酒店信息-
 - (void)changeHotelWithDictionary:(NSDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     [[self manger] POST:KGChangeHotelDetail parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -250,6 +258,7 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
+#pragma mark -修改酒店房间信息-
 - (void)changeHotelRoomWithDictionary:(NSMutableDictionary *)dic succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     
     [[self manger] POST:KGUpdateHotelRoom parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -268,15 +277,96 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
-- (void)hotelOrderList:(NSString *)hotelId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
-    
+#pragma mark -查询所有酒店名称和id-
+- (void)allHodel:(NSString *)userId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    [[self manger] POST:KGAllHotel parameters:@{@"userId":userId} progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject[@"data"]);
+        }else{
+            fail(@"查询失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
+    }];
 }
 
+#pragma mark -查询酒店所有房型-
+- (void)hotelAllRoomType:(NSString *)hotelId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    
+    [[self manger] POST:KGHotelAllRoomType parameters:@{@"hotelId":hotelId} progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject[@"data"]);
+        }else{
+            fail(@"失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
+    }];
+}
 
+#pragma mark -添加订单-
+- (void)addOrderWithDictionary:(NSDictionary *)parametes succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    [[self manger] POST:KGAddOrder parameters:parametes progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject);
+        }else if ([responseObject[@"msg"] isEqualToString:@"该类型没有空房"]){
+            fail(@"该类型没有房间");
+        }else{
+            fail(@"参数错误");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
+    }];
+}
 
+#pragma mark -确认订单-
+- (void)changeOrderStatushotelCheckStatus:(NSString *)hotelCheckStatus orderId:(NSString *)orderId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:orderId forKey:@"orderId"];
+    [dic setObject:hotelCheckStatus forKey:@"hotelCheckStatus"];
+    
+    [[self manger] POST:KGHotelQueryOrder parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
 
-
-
+#pragma mark -查询所有订单接口-
+- (void)hotelAllOrder:(NSString *)userId queryType:(NSString *)queryType succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:userId forKey:@"userId"];
+    [dic setObject:queryType forKey:@"queryType"];
+    
+    [[self manger] POST:KGHotelQueryOrder parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject[@"data"]);
+        }else{
+            fail(@"失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
+    }];
+}
 
 
 

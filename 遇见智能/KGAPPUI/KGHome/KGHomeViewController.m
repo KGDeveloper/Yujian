@@ -28,6 +28,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
+    [_listView.mj_header beginRefreshing];
 }
 
 - (void)viewDidLoad {
@@ -46,6 +47,7 @@
 }
 
 - (void)setDataArr{
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     __weak typeof(self) weakSelf = self;
     [[KGRequest sharedInstance] homeUserPhone:[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"] page:[NSString stringWithFormat:@"%ld",(long)page] pageSize:[NSString stringWithFormat:@"%ld",(long)pageSize] succ:^(NSString *msg, id data) {
