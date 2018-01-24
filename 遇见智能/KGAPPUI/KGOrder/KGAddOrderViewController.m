@@ -126,6 +126,8 @@
 
 - (void)rightBarItmeClick:(UIButton *)sender{
     
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     BOOL writeMsg = NO;
     if (_hotelName.text.length > 0) {
         writeMsg = YES;
@@ -183,6 +185,7 @@
         [parameters setObject:waitStr forKey:@"waitTime"];
         __weak typeof(self) MySelf = self;
         [[KGRequest sharedInstance] addOrderWithDictionary:parameters succ:^(NSString *msg, id data) {
+//            [MBProgressHUD hideHUDForView:MySelf.view animated:YES];
             [MySelf alertViewControllerTitle:@"提示" message:@"添加成功" name:@"确认" type:0 preferredStyle:1];
         } fail:^(NSString *error) {
             [MySelf alertViewControllerTitle:@"提示" message:error name:@"确认" type:0 preferredStyle:1];

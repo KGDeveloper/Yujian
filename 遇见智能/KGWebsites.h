@@ -32,6 +32,6 @@
 #define KGAddOrder [URL_ENTRY stringByAppendingString:@"/addOrder"]//添加订单
 #define KGHotelOperateOrder [URL_ENTRY stringByAppendingString:@"/hotelOperateOrder"]//修改订单状态
 #define KGHotelQueryOrder [URL_ENTRY stringByAppendingString:@"/hotelQueryOrder"]//所有订单
-
+#define KGHotelQueryOrderDetail [URL_ENTRY stringByAppendingString:@"/hotelQueryOrderDetail"]//查看订单详情
 
 #endif /* KGWebsites_h */

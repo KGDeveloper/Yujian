@@ -7,6 +7,7 @@
 //
 
 #import "KGOrderDetaialViewController.h"
+#import "KGorderDetaialModel.h"
 
 @interface KGOrderDetaialViewController (){
     NSInteger navHight;
@@ -47,12 +48,25 @@
         navHight = 76;
     }
     
-    [self setTopLabelUI];
-    [self setCenterLabel];
-    [self setButotmLabel];
+    [self setData];
 }
 
-- (void)setTopLabelUI{
+- (void)setData{
+    __weak typeof(self) MySelf = self;
+    [[KGRequest sharedInstance] orderDetaial:_order succ:^(NSString *msg, id data) {
+        if ([msg isEqualToString:@"成功"]) {
+            NSDictionary *dic = data;
+            KGorderDetaialModel *model = [[KGorderDetaialModel alloc]initWithDictionary:dic];
+            [MySelf setTopLabelUI:model];
+            [MySelf setCenterLabel:model];
+            [MySelf setButotmLabel:model];
+        }
+    } fail:^(NSString *error) {
+        [self alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
+    }];
+}
+
+- (void)setTopLabelUI:(KGorderDetaialModel *)model{
     
     NSArray *topArr = @[@"订单号",@"订单状态"];
     //topLabel
@@ -74,20 +88,24 @@
     
     _orderId = [[UILabel alloc]initWithFrame:CGRectMake(120,navHight, KGscreenWidth - 120, 60)];
     _orderId.textColor = KGcolor(231, 99, 40, 1);
-    _orderId.text = @"20180118175020";
+    _orderId.text = model.orderNo;
     _orderId.backgroundColor = [UIColor whiteColor];
     _orderId.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:_orderId];
     
     _orderStar = [[UILabel alloc]initWithFrame:CGRectMake(120,navHight + 62, KGscreenWidth - 120, 60)];
-    _orderStar.text = @"已入住";
+    if ([model.orderStatus isEqualToString:@"1"]) {
+        _orderStar.text = @"已入住";
+    }else{
+        _orderStar.text = @"未入住";
+    }
     _orderStar.textColor = [UIColor blackColor];
     _orderStar.backgroundColor = [UIColor whiteColor];
     _orderStar.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:_orderStar];
 }
 
-- (void)setCenterLabel{
+- (void)setCenterLabel:(KGorderDetaialModel *)model{
     NSArray *centerArr = @[@"酒店名称",@"房型名称",@"房间号",@"入离时间",@"进店时间",@"订单渠道"];
     
     for (int i = 0; i < centerArr.count ; i++) {
@@ -107,42 +125,42 @@
     [self.view addSubview:centerLab];
     
     _hotelName = [[UILabel alloc]initWithFrame:CGRectMake(120, toplabel.frame.origin.y + toplabel.frame.size.height + 50 , KGscreenWidth - 120, 60)];
-    _hotelName.text = @"遇见青年旅社";
+    _hotelName.text = model.hotelName;
     _hotelName.textColor = [UIColor blackColor];
     _hotelName.backgroundColor = [UIColor whiteColor];
     _hotelName.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:_hotelName];
     
     _roomType = [[UILabel alloc]initWithFrame:CGRectMake(120, _hotelName.frame.origin.y + _hotelName.frame.size.height + 2 , KGscreenWidth - 120, 60)];
-    _roomType.text = @"女生六人床位";
+    _roomType.text = model.roomName;
     _roomType.textColor = [UIColor blackColor];
     _roomType.backgroundColor = [UIColor whiteColor];
     _roomType.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:_roomType];
     
     _roomNo = [[UILabel alloc]initWithFrame:CGRectMake(120, _roomType.frame.origin.y + _roomType.frame.size.height + 2 , KGscreenWidth - 120, 60)];
-    _roomNo.text = @"2002房间";
+    _roomNo.text = model.roomName;
     _roomNo.textColor = [UIColor blackColor];
     _roomNo.backgroundColor = [UIColor whiteColor];
     _roomNo.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:_roomNo];
     
     _intoTime = [[UILabel alloc]initWithFrame:CGRectMake(120, _roomNo.frame.origin.y + _roomNo.frame.size.height + 2 , KGscreenWidth - 120, 60)];
-    _intoTime.text = @"01-08至01-09,1晚";
+    _intoTime.text = [NSString stringWithFormat:@"入住时间:%@",model.orderTime];
     _intoTime.textColor = [UIColor blackColor];
     _intoTime.backgroundColor = [UIColor whiteColor];
     _intoTime.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:_intoTime];
     
     _customIntoTime = [[UILabel alloc]initWithFrame:CGRectMake(120, _intoTime.frame.origin.y + _intoTime.frame.size.height + 2 , KGscreenWidth - 120, 60)];
-    _customIntoTime.text = @"2017/01/08/13:35:24";
+    _customIntoTime.text = [NSString stringWithFormat:@"进店时间:%@",model.orderTime];
     _customIntoTime.textColor = [UIColor blackColor];
     _customIntoTime.backgroundColor = [UIColor whiteColor];
     _customIntoTime.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:_customIntoTime];
     
     _orderPath = [[UILabel alloc]initWithFrame:CGRectMake(120, _customIntoTime.frame.origin.y + _customIntoTime.frame.size.height + 2 , KGscreenWidth - 120, 60)];
-    _orderPath.text = @"美团网";
+    _orderPath.text = @"微信订单";
     _orderPath.textColor = [UIColor blackColor];
     _orderPath.backgroundColor = [UIColor whiteColor];
     _orderPath.textAlignment = NSTextAlignmentLeft;
@@ -150,7 +168,7 @@
     
 }
 
-- (void)setButotmLabel{
+- (void)setButotmLabel:(KGorderDetaialModel *)model{
     bottomLabel = [[KGCustomLabel alloc]initWithFrame:CGRectMake(0, centerLabel.frame.origin.y + centerLabel.frame.size.height + 50, 120, 60)];
     bottomLabel.text = @"房价总额";
     bottomLabel.textColor = [UIColor blackColor];
@@ -160,7 +178,7 @@
     [self.view addSubview:bottomLabel];
     
     _roomPirace = [[UILabel alloc]initWithFrame:CGRectMake(120, centerLabel.frame.origin.y + centerLabel.frame.size.height + 50,KGscreenWidth - 120, 60)];
-    _roomPirace.text = @"¥156.00  预付";
+    _roomPirace.text = [NSString stringWithFormat:@"¥%@  预付",model.orderPrice];
     _roomPirace.textColor = KGcolor(231, 99, 40, 1);
     _roomPirace.backgroundColor = [UIColor whiteColor];
     _roomPirace.textAlignment = NSTextAlignmentLeft;

@@ -22,13 +22,13 @@
 
 - (IBAction)shureClick:(UIButton *)sender {
     if ([_Mydelegate respondsToSelector:@selector(sendOrderIdToViewController:type:)]) {
-        [_Mydelegate sendOrderIdToViewController:self.orderLabel.text type:@"agree"];
+        [_Mydelegate sendOrderIdToViewController:self.orderId type:@"agree"];
     }
 }
 
 - (IBAction)cancelClick:(UIButton *)sender {
     if ([_Mydelegate respondsToSelector:@selector(sendOrderIdToViewController:type:)]) {
-        [_Mydelegate sendOrderIdToViewController:self.orderLabel.text type:@"refuse"];
+        [_Mydelegate sendOrderIdToViewController:self.orderId type:@"refuse"];
     }
 }
 

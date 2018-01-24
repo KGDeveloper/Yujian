@@ -188,6 +188,13 @@ typedef void (^KGRequestFail)(NSString *error);
  @param fail 失败返回
  */
 - (void)hotelAllOrder:(NSString *)userId queryType:(NSString *)queryType succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
+ 查询订单详情
 
+ @param orderId 订单id
+ @param succ 成功返回
+ @param fail 失败返回
+ */
+- (void)orderDetaial:(NSString *)orderId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
 
 @end

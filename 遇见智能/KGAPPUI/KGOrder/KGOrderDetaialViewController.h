@@ -10,4 +10,6 @@
 
 @interface KGOrderDetaialViewController : KGBaseViewController
 
+@property (nonatomic,copy) NSString *order;
+
 @end

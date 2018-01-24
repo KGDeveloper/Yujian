@@ -34,6 +34,8 @@
 		CA493D3E201198C40076A12F /* KGRoomTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CA493D3D201198C40076A12F /* KGRoomTypeModel.m */; };
 		CA493D412011C4540076A12F /* KGDayPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = CA493D402011C4540076A12F /* KGDayPickView.m */; };
 		CA493D442011D4A80076A12F /* KGCustomInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = CA493D432011D4A80076A12F /* KGCustomInfoView.m */; };
+		CA85F63220182FAD0031E25A /* KGOrderInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CA85F63120182FAD0031E25A /* KGOrderInfoModel.m */; };
+		CA85F63520188BD40031E25A /* KGorderDetaialModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CA85F63420188BD40031E25A /* KGorderDetaialModel.m */; };
 		CA8A37141FE8BDBA0094BE19 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8A37131FE8BDBA0094BE19 /* AppDelegate.m */; };
 		CA8A371D1FE8BDBA0094BE19 /* ____.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA8A371B1FE8BDBA0094BE19 /* ____.xcdatamodeld */; };
 		CA8A371F1FE8BDBA0094BE19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA8A371E1FE8BDBA0094BE19 /* Assets.xcassets */; };
@@ -143,6 +145,10 @@
 		CA493D402011C4540076A12F /* KGDayPickView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGDayPickView.m; sourceTree = "<group>"; };
 		CA493D422011D4A80076A12F /* KGCustomInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGCustomInfoView.h; sourceTree = "<group>"; };
 		CA493D432011D4A80076A12F /* KGCustomInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGCustomInfoView.m; sourceTree = "<group>"; };
+		CA85F63020182FAD0031E25A /* KGOrderInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGOrderInfoModel.h; sourceTree = "<group>"; };
+		CA85F63120182FAD0031E25A /* KGOrderInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGOrderInfoModel.m; sourceTree = "<group>"; };
+		CA85F63320188BD40031E25A /* KGorderDetaialModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGorderDetaialModel.h; sourceTree = "<group>"; };
+		CA85F63420188BD40031E25A /* KGorderDetaialModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGorderDetaialModel.m; sourceTree = "<group>"; };
 		CA8A370F1FE8BDBA0094BE19 /* 遇见智能.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "遇见智能.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA8A37121FE8BDBA0094BE19 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CA8A37131FE8BDBA0094BE19 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -325,6 +331,10 @@
 				CA493D3A201198B60076A12F /* KGOrderHotellModel.m */,
 				CA493D3C201198C40076A12F /* KGRoomTypeModel.h */,
 				CA493D3D201198C40076A12F /* KGRoomTypeModel.m */,
+				CA85F63020182FAD0031E25A /* KGOrderInfoModel.h */,
+				CA85F63120182FAD0031E25A /* KGOrderInfoModel.m */,
+				CA85F63320188BD40031E25A /* KGorderDetaialModel.h */,
+				CA85F63420188BD40031E25A /* KGorderDetaialModel.m */,
 			);
 			path = KGOrderModel;
 			sourceTree = "<group>";
@@ -887,6 +897,7 @@
 				CA8A385C1FE919D10094BE19 /* KGCustomerViewController.m in Sources */,
 				CA43ECFA20075151002C5436 /* MOFSPickerView.m in Sources */,
 				CA493D3B201198B60076A12F /* KGOrderHotellModel.m in Sources */,
+				CA85F63520188BD40031E25A /* KGorderDetaialModel.m in Sources */,
 				CA8A38651FE919EF0094BE19 /* KGPhoneViewController.m in Sources */,
 				CAFE624E1FEA16DF00C75537 /* KGRoomTextField.m in Sources */,
 				CAFF36C21FEB8BDA00782BFF /* KGDetaialViewController.m in Sources */,
@@ -904,6 +915,7 @@
 				CA19CAED2008917200310391 /* KGRoomViewController.m in Sources */,
 				CAD0CF4F2008B4DC000643AB /* KGRubbishViewController.m in Sources */,
 				CAFE62471FEA04D900C75537 /* KGAddHomeViewController.m in Sources */,
+				CA85F63220182FAD0031E25A /* KGOrderInfoModel.m in Sources */,
 				CA377DC0200DCA57000E6EDE /* KGRoomStarTableViewCell.m in Sources */,
 				CA43ECFC20075151002C5436 /* MOFSAddressPickerView.m in Sources */,
 				CA8A37331FE8BE6A0094BE19 /* KGRequest.m in Sources */,

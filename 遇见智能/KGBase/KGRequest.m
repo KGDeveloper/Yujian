@@ -322,7 +322,7 @@ static KGRequest *sharedObj = nil;
         }else if ([responseObject[@"msg"] isEqualToString:@"该类型没有空房"]){
             fail(@"该类型没有房间");
         }else{
-            fail(@"参数错误");
+            fail(@"添加失败");
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (error) {
@@ -338,12 +338,18 @@ static KGRequest *sharedObj = nil;
     [dic setObject:orderId forKey:@"orderId"];
     [dic setObject:hotelCheckStatus forKey:@"hotelCheckStatus"];
     
-    [[self manger] POST:KGHotelQueryOrder parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+    [[self manger] POST:KGHotelOperateOrder parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject);
+        }else{
+            fail(@"失败");
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        if (error) {
+            fail(@"访问服务器失败");
+        }
     }];
 }
 
@@ -368,7 +374,25 @@ static KGRequest *sharedObj = nil;
     }];
 }
 
-
+#pragma mark -查询订单详情接口-
+- (void)orderDetaial:(NSString *)orderId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:orderId forKey:@"orderId"];
+    
+    [[self manger] POST:KGHotelQueryOrderDetail parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
+            succ(@"成功",responseObject[@"data"]);
+        }else{
+            fail(@"查询失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"网络出错");
+        }
+    }];
+}
 
 
 

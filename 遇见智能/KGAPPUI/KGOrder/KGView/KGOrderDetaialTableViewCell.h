@@ -16,11 +16,14 @@
 
 @interface KGOrderDetaialTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIButton *shureBtu;
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtu;
 @property (weak, nonatomic) IBOutlet UILabel *roomType;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *orderLabel;
+@property (copy, nonatomic) NSString *orderId;
 
 @property (nonatomic,assign) id<KGOrderDetaialTableViewCellDelegate>Mydelegate;
 

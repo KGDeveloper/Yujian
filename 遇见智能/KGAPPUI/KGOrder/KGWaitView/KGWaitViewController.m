@@ -9,6 +9,7 @@
 #import "KGWaitViewController.h"
 #import "KGTableView.h"
 #import "KGOrderDetaialViewController.h"
+#import "KGOrderInfoModel.h"
 
 @interface KGWaitViewController ()<KGtableviewDelegate>{
     NSInteger page;
@@ -36,11 +37,6 @@
  
  */
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [_listView.listView.mj_header beginRefreshing];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -61,8 +57,31 @@
 }
 
 - (void)setDataArr{
-    [[KGRequest sharedInstance] hotelAllOrder:[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"] queryType:@"退房" succ:^(NSString *msg, id data) {
-        
+    __weak typeof(self) MySelf = self;
+    [[KGRequest sharedInstance] hotelAllOrder:[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"] queryType:@"1" succ:^(NSString *msg, id data) {
+        NSArray *arr = data;
+        for (int i = 0; i < arr.count; i++) {
+            NSDictionary *dic = arr[i];
+            if ([dic[@"hotelCheckStatus"] isEqualToString:@"未处理"]) {
+                NSArray *waitArray = dic[@"data"];
+                for (int j = 0; j < waitArray.count; j++) {
+                    NSDictionary *waitDic = waitArray[j];
+                    KGOrderInfoModel *model = [[KGOrderInfoModel alloc]initWithDictionary:waitDic];
+                    [MySelf.waitArr addObject:model];
+                }
+            }else{
+                NSArray *waitArray = dic[@"data"];
+                for (int j = 0; j < waitArray.count; j++) {
+                    NSDictionary *waitDic = waitArray[j];
+                    KGOrderInfoModel *model = [[KGOrderInfoModel alloc]initWithDictionary:waitDic];
+                    [MySelf.finishArr addObject:model];
+                }
+            }
+        }
+        [MySelf hide];
+        [MySelf.listView.listView.mj_header endRefreshing];
+        [MySelf.listView.listView.mj_footer endRefreshing];
+        [_listView.listView reloadData];
     } fail:^(NSString *error) {
         
     }];
@@ -99,17 +118,20 @@
 
 #pragma mark -分类按钮点击事件-
 - (void)segmentValueChanged:(UISegmentedControl *)sender{
+    NSMutableArray *arr = [NSMutableArray array];
     switch (sender.selectedSegmentIndex) {
         case 0:
-            _listView.titleArr = [NSMutableArray array];
+            _listView.titleArr = _waitArr;
             [_listView.listView reloadData];
             break;
         case 1:
-            _listView.titleArr = [NSMutableArray arrayWithObjects:@"2",nil];
+            _listView.titleArr = _finishArr;
             [_listView.listView reloadData];
             break;
         default:
-            _listView.titleArr = [NSMutableArray arrayWithObjects:@"3",@"3", nil];
+            [arr addObjectsFromArray:_waitArr];
+            [arr addObjectsFromArray:_finishArr];
+            _listView.titleArr = arr;
             [_listView.listView reloadData];
             break;
     }
@@ -136,6 +158,9 @@
     
     _listView.listView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         page ++;
+        [MySelf.waitArr removeAllObjects];
+        [MySelf.finishArr removeAllObjects];
+        [MySelf.allArr removeAllObjects];
         [MySelf.listView.listView.mj_footer beginRefreshing];
         [MySelf show];
         [MySelf setDataArr];
@@ -153,9 +178,10 @@
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
-- (void)pushToDetaialController{
+- (void)pushToDetaialController:(NSString *)order{
     
     KGOrderDetaialViewController *orderDetaial = [[KGOrderDetaialViewController alloc]init];
+    orderDetaial.order = order;
     [[self viewController].navigationController pushViewController:orderDetaial animated:YES];
 }
 
@@ -168,6 +194,10 @@
     }
     return nil;
 }
+
+//- (void)reloadTableViewData{
+//    [self setDataArr];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -159,10 +159,12 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="cancelBtu" destination="xSc-RC-s2t" id="EtP-ZM-leX"/>
                 <outlet property="nameLabel" destination="CgL-m2-BgR" id="UFJ-gt-nMd"/>
                 <outlet property="orderLabel" destination="C4P-WI-fmL" id="uue-yk-HS2"/>
                 <outlet property="priceLabel" destination="Qeq-uF-7D9" id="8Ab-O7-fmA"/>
                 <outlet property="roomType" destination="Ib4-zI-T59" id="TVF-Zl-n3A"/>
+                <outlet property="shureBtu" destination="dDD-wR-Cbp" id="FMD-9d-T12"/>
                 <outlet property="timeLabel" destination="edC-I0-5cI" id="sKg-Wo-n9d"/>
             </connections>
             <point key="canvasLocation" x="61.5" y="116"/>

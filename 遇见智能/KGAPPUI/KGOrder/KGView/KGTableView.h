@@ -10,7 +10,8 @@
 
 @protocol KGtableviewDelegate <NSObject>
 
-- (void)pushToDetaialController;
+- (void)pushToDetaialController:(NSString *)order;
+//- (void)reloadTableViewData;
 
 @end
 
