@@ -36,7 +36,7 @@
     [super viewDidLoad];
     
     self.title = @"投诉建议";
-    self.view.backgroundColor = KGCellDont;
+    self.view.backgroundColor = KGcolor(231, 231, 231, 1);
     
     [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
     

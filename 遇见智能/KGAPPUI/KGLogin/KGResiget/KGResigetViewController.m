@@ -55,9 +55,12 @@
     
     self.navigationController.navigationBar.hidden = NO;
     self.title = @"注册账号";
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
     _timeNumber = 60;
     _tureOrfail = NO;
+    
+    [self setTitleAndLine];
     /*
      *加载用户名输入框
      */
@@ -93,59 +96,82 @@
 
 }
 
+- (void)setTitleAndLine{
+    NSArray *arr = @[@"用  户  名",@"手  机  号",@"验  证  码"];
+    for (int i = 0; i < arr.count; i++) {
+        KGCustomLabel *titleLabel = [[KGCustomLabel alloc]initWithFrame:CGRectMake(0, 170 + 50 *i, 100, 30)];
+        titleLabel.textColor = [UIColor grayColor];
+        titleLabel.text = arr[i];
+        titleLabel.font = KGFont(13);
+        titleLabel.wordSize = UIEdgeInsetsMake(0,0, 0, 20);
+        titleLabel.textAlignment = NSTextAlignmentRight;
+        [self.view addSubview:titleLabel];
+        
+        UILabel *line = [[UILabel alloc]initWithFrame:CGRectMake(20, 210 + 50 *i, KGscreenWidth - 40, 1)];
+        line.backgroundColor = [UIColor grayColor];
+        [self.view addSubview:line];
+    }
+    
+    NSArray *arrTitle = @[@"密        码",@"确认密码"];
+    for (int i = 0; i < arrTitle.count; i++) {
+        KGCustomLabel *titleLabel = [[KGCustomLabel alloc]initWithFrame:CGRectMake(0, 370 + 50 *i, 100, 30)];
+        titleLabel.textColor = [UIColor grayColor];
+        titleLabel.text = arrTitle[i];
+        titleLabel.font = KGFont(13);
+        titleLabel.wordSize = UIEdgeInsetsMake(0,0, 0, 20);
+        titleLabel.textAlignment = NSTextAlignmentRight;
+        [self.view addSubview:titleLabel];
+        
+        UILabel *line = [[UILabel alloc]initWithFrame:CGRectMake(20, 410 + 50 *i, KGscreenWidth - 40, 1)];
+        line.backgroundColor = [UIColor grayColor];
+        [self.view addSubview:line];
+    }
+}
+
 #pragma mark -创建用户名输入框-
 - (void)setUserName{
-    _userName = [[KGTextField alloc]initWithFrame:CGRectMake(50, 170, KGscreenWidth - 100, 30)];
+    _userName = [[KGTextField alloc]initWithFrame:CGRectMake(100, 170, KGscreenWidth - 120, 30)];
     _userName.backgroundColor = [UIColor whiteColor];
     _userName.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"用户名" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
     _userName.font = KGFont(13);
-    _userName.borderStyle = UITextBorderStyleRoundedRect;
     _userName.keyboardType = UIKeyboardTypeDefault;
     _userName.delegate = self;
     _userName.clearButtonMode = UITextFieldViewModeAlways;
-    _userName.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"账号"]];
-    _userName.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_userName];
 }
 
 #pragma mark -创建账号输入框-
 - (void)setPhoneNumber{
     
-    _phoneNumber = [[KGTextField alloc]initWithFrame:CGRectMake(50, 210, KGscreenWidth - 100, 30)];
+    _phoneNumber = [[KGTextField alloc]initWithFrame:CGRectMake(100, 220, KGscreenWidth - 120, 30)];
     _phoneNumber.backgroundColor = [UIColor whiteColor];
     _phoneNumber.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"手机号" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
     _phoneNumber.font = KGFont(13);
-    _phoneNumber.borderStyle = UITextBorderStyleRoundedRect;
     _phoneNumber.keyboardType = UIKeyboardTypePhonePad;
     _phoneNumber.delegate = self;
     _phoneNumber.tag = 101;
     _phoneNumber.clearButtonMode = UITextFieldViewModeAlways;
-    _phoneNumber.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"账号"]];
-    _phoneNumber.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_phoneNumber];
 }
 
 #pragma mark -创建验证码输入框-
 - (void)setVerify{
     
-    _verify = [[KGTextField alloc]initWithFrame:CGRectMake(50, 250,KGscreenWidth/2 - 30, 30)];
+    _verify = [[KGTextField alloc]initWithFrame:CGRectMake(100, 270,KGscreenWidth/2, 30)];
     _verify.backgroundColor = [UIColor whiteColor];
     _verify.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"验证码" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
     _verify.font = KGFont(13);
-    _verify.borderStyle = UITextBorderStyleRoundedRect;
     _verify.delegate = self;
     _verify.clearButtonMode = UITextFieldViewModeAlways;
-    _verify.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"验证码"]];
-    _verify.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_verify];
 }
 
 #pragma mark -发送验证码按钮-
 - (void)setVerifyButton{
-    _verifyBtu = [[UIButton alloc]initWithFrame:CGRectMake(KGscreenWidth/2 + 50, 250,KGscreenWidth/2 - 100, 30)];
+    _verifyBtu = [[UIButton alloc]initWithFrame:CGRectMake(KGscreenWidth/2 + 20, 270,KGscreenWidth/2 - 40, 30)];
     [_verifyBtu setTitle:@"发送验证码" forState:UIControlStateNormal];
-    [_verifyBtu setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    _verifyBtu.backgroundColor = [UIColor lightGrayColor];
+    [_verifyBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _verifyBtu.backgroundColor = KGcolor(231, 99, 40, 1);
     _verifyBtu.titleLabel.font = [UIFont systemFontOfSize:13.0f];
     _verifyBtu.layer.cornerRadius = 5.0f;
     _verifyBtu.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -157,10 +183,10 @@
 
 #pragma mark -注册按钮-
 - (void)setVerifyBtuAndSMS{
-    _verityShure = [[UIButton alloc]initWithFrame:CGRectMake(50, 290,KGscreenWidth - 100, 30)];
+    _verityShure = [[UIButton alloc]initWithFrame:CGRectMake(30, 320,KGscreenWidth - 50, 30)];
     [_verityShure setTitle:@"验证" forState:UIControlStateNormal];
     [_verityShure setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    _verityShure.backgroundColor = [UIColor blueColor];
+    _verityShure.backgroundColor = KGcolor(231, 99, 40, 1);
     _verityShure.titleLabel.font = [UIFont systemFontOfSize:13.0f];
     _verityShure.layer.cornerRadius = 5.0f;
     _verityShure.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -168,6 +194,10 @@
     _verityShure.layer.masksToBounds = YES;
     [_verityShure addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_verityShure];
+    
+    UILabel *line = [[UILabel alloc]initWithFrame:CGRectMake(20, 360 , KGscreenWidth - 40, 1)];
+    line.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:line];
 }
 
 - (void)buttonClick:(UIButton *)sender{
@@ -191,33 +221,28 @@
 #pragma mark -创建密码输入框-
 - (void)setPassWord{
     
-    _passWord = [[KGTextField alloc]initWithFrame:CGRectMake(50, 330,KGscreenWidth - 100, 30)];
+    _passWord = [[KGTextField alloc]initWithFrame:CGRectMake(100, 370,KGscreenWidth - 120, 30)];
     _passWord.backgroundColor = [UIColor whiteColor];
     _passWord.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"密码" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
     _passWord.font = KGFont(13);
-    _passWord.borderStyle = UITextBorderStyleRoundedRect;
     _passWord.delegate = self;
     _passWord.secureTextEntry = YES;
     _passWord.rightView = [self setLookButton];
     _passWord.rightViewMode = UITextFieldViewModeAlways;
-    _passWord.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"密码-3"]];
-    _passWord.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_passWord];
 }
 
 #pragma mark -创建密码确认输入框-
 - (void)setSurePassWord{
     
-    _surePassWord = [[KGTextField alloc]initWithFrame:CGRectMake(50, 370,KGscreenWidth - 100, 30)];
+    _surePassWord = [[KGTextField alloc]initWithFrame:CGRectMake(100, 420,KGscreenWidth - 120, 30)];
     _surePassWord.backgroundColor = [UIColor whiteColor];
     _surePassWord.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"确认密码" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
     _surePassWord.font = KGFont(13);
-    _surePassWord.borderStyle = UITextBorderStyleRoundedRect;
     _surePassWord.delegate = self;
     _surePassWord.secureTextEntry = YES;
-    _surePassWord.clearButtonMode = UITextFieldViewModeAlways;
-    _surePassWord.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"密码-3"]];
-    _surePassWord.leftViewMode = UITextFieldViewModeAlways;
+    _surePassWord.rightView = [self setLookButton];
+    _surePassWord.rightViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_surePassWord];
 }
 
@@ -227,7 +252,7 @@
      *用来控制密码是否显示为文字还是密文
      */
     UIButton *lookBtu = [UIButton buttonWithType:UIButtonTypeCustom];
-    lookBtu.frame = CGRectMake(0, 0, 30, 30);
+    lookBtu.frame = CGRectMake(0, 0, 20, 20);
     [lookBtu setImage:[UIImage imageNamed:@"眼睛"] forState:UIControlStateNormal];
     [lookBtu addTarget:self action:@selector(lookBtuClick:) forControlEvents:UIControlEventTouchUpInside];
     return lookBtu;
@@ -247,14 +272,12 @@
 
 #pragma mark -注册按钮-
 - (void)setRegisterButton{
-    UIButton *registerBtu = [[UIButton alloc]initWithFrame:CGRectMake(50, KGscreenHeight - 200,KGscreenWidth - 100, 30)];
+    UIButton *registerBtu = [[UIButton alloc]initWithFrame:CGRectMake(30, KGscreenHeight - 200,KGscreenWidth - 50, 30)];
     [registerBtu setTitle:@"提交" forState:UIControlStateNormal];
     [registerBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    registerBtu.backgroundColor = [UIColor blueColor];
+    registerBtu.backgroundColor = KGcolor(231, 99, 40, 1);
     registerBtu.titleLabel.font = [UIFont systemFontOfSize:13.0f];
     registerBtu.layer.cornerRadius = 5.0f;
-    registerBtu.layer.borderColor = [UIColor whiteColor].CGColor;
-    registerBtu.layer.borderWidth = 1.0f;
     registerBtu.layer.masksToBounds = YES;
     [registerBtu addTarget:self action:@selector(registerBtuClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerBtu];
@@ -343,8 +366,8 @@
      *发送短信按钮关闭交互，开始倒计时60秒
      *发送短信验证码按钮上开始显示倒计时
      */
-    _verifyBtu.backgroundColor = [UIColor lightGrayColor];
-    [_verifyBtu setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _verifyBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    [_verifyBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_verifyBtu setTitle:[NSString stringWithFormat:@"%ld秒",(long)_timeNumber] forState:UIControlStateNormal];
     /*
      *倒计时为0的时候，废弃定时器

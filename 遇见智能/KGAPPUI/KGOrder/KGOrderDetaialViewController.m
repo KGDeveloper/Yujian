@@ -66,6 +66,12 @@
     }];
 }
 
+
+/**
+ 创建订单模块
+
+ @param model 存储订单详情信息的model
+ */
 - (void)setTopLabelUI:(KGorderDetaialModel *)model{
     
     NSArray *topArr = @[@"订单号",@"订单状态"];
@@ -105,9 +111,16 @@
     [self.view addSubview:_orderStar];
 }
 
+/**
+ 创建酒店信息模块
+
+ @param model 存储订单信息的model
+ */
 - (void)setCenterLabel:(KGorderDetaialModel *)model{
     NSArray *centerArr = @[@"酒店名称",@"房型名称",@"房间号",@"入离时间",@"进店时间",@"订单渠道"];
-    
+    /*
+     *循环创建标题label
+     */
     for (int i = 0; i < centerArr.count ; i++) {
         centerLabel = [[KGCustomLabel alloc]initWithFrame:CGRectMake(0, toplabel.frame.origin.y + toplabel.frame.size.height + 50 + 62 * i, 120, 60)];
         centerLabel.text = centerArr[i];
@@ -168,6 +181,11 @@
     
 }
 
+/**
+ 创建显示尾部房价信息的模块
+
+ @param model 存储订单信息的model
+ */
 - (void)setButotmLabel:(KGorderDetaialModel *)model{
     bottomLabel = [[KGCustomLabel alloc]initWithFrame:CGRectMake(0, centerLabel.frame.origin.y + centerLabel.frame.size.height + 50, 120, 60)];
     bottomLabel.text = @"房价总额";

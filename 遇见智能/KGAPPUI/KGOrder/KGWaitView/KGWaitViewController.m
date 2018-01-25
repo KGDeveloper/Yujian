@@ -10,8 +10,10 @@
 #import "KGTableView.h"
 #import "KGOrderDetaialViewController.h"
 #import "KGOrderInfoModel.h"
+#import "KGorderDetaialModel.h"
+#import <MessageUI/MessageUI.h>
 
-@interface KGWaitViewController ()<KGtableviewDelegate>{
+@interface KGWaitViewController ()<KGtableviewDelegate,MFMessageComposeViewControllerDelegate>{
     NSInteger page;
     NSInteger pageSize;
 }
@@ -48,11 +50,35 @@
     page = 0;
     pageSize = 10;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationMessage:) name:@"sendMassage" object:nil];
+    
     [self setDataArr];
     
     [self.view addSubview:[self setFinishOrWait]];
     
     [self setTableView];
+    
+}
+
+- (void)notificationMessage:(NSNotification *)notif{
+    NSString *orderId = notif.userInfo[@"orderId"];
+    __weak typeof(self) MySelf = self;
+    [[KGRequest sharedInstance] orderDetaial:orderId succ:^(NSString *msg, id data) {
+        if ([msg isEqualToString:@"成功"]) {
+            NSDictionary *dic = data;
+            KGorderDetaialModel *model = [[KGorderDetaialModel alloc]initWithDictionary:dic];
+            NSString *SMS = [NSString stringWithFormat:@"%@您好!/n您的退房订单已确认，如有疑问请联系客服:%@",model.customName,[[NSUserDefaults standardUserDefaults] objectForKey:@"userPhone"]];
+            [MySelf alertViewControllerTitle:@"是否发送短信通知？" message:SMS name:@"发送" phone:model.customPhoneNo preferredStyle:1];
+        }
+    } fail:^(NSString *error) {
+        
+    }];
+    
+}
+
+-(void)dealloc{
+    //移除观察者，Observer不能为nil
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }
 
@@ -193,6 +219,37 @@
         }
     }
     return nil;
+}
+
+/**
+ 警告框
+ 
+ @param title 显示警告框标题
+ @param message 显示警告框信息
+ @param name 按钮显示信息
+ */
+- (void)alertViewControllerTitle:(NSString *)title message:(NSString *)message name:(NSString *)name phone:(NSString *)phone preferredStyle:(UIAlertControllerStyle)preferredStyle{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle];
+    
+    UIAlertAction *sureAct = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if( [MFMessageComposeViewController canSendText] )
+        {
+            MFMessageComposeViewController *messager = [[MFMessageComposeViewController alloc]init];
+            messager.body = message;
+            messager.recipients = @[phone];
+            messager.messageComposeDelegate = self;
+            [self presentViewController:messager animated:YES completion:nil];
+        }
+    }];
+    
+    UIAlertAction *canalAct = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    
+    [alert addAction:sureAct];
+    [alert addAction:canalAct];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
 }
 
 //- (void)reloadTableViewData{

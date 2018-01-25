@@ -21,6 +21,9 @@
 }
 
 - (IBAction)shureClick:(UIButton *)sender {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:_orderId forKey:@"orderId"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"sendMassage" object:self userInfo:dic];
     if ([_Mydelegate respondsToSelector:@selector(sendOrderIdToViewController:type:)]) {
         [_Mydelegate sendOrderIdToViewController:self.orderId type:@"agree"];
     }
