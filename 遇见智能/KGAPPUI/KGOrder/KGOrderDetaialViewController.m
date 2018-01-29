@@ -187,13 +187,8 @@
  @param model 存储订单信息的model
  */
 - (void)setButotmLabel:(KGorderDetaialModel *)model{
-    bottomLabel = [[KGCustomLabel alloc]initWithFrame:CGRectMake(0, centerLabel.frame.origin.y + centerLabel.frame.size.height + 50, 120, 60)];
-    bottomLabel.text = @"房价总额";
-    bottomLabel.textColor = [UIColor blackColor];
-    bottomLabel.backgroundColor = [UIColor whiteColor];
-    bottomLabel.wordSize = UIEdgeInsetsMake(0, 20, 0, 0);
-    bottomLabel.textAlignment = NSTextAlignmentLeft;
-    [self.view addSubview:bottomLabel];
+    
+    [self setUpLabelWithFrame:CGRectMake(0, centerLabel.frame.origin.y + centerLabel.frame.size.height + 50, 120, 60) title:@"房价总额"];
     
     _roomPirace = [[UILabel alloc]initWithFrame:CGRectMake(120, centerLabel.frame.origin.y + centerLabel.frame.size.height + 50,KGscreenWidth - 120, 60)];
     _roomPirace.text = [NSString stringWithFormat:@"¥%@  预付",model.orderPrice];
@@ -202,6 +197,16 @@
     _roomPirace.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:_roomPirace];
     
+}
+
+- (void)setUpLabelWithFrame:(CGRect)frame title:(NSString *)title{
+    bottomLabel = [[KGCustomLabel alloc]initWithFrame:frame];
+    bottomLabel.text = title;
+    bottomLabel.textColor = [UIColor blackColor];
+    bottomLabel.backgroundColor = [UIColor whiteColor];
+    bottomLabel.wordSize = UIEdgeInsetsMake(0, 20, 0, 0);
+    bottomLabel.textAlignment = NSTextAlignmentLeft;
+    [self.view addSubview:bottomLabel];
 }
 
 - (void)didReceiveMemoryWarning {

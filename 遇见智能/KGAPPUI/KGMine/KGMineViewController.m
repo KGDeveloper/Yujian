@@ -40,6 +40,9 @@
     _headerImageArr = [NSMutableArray arrayWithObjects:@"手机",@"密码",@"意见",@"客服",@"关于", nil];
     _titleArr = [NSMutableArray arrayWithObjects:@"修改手机号",@"修改密码",@"投诉建议",@"客服电话",@"关于我们", nil];
     
+    /*
+     *创建跳转页面
+     */
     KGAboutViewController *about = [[KGAboutViewController alloc]init];
     KGPassWordViewController *passWord = [[KGPassWordViewController alloc]init];
     KGCustomerViewController *customer = [[KGCustomerViewController alloc]init];
@@ -88,9 +91,6 @@
 }
 
 - (void)jionOutClick:(UIButton *)sender{
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userPhone"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userId"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
     KGLoginViewController *login = [[KGLoginViewController alloc]init];
     [self.navigationController pushViewController:login animated:YES];
     
@@ -105,7 +105,7 @@
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"KGMineTableViewCell" owner:self options:nil] lastObject];
     }
-
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.headerImage.image = [UIImage imageNamed:_headerImageArr[indexPath.row]];
     cell.titleLabel.text = _titleArr[indexPath.row];
     

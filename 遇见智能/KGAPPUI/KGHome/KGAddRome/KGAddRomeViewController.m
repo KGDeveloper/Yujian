@@ -46,7 +46,7 @@
     [super viewDidLoad];
     
     self.title = @"添加房型";
-    self.view.backgroundColor = KGcolor(200, 200, 200, 1);
+    self.view.backgroundColor = KGcolor(244, 246, 244, 1);
     _roomData = [NSMutableArray array];
     _postDic = [NSMutableDictionary dictionary];
     _toilet = NO;

@@ -27,7 +27,6 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [_listTableView.mj_header beginRefreshing];
 }
 
 - (void)viewDidLoad {

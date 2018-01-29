@@ -32,6 +32,11 @@
     _listView.dataSource = self;
     _listView.tableFooterView = [UIView new];
     _listView.rowHeight = 160;
+    UIImageView *normalIamge = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, KGscreenWidth*5/7)];
+    normalIamge.image = KGImage(@"zhanwei");
+    if (_titleArr.count == 0) {
+        _listView.tableHeaderView = normalIamge;
+    }
     _listView.backgroundColor = KGcolor(244, 246, 244, 1);
     
     return _listView;

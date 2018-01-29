@@ -206,7 +206,13 @@
     [self sendSMSFrameText:_phoneTest.text phone:_phoneText.text];
     
     if (_firstSucc == YES && _sencedSucc == YES) {
-        [self.navigationController popViewControllerAnimated:YES];
+        [[KGRequest sharedInstance] updateHotelMessageWithnewPhone:_phoneText.text userId:[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"] succ:^(NSString *msg, id data) {
+            if ([msg isEqualToString:@"修改成功"]) {
+                [self alertViewControllerTitle:@"提示" message:msg name:@"确定" type:0 preferredStyle:1];
+            }
+        } fail:^(NSString *error) {
+            [self alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
+        }];
     }else if (_firstSucc == NO){
         [self alertViewControllerTitle:@"提示" message:@"旧手机号码验证码错误" name:@"确定" type:0 preferredStyle:1];
     }else{

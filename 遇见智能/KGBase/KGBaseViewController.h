@@ -13,6 +13,15 @@
 
 #define KGYellowColor [UIColor colorWithRed:255/255.0 green:209/255.0 blue:43/255.0 alpha:1]
 
+/**
+ 自定义颜色
+
+ @param R 红比例
+ @param G 绿比例
+ @param B 蓝比例
+ @param A <#A description#>
+ @return <#return value description#>
+ */
 #define KGcolor(R,G,B,A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]
 
 @interface KGBaseViewController : UIViewController

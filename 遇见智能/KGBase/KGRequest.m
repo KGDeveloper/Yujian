@@ -23,10 +23,18 @@ static KGRequest *sharedObj = nil;
     return sharedObj;
 }
 
-- (AFHTTPSessionManager *)manger{
+- (NSString *)pathWithString{
     NSString *cerPath = [[NSBundle mainBundle] pathForResource:@"zhu" ofType:@"cer"];
-    NSData *certData = [NSData dataWithContentsOfFile:cerPath];
-    
+    return cerPath;
+}
+
+- (NSString *)pathString{
+    NSString *cerPath = [[NSBundle mainBundle] pathForResource:@"zhang" ofType:@"cer"];
+    return cerPath;
+}
+
+- (AFHTTPSessionManager *)manger{
+    NSData *certData = [NSData dataWithContentsOfFile:[self pathString]];
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
     securityPolicy.allowInvalidCertificates = YES;
     securityPolicy.validatesDomainName = NO;
@@ -46,14 +54,18 @@ static KGRequest *sharedObj = nil;
     [dic setObject:passWord forKey:@"passWord"];
     [dic setObject:@"iphone" forKey:@"type"];
     
-    [[self manger] POST:KGLogin parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[self manger] POST:KGLogin parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"msg"] isEqualToString:@"登录成功"]) {
             succ(@"登录成功",responseObject[@"data"]);
         }else{
             succ(@"登录失败",responseObject[@"data"]);
         }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        fail(@"登录失败");
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
     }];
 }
 
@@ -63,13 +75,15 @@ static KGRequest *sharedObj = nil;
     [dic setObject:phone forKey:@"phoneNo"];
     [dic setObject:passWord forKey:@"newPassWord"];
 
-    [[self manger] POST:KGForget parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[self manger] POST:KGForget parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"status"] isEqualToString:@"0"]) {
             succ(@"修改成功",responseObject);
         }else{
             fail(@"修改失败");
         }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (fail)
         {
             fail(@"登录服务器失败");
@@ -83,44 +97,78 @@ static KGRequest *sharedObj = nil;
     [dic setObject:userName forKey:@"userName"];
     [dic setObject:phone forKey:@"phoneNo"];
     [dic setObject:passWord forKey:@"passWord"];
-    [[self manger] POST:KGRegister parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+    
+    [[self manger] POST:KGRegister parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"msg"] isEqualToString:@"注册成功"]) {
             succ(@"注册成功",responseObject[@"data"]);
         }else{
             succ(@"注册失败",responseObject[@"data"]);
         }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        fail(@"注册失败");
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
     }];
 }
 
-#pragma mark -商家修改手机号或者修改密码-
+#pragma mark -商家修改密码-
 - (void)updateHotelMessageWithnewPassWord:(NSString *)newPassWord userId:(NSString *)userId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:newPassWord forKey:@"newPassWord"];
     [dic setObject:userId forKey:@"userId"];
     
-    [[self manger] POST:KGRegister parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[self manger] POST:KGUpdatePassWord parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"msg"] isEqualToString:@"注册成功"]) {
-            succ(@"注册成功",responseObject[@"data"]);
+            succ(@"修改成功",responseObject[@"data"]);
         }else{
-            succ(@"注册失败",responseObject[@"data"]);
+            succ(@"修改失败",responseObject[@"data"]);
         }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        fail(@"注册失败");
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
+    }];
+}
+
+#pragma mark -商家修改手机号-
+- (void)updateHotelMessageWithnewPhone:(NSString *)newPhone userId:(NSString *)userId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:newPhone forKey:@"newPhone"];
+    [dic setObject:userId forKey:@"userId"];
+    
+    [[self manger] POST:KGUpdatePhone parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject[@"msg"] isEqualToString:@"注册成功"]) {
+            succ(@"修改成功",responseObject[@"data"]);
+        }else{
+            succ(@"修改失败",responseObject[@"data"]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            fail(@"访问服务器失败");
+        }
     }];
 }
 
 #pragma mark -添加酒店-
 - (void)addHotellMessageWithDictionary:(NSDictionary *)dci succ:(KGRequestSucc)succ fail:(KGRequestFail)fail{
-    [[self manger] POST:KGAddHotel parameters:dci success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [[self manger] POST:KGAddHotel parameters:dci progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
             succ(@"添加成功",responseObject[@"data"]);
         }else{
             succ(@"添加失败",responseObject[@"data"]);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        fail(@"网络出错");
+        if (error) {
+            fail(@"访问服务器失败");
+        }
     }];
 }
 
@@ -132,14 +180,18 @@ static KGRequest *sharedObj = nil;
     [dic setObject:pageSize forKey:@"pageSize"];
     [dic setObject:@"iphone" forKey:@"type"];
     
-    [[self manger] POST:KGHomeName parameters:dic success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [[self manger] POST:KGHomeName parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"msg"] isEqualToString:@"成功"]) {
             succ(@"成功",responseObject[@"data"]);
         }else{
             fail(@"请求失败");
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        fail(@"访问失败");
+        if (error) {
+            fail(@"访问服务器失败");
+        }
     }];
 }
 

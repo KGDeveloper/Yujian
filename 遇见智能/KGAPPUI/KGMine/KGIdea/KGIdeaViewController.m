@@ -45,6 +45,9 @@
 
 - (void)jionOutClick:(UIButton *)sender{
     if (contentTextView.text.length > 1) {
+        /*
+         *调用手机发送短信
+         */
         if( [MFMessageComposeViewController canSendText] )
         {
             MFMessageComposeViewController *message = [[MFMessageComposeViewController alloc]init];

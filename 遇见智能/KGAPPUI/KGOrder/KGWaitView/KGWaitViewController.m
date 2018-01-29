@@ -107,6 +107,17 @@
         [MySelf hide];
         [MySelf.listView.listView.mj_header endRefreshing];
         [MySelf.listView.listView.mj_footer endRefreshing];
+        if (_finishOrWait.selectedSegmentIndex == 0) {
+            _listView.titleArr = _waitArr;
+        }else if (_finishOrWait.selectedSegmentIndex == 1){
+            _listView.titleArr = _finishArr;
+        }else{
+            NSMutableArray *arr = [NSMutableArray array];
+            [arr addObjectsFromArray:_waitArr];
+            [arr addObjectsFromArray:_finishArr];
+            _listView.titleArr = arr;
+        }
+        _listView.listView.tableHeaderView = [UIView new];
         [_listView.listView reloadData];
     } fail:^(NSString *error) {
         
@@ -127,14 +138,14 @@
     _finishOrWait.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:KGcolor(231, 99, 40, 1),
                          NSForegroundColorAttributeName,
-                         [UIFont systemFontOfSize:17],
+                         [UIFont systemFontOfSize:20],
                          NSFontAttributeName,nil];
     
     [_finishOrWait setTitleTextAttributes:dic forState:UIControlStateSelected];
     
     NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:KGCellDont,
                           NSForegroundColorAttributeName,
-                          [UIFont systemFontOfSize:17],
+                          [UIFont systemFontOfSize:20],
                           NSFontAttributeName,nil];
     [_finishOrWait setTitleTextAttributes:dic1 forState:UIControlStateNormal];
     
@@ -149,16 +160,19 @@
         case 0:
             _listView.titleArr = _waitArr;
             [_listView.listView reloadData];
+            _listView.listView.tableHeaderView = [UIView new];
             break;
         case 1:
             _listView.titleArr = _finishArr;
             [_listView.listView reloadData];
+            _listView.listView.tableHeaderView = [UIView new];
             break;
         default:
             [arr addObjectsFromArray:_waitArr];
             [arr addObjectsFromArray:_finishArr];
             _listView.titleArr = arr;
             [_listView.listView reloadData];
+            _listView.listView.tableHeaderView = [UIView new];
             break;
     }
 }

@@ -129,48 +129,66 @@
 //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     BOOL writeMsg = NO;
+    /*
+     *判断是否选择酒店名称
+     */
     if (_hotelName.text.length > 0) {
         writeMsg = YES;
     }else{
         writeMsg = NO;
     }
-    
+    /*
+     *判断是否选择酒店房型
+     */
     if (_roomType.text.length > 0) {
         writeMsg = YES;
     }else{
         writeMsg = NO;
     }
-    
+    /*
+     *判断是否选择入住时间
+     */
     if (_intoTime.text.length > 0) {
         writeMsg = YES;
     }else{
         writeMsg = NO;
     }
-    
+    /*
+     *判断是否选择退房时间
+     */
     if (_outTime.text.length > 0) {
         writeMsg = YES;
     }else{
         writeMsg = NO;
     }
-    
+    /*
+     *判断是否选择住店时间
+     */
     if (_waitTime.text.length > 0) {
         writeMsg = YES;
     }else{
         writeMsg = NO;
     }
-    
+    /*
+     *判断是否填写住户姓名
+     */
     if (_customName.text.length > 0) {
         writeMsg = YES;
     }else{
         writeMsg = NO;
     }
-    
+    /*
+     *判断是否填写住户手机号
+     */
     if (_customPhone.text.length > 0) {
         writeMsg = YES;
     }else{
         writeMsg = NO;
     }
     
+    //****
+    //*****提交订单，直接传字典过去，因为参数太多
+    //*****
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     
     if (writeMsg == YES) {
@@ -202,6 +220,9 @@
     }
 }
 
+/**
+ 创建选择酒店和房型的pickview
+ */
 - (void)initPickView{
     _myPickView = [[KGHotel_RoomType alloc]initWithFrame:CGRectMake(0, KGscreenHeight - 300, KGscreenWidth, 300)];
     _myPickView.myDelegate = self;
@@ -214,28 +235,45 @@
     [self.view addSubview:_dayPickView];
 }
 
+/**
+ 代理返回的酒店id以及酒店名称
+
+ @param hotelName 酒店 名称
+ @param hotelId 酒店 id
+ */
 - (void)sendRoomModelToView:(NSString *)hotelName hotelId:(NSString *)hotelId{
     _hotelIdStr = hotelId;
     _hotelName.text = hotelName;
 }
 
 - (void)setRoomTypeDataArr{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [_roomArr removeAllObjects];
     __weak typeof(self) MySelf = self;
     [[KGRequest sharedInstance] hotelAllRoomType:_hotelIdStr succ:^(NSString *msg, id data) {
         NSArray *dataArr = data;
         for (int i = 0; i < dataArr.count; i++) {
-
+            
             NSDictionary *dic = dataArr[i];
-
+            
             KGRoomTypeModel *model = [[KGRoomTypeModel alloc]initWithDictionary:dic];
             [MySelf.roomArr addObject:model];
         }
+        MySelf.myPickView.hidden = NO;
+        MySelf.myPickView.hotelOrRoomType = NO;
+        [MySelf.myPickView sendArrayToView:MySelf.roomArr];
         [MBProgressHUD hideHUDForView:MySelf.view animated:YES];
     } fail:^(NSString *error) {
         
     }];
+
 }
 
+/**
+ 代理返回的房型名称
+
+ @param roomType 房型 名称
+ */
 - (void)sendHotelModelToView:(NSString *)roomType{
     _roomTypeStr = roomType;
     _roomType.text = roomType;
@@ -305,11 +343,15 @@
 }
 
 - (void)roomClick:(UIButton *)sender{
-    [self setRoomTypeDataArr];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    _myPickView.hidden = NO;
-    _myPickView.hotelOrRoomType = NO;
-    [_myPickView sendArrayToView:_roomArr];
+    if (_hotelIdStr == NULL) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text = @"请先选择酒店";
+        hud.minShowTime = 2;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }else{
+        [self setRoomTypeDataArr];
+    }
 }
 
 - (void)initTimeLabel{
@@ -383,6 +425,11 @@
     
 }
 
+/**
+ 选择入住时间
+
+ @param sender 入住时间
+ */
 - (void)intoTimeBut:(UIButton *)sender{
     NSDateFormatter *df = [NSDateFormatter new];
     df.dateFormat = @"yyyy-MM-dd";
@@ -395,6 +442,11 @@
     }];
 }
 
+/**
+ 选择退房时间
+ 
+ @param sender 退房时间
+ */
 - (void)outTimeBtu:(UIButton *)sender{
     NSDateFormatter *df = [NSDateFormatter new];
     df.dateFormat = @"yyyy-MM-dd";

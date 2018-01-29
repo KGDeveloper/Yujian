@@ -32,7 +32,7 @@
     [super viewDidLoad];
     
     self.title = @"添加门店";
-    self.view.backgroundColor = KGcolor(200, 200, 200, 1);
+    self.view.backgroundColor = KGcolor(244, 246, 244, 1);
     _isWrite = NO;
 
     [self setUpLeftNavButtonItmeTitle:nil icon:@"Return"];

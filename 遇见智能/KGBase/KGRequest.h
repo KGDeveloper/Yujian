@@ -69,6 +69,15 @@ typedef void (^KGRequestFail)(NSString *error);
  */
 - (void)updateHotelMessageWithnewPassWord:(NSString *)newPassWord userId:(NSString *)userId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
 /**
+ 修改手机号
+ 
+ @param newPhone 新手机号
+ @param userId 用户id
+ @param succ 成功返回值
+ @param fail 失败返回值
+ */
+- (void)updateHotelMessageWithnewPhone:(NSString *)newPhone userId:(NSString *)userId succ:(KGRequestSucc)succ fail:(KGRequestFail)fail;
+/**
  添加酒店信息
 
  @param dci 酒店信息

@@ -28,13 +28,13 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
     self.tabBarController.tabBar.hidden = YES;
+    
+    [self AFNetworkStatus];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    _trueOrfail = NO;
     
     UIImageView *iconImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
     iconImage.center = CGPointMake(KGscreenWidth/2, 130);
@@ -51,6 +51,9 @@
     
     _userName = [[KGTextField alloc]initWithFrame:CGRectMake(100, 250, KGscreenWidth - 120, 30)];
     _userName.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"手机号" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userPhone"]) {
+        _userName.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userPhone"];
+    }
     _userName.font = KGFont(15);
     _userName.keyboardType = UIKeyboardTypePhonePad;
     _userName.delegate = self;
@@ -75,6 +78,9 @@
     _passWord = [[KGTextField alloc]initWithFrame:CGRectMake(100, 290, KGscreenWidth - 120, 30)];
     _passWord.backgroundColor = [UIColor whiteColor];
     _passWord.attributedPlaceholder = [[NSAttributedString alloc]initWithString:@"密码" attributes:[self dictionaryWithFont:13 andColor:KGcolor(192, 193, 198, 1)]];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"passWord"]) {
+        _passWord.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"passWord"];
+    }
     _passWord.font = KGFont(15);
     _passWord.delegate = self;
     _passWord.secureTextEntry = YES;
@@ -151,7 +157,6 @@
 
 #pragma mark -登录按钮点击事件-
 - (void)loginClick:(UIButton *)sender{
-    [self AFNetworkStatus];
     __weak typeof(self) weakSelf = self;
     if (_trueOrfail == YES) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -162,6 +167,7 @@
                 UIWindow *window = [[UIApplication sharedApplication] keyWindow];
                 window.rootViewController = [[KGTabBarViewController alloc] init];
                 [[NSUserDefaults standardUserDefaults] setObject:_userName.text forKey:@"userPhone"];
+                [[NSUserDefaults standardUserDefaults] setObject:_passWord.text forKey:@"passWord"];
                 [[NSUserDefaults standardUserDefaults] setObject:data[@"id"] forKey:@"userId"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
