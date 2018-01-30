@@ -27,6 +27,7 @@
     if (self) {
         self.backgroundColor = KGcolor(210, 226, 226, 0.5);
         [self initBackView];
+        [self setView];
     }
     return self;
 }
@@ -61,6 +62,30 @@
     
 }
 
+- (void)setView{
+    _additionalInformation = [[UITextView alloc]initWithFrame:CGRectMake(0, 40, _backView.frame.size.width,310)];
+    _additionalInformation.textColor = [UIColor blackColor];
+    _additionalInformation.delegate = self;
+    _additionalInformation.hidden = NO;
+    [_backView addSubview:_additionalInformation];
+    
+    _plachHodel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, _additionalInformation.frame.size.width - 20, 30)];
+    _plachHodel.text = @"请输入附加信息";
+    _plachHodel.textColor = [UIColor grayColor];
+    [_additionalInformation addSubview:_plachHodel];
+    
+    _bedType = [[UITextField alloc]initWithFrame:CGRectMake(0, 40, _backView.frame.size.width,310)];
+    _bedType.textColor = [UIColor blackColor];
+    _bedType.placeholder = @"请输入房型：如:1.2m*1.8m";
+    _bedType.delegate = self;
+    [_backView addSubview:_bedType];
+    
+    _captaion = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 40, _backView.frame.size.width,310)];
+    _captaion.delegate = self;
+    _captaion.dataSource = self;
+    [_backView addSubview:_captaion];
+}
+
 - (void)buttonClick:(UIButton *)sender{
     
     if ([sender.titleLabel.text isEqualToString:@"确认"]) {
@@ -89,16 +114,8 @@
     _shureBtu.tag = type;
     _bedType.hidden = YES;
     _captaion.hidden = YES;
-    _additionalInformation = [[UITextView alloc]initWithFrame:CGRectMake(0, 40, _backView.frame.size.width,310)];
-    _additionalInformation.textColor = [UIColor blackColor];
-    _additionalInformation.delegate = self;
     _additionalInformation.hidden = NO;
-    [_backView addSubview:_additionalInformation];
-    
-    _plachHodel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, _additionalInformation.frame.size.width - 20, 30)];
-    _plachHodel.text = @"请输入附加信息";
-    _plachHodel.textColor = [UIColor grayColor];
-    [_additionalInformation addSubview:_plachHodel];
+    _plachHodel.hidden = NO;
 }
 
 - (void)showTextFieldtype:(NSInteger)type{
@@ -106,11 +123,7 @@
     _additionalInformation.hidden = YES;
     _captaion.hidden = YES;
     _plachHodel.hidden = YES;
-    _bedType = [[UITextField alloc]initWithFrame:CGRectMake(0, 40, _backView.frame.size.width,310)];
-    _bedType.textColor = [UIColor blackColor];
-    _bedType.placeholder = @"请输入房型：如:1.2m*1.8m";
-    _bedType.delegate = self;
-    [_backView addSubview:_bedType];
+    _bedType.hidden = NO;
 }
 
 - (void)showPickViewtype:(NSInteger)type{
@@ -118,10 +131,7 @@
     _additionalInformation.hidden = YES;
     _bedType.hidden = YES;
     _plachHodel.hidden = YES;
-    _captaion = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 40, _backView.frame.size.width,310)];
-    _captaion.delegate = self;
-    _captaion.dataSource = self;
-    [_backView addSubview:_captaion];
+    _captaion.hidden = NO;
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -130,7 +140,7 @@
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    return 100;
+    return 20;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{

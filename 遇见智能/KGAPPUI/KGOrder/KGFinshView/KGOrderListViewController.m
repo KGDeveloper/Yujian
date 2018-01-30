@@ -126,7 +126,10 @@
             [arr addObjectsFromArray:_finishArr];
             _listView.titleArr = arr;
         }
-        _listView.listView.tableHeaderView = [UIView new];
+        if (_listView.titleArr.count > 0) {
+            _listView.listView.tableHeaderView = [UIView new];
+        }
+        
         [_listView.listView reloadData];
         
     } fail:^(NSString *error) {
@@ -170,12 +173,16 @@
         case 0:
             _listView.titleArr = _waitArr;
             [_listView.listView reloadData];
-            _listView.listView.tableHeaderView = [UIView new];
+            if (_listView.titleArr.count > 0) {
+                _listView.listView.tableHeaderView = [UIView new];
+            }
             break;
         case 1:
             _listView.titleArr = _finishArr;
             [_listView.listView reloadData];
-            _listView.listView.tableHeaderView = [UIView new];
+            if (_listView.titleArr.count > 0) {
+                _listView.listView.tableHeaderView = [UIView new];
+            }
             break;
         default:
             
@@ -183,7 +190,9 @@
             [arr addObjectsFromArray:_finishArr];
             _listView.titleArr = arr;
             [_listView.listView reloadData];
-            _listView.listView.tableHeaderView = [UIView new];
+            if (_listView.titleArr.count > 0) {
+                _listView.listView.tableHeaderView = [UIView new];
+            }
             break;
     }
 }

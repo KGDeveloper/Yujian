@@ -89,7 +89,6 @@
         }
     }
     [self.view addSubview:controller.view];
-    
 }
 
 //根据字典中是否存在相关页面对应的key，没有的话存储

@@ -11,5 +11,6 @@
 @interface KGDetaialViewController : KGBaseViewController
 
 @property (nonatomic,copy) NSString *hotellId;
+@property (strong, nonatomic) UITableView *listTableView;
 
 @end

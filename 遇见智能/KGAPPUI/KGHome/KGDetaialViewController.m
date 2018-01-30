@@ -15,7 +15,6 @@
     NSInteger page;
     NSInteger pageSize;
 }
-@property (strong, nonatomic) UITableView *listTableView;
 @property (nonatomic,strong) UIButton *addHotell;
 @property (nonatomic,strong) NSMutableArray *dataArr;
 
@@ -25,7 +24,6 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [_listTableView.mj_header beginRefreshing];
 }
 
 - (void)viewDidLoad {
@@ -36,7 +34,6 @@
     page = 0;
     pageSize = 10;
     _dataArr = [NSMutableArray array];
-    [self setDataArray];
 
     if (KGDevice_Is_iPhoneX == YES) {
         _listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 88, KGscreenWidth, KGscreenHeight - 88)];
@@ -92,7 +89,9 @@
         [weakSelf hide];
         [weakSelf.listTableView.mj_header endRefreshing];
         [weakSelf.listTableView.mj_footer endRefreshing];
-        weakSelf.listTableView.tableHeaderView = [UIView new];
+        if (weakSelf.dataArr.count > 0) {
+            weakSelf.listTableView.tableHeaderView = [UIView new];
+        }
         [weakSelf.listTableView reloadData];
     } fail:^(NSString *error) {
         

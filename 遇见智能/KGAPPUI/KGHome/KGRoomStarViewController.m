@@ -15,8 +15,6 @@
     NSInteger page;
     NSInteger pageSize;
 }
-
-@property (strong, nonatomic) UITableView *listTableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
 @property (nonatomic,strong) KGRoomStarDetaialView *detaialView;
 @property (nonatomic,strong) NSMutableArray *dateArray;
@@ -101,7 +99,9 @@
             [mySelf hide];
             [mySelf.listTableView.mj_header endRefreshing];
             [mySelf.listTableView.mj_footer endRefreshing];
-            _listTableView.tableHeaderView = [UIView new];
+            if (mySelf.dataArr.count > 0) {
+                _listTableView.tableHeaderView = [UIView new];
+            }
             [_listTableView reloadData];
         }
     } fail:^(NSString *error) {

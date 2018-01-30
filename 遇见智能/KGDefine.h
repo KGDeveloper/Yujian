@@ -26,7 +26,9 @@
 //设置字体和颜色
 #define KGAttributesFont(Font,Color) @{ NSForegroundColorAttributeName:Color,NSFontAttributeName:[UIFont fontWithName:@"Marion-Italic" size:Font]}
 
+//系统颜色
 #define KGCellHave [UIColor colorWithRed:226/255.0 green:17/255.0 blue:38/255.0 alpha:1]
+//灰色
 #define KGCellDont [UIColor colorWithRed:154/255.0 green:154/255.0 blue:154/255.0 alpha:1]
 
 #endif /* KGDefine_h */

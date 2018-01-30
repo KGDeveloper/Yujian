@@ -15,6 +15,7 @@
 
 @property (nonatomic,strong) UIButton *roomType;
 @property (nonatomic,strong) KGPriceTextField *priceTextField;
+@property (nonatomic,strong) KGPriceTextField *priceHotel;
 @property (nonatomic,strong) KGRoomView *room;
 @property (nonatomic,strong) NSMutableArray *roomData;
 @property (nonatomic,strong) KGRoomTextField *roomAdd;
@@ -84,71 +85,64 @@
 #pragma mark -设置附加信息等参数按钮-
 - (void)initButton{
     
-    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(10, 500, 80, 275)];
-    backView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:backView];
-    
-    UILabel *msgLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80, 30)];
-    msgLabel.text = @"添加附加信息";
-    msgLabel.font = KGFont(11);
-    msgLabel.textAlignment = NSTextAlignmentCenter;
-    [backView addSubview:msgLabel];
+    NSInteger width = (KGscreenWidth - 40)/3;
+
  #pragma mark -设置附加信息等参数-
-    _toiletBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 30,80, 30)];
+    _toiletBtu = [[UIButton alloc]initWithFrame:CGRectMake(10, 310,width, 30)];
     [_toiletBtu setTitle:@"独立卫浴" forState:UIControlStateNormal];
     _toiletBtu.backgroundColor = [UIColor grayColor];
     _toiletBtu.titleLabel.font = KGFont(11);
     [_toiletBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_toiletBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:_toiletBtu];
+    [self.view addSubview:_toiletBtu];
 #pragma mark -设置附加信息等参数-
-    _refrigeratorBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 65,80, 30)];
+    _refrigeratorBtu = [[UIButton alloc]initWithFrame:CGRectMake(20 + width, 310,width, 30)];
     [_refrigeratorBtu setTitle:@"有无冰箱" forState:UIControlStateNormal];
     _refrigeratorBtu.backgroundColor = [UIColor grayColor];
     _refrigeratorBtu.titleLabel.font = KGFont(11);
     [_refrigeratorBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_refrigeratorBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:_refrigeratorBtu];
+    [self.view addSubview:_refrigeratorBtu];
 #pragma mark -设置附加信息等参数-
-    _wifiBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 100,80, 30)];
+    _wifiBtu = [[UIButton alloc]initWithFrame:CGRectMake(30 + width*2, 310,width, 30)];
     [_wifiBtu setTitle:@"有无wifi" forState:UIControlStateNormal];
     _wifiBtu.backgroundColor = [UIColor grayColor];
     _wifiBtu.titleLabel.font = KGFont(11);
     [_wifiBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_wifiBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:_wifiBtu];
+    [self.view addSubview:_wifiBtu];
 #pragma mark -设置附加信息等参数-
-    _breakfastBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 135,80, 30)];
+    _breakfastBtu = [[UIButton alloc]initWithFrame:CGRectMake(10, 350,width, 30)];
     [_breakfastBtu setTitle:@"有无早餐" forState:UIControlStateNormal];
     _breakfastBtu.backgroundColor = [UIColor grayColor];
     _breakfastBtu.titleLabel.font = KGFont(11);
     [_breakfastBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_breakfastBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:_breakfastBtu];
+    [self.view addSubview:_breakfastBtu];
 #pragma mark -设置附加信息等参数-
-    _additionalInformationBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 170,80, 30)];
+    _additionalInformationBtu = [[UIButton alloc]initWithFrame:CGRectMake(20 + width, 350,width, 30)];
     [_additionalInformationBtu setTitle:@"附加信息" forState:UIControlStateNormal];
     _additionalInformationBtu.backgroundColor = [UIColor grayColor];
     _additionalInformationBtu.titleLabel.font = KGFont(11);
     [_additionalInformationBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_additionalInformationBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:_additionalInformationBtu];
+    [self.view addSubview:_additionalInformationBtu];
 #pragma mark -设置附加信息等参数-
-    _bedTypeBtu = [[UIButton alloc]initWithFrame:CGRectMake(00, 205,80, 30)];
+    _bedTypeBtu = [[UIButton alloc]initWithFrame:CGRectMake(30 + width*2, 350,width, 30)];
     [_bedTypeBtu setTitle:@"设置床型" forState:UIControlStateNormal];
     _bedTypeBtu.backgroundColor = [UIColor grayColor];
     _bedTypeBtu.titleLabel.font = KGFont(11);
     [_bedTypeBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_bedTypeBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:_bedTypeBtu];
+    [self.view addSubview:_bedTypeBtu];
 #pragma mark -设置附加信息等参数-
-    _captaionBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 240,80, 30)];
-    [_captaionBtu setTitle:@"设置人数" forState:UIControlStateNormal];
+    _captaionBtu = [[UIButton alloc]initWithFrame:CGRectMake(10, 390,width, 30)];
+    [_captaionBtu setTitle:@"设置人数(*必填)" forState:UIControlStateNormal];
     _captaionBtu.backgroundColor = [UIColor grayColor];
     _captaionBtu.titleLabel.font = KGFont(11);
     [_captaionBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_captaionBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [backView addSubview:_captaionBtu];
+    [self.view addSubview:_captaionBtu];
 }
 
 #pragma mark -设置附加信息等参数的点击事件-
@@ -214,17 +208,11 @@
                 }
                 break;
             case 102:
-                [_postDic setObject:obj.text forKey:@"weekdaysPrice"];
-                break;
-            case 103:
-                [_postDic setObject:obj.text forKey:@"hourPrice"];
-                break;
-            case 104:
                 if (obj.text.length > 0) {
                     _isWrite = YES;
                     [_postDic setObject:obj.text forKey:@"deposit"];
                 }else{
-                    _isWrite = NO;
+                    [_postDic setObject:@"0" forKey:@"deposit"];
                 }
                 break;
             default:
@@ -275,6 +263,8 @@
         
         NSData *imageData = UIImageJPEGRepresentation(_pictureImage.image, 1);
         NSString *imageStr = [imageData base64Encoding];
+        [_postDic setObject:@"0" forKey:@"weekdaysPrice"];
+        [_postDic setObject:@"0" forKey:@"hourPrice"];
         [_postDic setObject:imageStr forKey:@"roomPictureAddr"];
         [_postDic setObject:@"1" forKey:@"count"];
         [_postDic setObject:_hotellId forKey:@"hotelId"];
@@ -285,15 +275,14 @@
             
             [[KGRequest sharedInstance] changeHotelRoomWithDictionary:_postDic succ:^(NSString *msg, id data) {
                 if ([msg isEqualToString:@"修改房间信息成功"]) {
-                    [MySelf alertViewControllerTitle:@"提示" message:msg name:@"确定" type:0 preferredStyle:1];
+                    [self alertViewTitle:msg];
                 }
             } fail:^(NSString *error) {
                 [MySelf alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
             }];
         }else{
             [[KGRequest sharedInstance] addRoomWithDictionary:_postDic succ:^(NSString *msg, id data) {
-                [self alertViewControllerTitle:@"提示" message:msg name:@"确定" type:0 preferredStyle:1];
-                [self.navigationController popToViewController:[[KGDetaialViewController alloc]init] animated:YES];
+                [self alertViewTitle:msg];
             } fail:^(NSString *error) {
                 [self alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
             }];
@@ -316,7 +305,7 @@
 
 #pragma mark -添加房间信息-
 - (void)setRoomText{
-    _roomAdd = [[KGRoomTextField alloc]initWithFrame:CGRectMake(100,450, KGscreenWidth - 100, 40)];
+    _roomAdd = [[KGRoomTextField alloc]initWithFrame:CGRectMake(100,490, KGscreenWidth - 100, 40)];
     _roomAdd.textColor = [UIColor grayColor];
     _roomAdd.backgroundColor = [UIColor whiteColor];
     _roomAdd.placeholder = @"请输入房间号点击右侧添加按钮";
@@ -358,7 +347,7 @@
 
 #pragma mark -创建房间按钮-
 - (void)setRoomButton{
-    _room = [[KGRoomView alloc]initWithFrame:CGRectMake(100, 500, KGscreenWidth - 100, KGscreenHeight - 500)];
+    _room = [[KGRoomView alloc]initWithFrame:CGRectMake(100, 540, KGscreenWidth - 100, KGscreenHeight - 540)];
     [self.view addSubview:_room];
 }
 
@@ -369,26 +358,46 @@
 
 #pragma mark -创建提示标签-
 - (void)setLabelFromArray{
-    NSArray *titleLabelArr = @[@"房型名称:",@"默认房价:",@"周末房价:",@"小时房价:",@"押金金额:",@"房间号码:"];
+    NSArray *titleLabelArr = @[@"房型名称:",@"默认房价:",@"押金金额:",@"房间号码:"];
     if ([_type isEqualToString:@"修改"]) {
         for (int i = 0; i < 5 ; i++) {
-            UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200 + 50 * i, 100, 40)];
-            titleLabel.text = titleLabelArr[i];
-            titleLabel.tintColor = [UIColor grayColor];
-            titleLabel.backgroundColor = [UIColor whiteColor];
-            titleLabel.textAlignment = NSTextAlignmentRight;
-            titleLabel.font = [UIFont systemFontOfSize:13.0f];
-            [self.view addSubview:titleLabel];
+            if (i > 1) {
+                UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 440 + 50 * (i - 2), 100, 40)];
+                titleLabel.text = titleLabelArr[i];
+                titleLabel.tintColor = [UIColor grayColor];
+                titleLabel.backgroundColor = [UIColor whiteColor];
+                titleLabel.textAlignment = NSTextAlignmentRight;
+                titleLabel.font = [UIFont systemFontOfSize:13.0f];
+                [self.view addSubview:titleLabel];
+            }else{
+                UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200 + 50 * i, 100, 40)];
+                titleLabel.text = titleLabelArr[i];
+                titleLabel.tintColor = [UIColor grayColor];
+                titleLabel.backgroundColor = [UIColor whiteColor];
+                titleLabel.textAlignment = NSTextAlignmentRight;
+                titleLabel.font = [UIFont systemFontOfSize:13.0f];
+                [self.view addSubview:titleLabel];
+            }
         }
     }else{
         for (int i = 0; i < titleLabelArr.count ; i++) {
-            UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200 + 50 * i, 100, 40)];
-            titleLabel.text = titleLabelArr[i];
-            titleLabel.tintColor = [UIColor grayColor];
-            titleLabel.backgroundColor = [UIColor whiteColor];
-            titleLabel.textAlignment = NSTextAlignmentRight;
-            titleLabel.font = [UIFont systemFontOfSize:13.0f];
-            [self.view addSubview:titleLabel];
+            if (i > 1) {
+                UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 440 + 50 * (i - 2), 100, 40)];
+                titleLabel.text = titleLabelArr[i];
+                titleLabel.tintColor = [UIColor grayColor];
+                titleLabel.backgroundColor = [UIColor whiteColor];
+                titleLabel.textAlignment = NSTextAlignmentRight;
+                titleLabel.font = [UIFont systemFontOfSize:13.0f];
+                [self.view addSubview:titleLabel];
+            }else{
+                UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 200 + 50 * i, 100, 40)];
+                titleLabel.text = titleLabelArr[i];
+                titleLabel.tintColor = [UIColor grayColor];
+                titleLabel.backgroundColor = [UIColor whiteColor];
+                titleLabel.textAlignment = NSTextAlignmentRight;
+                titleLabel.font = [UIFont systemFontOfSize:13.0f];
+                [self.view addSubview:titleLabel];
+            }
         }
     }
 }
@@ -417,30 +426,42 @@
 
 #pragma mark -房价设置UI-
 - (void)setPriceTextFieldUI{
-    NSArray *placeholderArr = @[@"请填写平日价格",@"请填写周末价格",@"请填写小时房的价格",@"请填写押金"];
-    for (int i = 0; i < placeholderArr.count; i++) {
-        _priceTextField = [[KGPriceTextField alloc]initWithFrame:CGRectMake(100,  250 + 50 * i, KGscreenWidth - 100, 40)];
-        _priceTextField.backgroundColor = [UIColor whiteColor];
-        _priceTextField.placeholder = placeholderArr[i];
-        _priceTextField.textColor = [UIColor grayColor];
-        _priceTextField.delegate = self;
-        _priceTextField.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"人民币"]];
-        _priceTextField.leftViewMode = UITextFieldViewModeAlways;
-        _priceTextField.rightView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"元"]];
-        _priceTextField.rightViewMode = UITextFieldViewModeAlways;
-        _priceTextField.font = [UIFont systemFontOfSize:13.0f];
-        _priceTextField.tag = 101 + i;
-        [self.view addSubview:_priceTextField];
-    }
+
+    _priceTextField = [[KGPriceTextField alloc]initWithFrame:CGRectMake(100,  250 , KGscreenWidth - 100, 40)];
+    _priceTextField.backgroundColor = [UIColor whiteColor];
+    _priceTextField.placeholder = @"(必填*)请填写平日价格";
+    _priceTextField.textColor = [UIColor grayColor];
+    _priceTextField.delegate = self;
+    _priceTextField.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"人民币"]];
+    _priceTextField.leftViewMode = UITextFieldViewModeAlways;
+    _priceTextField.rightView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"元"]];
+    _priceTextField.rightViewMode = UITextFieldViewModeAlways;
+    _priceTextField.font = [UIFont systemFontOfSize:13.0f];
+    _priceTextField.tag = 101;
+    [self.view addSubview:_priceTextField];
+    
+    _priceHotel = [[KGPriceTextField alloc]initWithFrame:CGRectMake(100,440, KGscreenWidth - 100, 40)];
+    _priceHotel.backgroundColor = [UIColor whiteColor];
+    _priceHotel.placeholder = @"(选填:不填视为0)请填写押金";
+    _priceHotel.textColor = [UIColor grayColor];
+    _priceHotel.delegate = self;
+    _priceHotel.leftView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"人民币"]];
+    _priceHotel.leftViewMode = UITextFieldViewModeAlways;
+    _priceHotel.rightView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"元"]];
+    _priceHotel.rightViewMode = UITextFieldViewModeAlways;
+    _priceHotel.font = [UIFont systemFontOfSize:13.0f];
+    _priceHotel.tag = 102;
+    [self.view addSubview:_priceHotel];
+    
+    UILabel *back = [[UILabel alloc]initWithFrame:CGRectMake(0,300 , KGscreenWidth, 130)];
+    back.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:back];
 }
 
 #pragma mark -收件盘-
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    for (UITextField *textField in self.view.subviews) {
-        if (textField.tag >= 101 ) {
-            [textField resignFirstResponder];
-        }
-    }
+    [_priceTextField resignFirstResponder];
+    [_priceHotel resignFirstResponder];
     [_roomAdd resignFirstResponder];
     _pickerView.hidden = YES;
 }
@@ -556,6 +577,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)alertViewTitle:(NSString *)message{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:1];
+    UIAlertAction *okact = [UIAlertAction actionWithTitle:@"确定" style:0 handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
+    
+    [alert addAction:okact];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 /*

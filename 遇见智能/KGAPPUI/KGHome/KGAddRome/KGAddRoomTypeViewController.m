@@ -50,9 +50,9 @@
     
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, 110)];
     headerView.backgroundColor = [UIColor whiteColor];
-    _addRoom = [[KGRoomTextField alloc]initWithFrame:CGRectMake(20,0, KGscreenWidth - 40, 50)];
+    _addRoom = [[KGRoomTextField alloc]initWithFrame:CGRectMake(0,0, KGscreenWidth - 20, 50)];
     _addRoom.textColor = [UIColor grayColor];
-    _addRoom.placeholder = @"请输入房型";
+    _addRoom.placeholder = @"请输入房型，然后点击右侧添加按钮添加房型";
     _addRoom.font = [UIFont systemFontOfSize:15.0f];
     _addRoom.clearsOnBeginEditing = YES;
     _addRoom.delegate = self;

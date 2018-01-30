@@ -39,8 +39,7 @@
     page = 0;
     pageSize = 10;
     _dataArr = [NSMutableArray array];
-    
-    [self setDataArr];
+
     [self setListView];
     [self initAddHotellBut];
 }
@@ -57,7 +56,9 @@
                 KGHomeModel *model = [[KGHomeModel alloc]initWithDictionary:dic];
                 [weakSelf.dataArr addObject:model];
             }
-            weakSelf.listView.tableFooterView = [UIView new];
+            if (weakSelf.dataArr.count > 0) {
+                weakSelf.listView.tableFooterView = [UIView new];
+            }
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [weakSelf.listView.mj_header endRefreshing];
             [weakSelf.listView.mj_footer endRefreshing];

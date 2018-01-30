@@ -12,13 +12,15 @@
 //正式地址
 //#define URL_ENTRY @"https://www.aiwisdoms.com:8443/"
 #define URL_ENTRY @"https://119.23.211.22:8443/"
+
 //测试地址
 //#define URL_ENTRY @"https://192.168.1.19:8080/"
-//测试地址
 //#define URL_ENTRY @"https://192.168.1.210:8080/"
+
 #define IMG_APPEND_PREFIX(url) [IMG_PREFIX stringByAppendingString:url]
 
 #define KGLogin [URL_ENTRY stringByAppendingString:@"/login"]//登录
+
 #define KGHomeName [URL_ENTRY stringByAppendingString:@"/index"]//首页
 #define KGForget [URL_ENTRY stringByAppendingString:@"/update_psw"]//忘记密码
 #define KGRegister [URL_ENTRY stringByAppendingString:@"/merchantRegist"]//注册
