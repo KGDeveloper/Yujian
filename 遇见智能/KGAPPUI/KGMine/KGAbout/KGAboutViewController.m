@@ -41,28 +41,29 @@
     [self.view addSubview:backImage];
     
     /*
-     *login
+     *图标
      */
     UIImageView *logImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
     logImage.center = CGPointMake(KGscreenWidth/2, KGscreenHeight/2);
     logImage.image = KGImage(@"meeting");
     [self.view addSubview:logImage];
     
-    
-//    UITextView *text = [[UITextView alloc]initWithFrame:CGRectMake(50, 100, KGscreenWidth - 100, KGscreenHeight - 150)];
-//    text.text = @"";
-//    text.textColor = KGcolor(231, 99, 40, 1);
-//    text.backgroundColor = [UIColor clearColor];
-//    text.font = [UIFont fontWithName:@"Arial" size:15.0f];
-//    text.textAlignment = NSTextAlignmentCenter;
-//    text.delegate         = self;
-//    text.editable         = YES;
-//
-//    [self.view addSubview:text];
+    /***此处注释的是显示关于我们的一些文本，可以使用可变字符串去编译**
+    UITextView *text = [[UITextView alloc]initWithFrame:CGRectMake(50, 100, KGscreenWidth - 100, KGscreenHeight - 150)];
+    text.text = @"";
+    text.textColor = KGcolor(231, 99, 40, 1);
+    text.backgroundColor = [UIColor clearColor];
+    text.font = [UIFont fontWithName:@"Arial" size:15.0f];
+    text.textAlignment = NSTextAlignmentCenter;
+    text.delegate         = self;
+    text.editable         = YES;
+
+    [self.view addSubview:text];
+     **********/
 }
 
--(BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
+/**UItextView不允许编译，只显示文本，可以复制**/
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
     return NO;
 }
 

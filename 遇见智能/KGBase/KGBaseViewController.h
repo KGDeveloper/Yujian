@@ -61,11 +61,6 @@
  @param preferredStyle 设置警告框现实样式
  */
 - (void)alertViewControllerTitle:(NSString *)title message:(NSString *)message name:(NSString *)name type:(NSInteger)type preferredStyle:(UIAlertControllerStyle)preferredStyle;
-
-/**
- 警告框点击按钮后要执行的方法在这里实现
- */
-- (void)alertControllerAction;
 /**
  返回字典
 

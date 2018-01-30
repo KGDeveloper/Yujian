@@ -32,7 +32,7 @@
     _listView.dataSource = self;
     _listView.tableFooterView = [UIView new];
     _listView.rowHeight = 160;
-    UIImageView *normalIamge = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, KGscreenWidth*5/7)];
+    UIImageView *normalIamge = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, KGscreenHeight)];
     normalIamge.image = KGImage(@"zhanwei");
     if (_titleArr.count == 0) {
         _listView.tableHeaderView = normalIamge;
@@ -115,16 +115,5 @@
     
 }
 
-
-
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

@@ -75,6 +75,7 @@
     _mineTableView.dataSource = self;
     _mineTableView.tableHeaderView = backView;
     UIView *footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, _mineTableView.frame.size.height - 550)];
+    footView.backgroundColor = [UIColor whiteColor];
     UIButton *jionOutBtu = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth - 100, 30)];
     jionOutBtu.center = CGPointMake(KGscreenWidth/2, footView.frame.size.height/2);
     [jionOutBtu setTitle:@"退出登录" forState:UIControlStateNormal];
@@ -86,7 +87,8 @@
     [footView addSubview:jionOutBtu];
     _mineTableView.tableFooterView = footView;
     _mineTableView.scrollEnabled = NO;
-    _mineTableView.rowHeight = 50;
+    _mineTableView.rowHeight = 51;
+    _mineTableView.backgroundColor = KGcolor(231, 231, 231, 1);
     [self.view addSubview:_mineTableView];
 }
 

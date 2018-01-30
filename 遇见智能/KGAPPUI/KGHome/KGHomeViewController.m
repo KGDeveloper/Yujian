@@ -40,7 +40,6 @@
     pageSize = 10;
     _dataArr = [NSMutableArray array];
     
-//    [self setUpRightNavButtonItmeTitle:@"编辑" icon:nil];
     [self setDataArr];
     [self setListView];
     [self initAddHotellBut];
@@ -121,7 +120,7 @@
 #pragma mark -创建显示酒店名称的列表-
 - (void)setListView{
     
-    UIImageView *normalIamge = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, KGscreenWidth*5/7)];
+    UIImageView *normalIamge = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, KGscreenHeight)];
     normalIamge.image = KGImage(@"zhanwei");
     
     _listView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, KGscreenWidth, KGscreenHeight - 49 - 64)];

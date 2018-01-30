@@ -136,9 +136,7 @@
         [alert addAction:action];
     }else{
         //创建多按钮警告
-        UIAlertAction *sureAct = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self alertControllerAction];
-        }];
+        UIAlertAction *sureAct = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:nil];
         
         UIAlertAction *canalAct = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         
@@ -147,11 +145,6 @@
     }
     //显示警告框
     [self presentViewController:alert animated:YES completion:nil];
-    
-}
-
-#pragma mark - 警告框点击按钮后要执行的方法在这里实现-
-- (void)alertControllerAction{
     
 }
 

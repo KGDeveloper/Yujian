@@ -42,8 +42,8 @@
     
     // -- 遵守协议，设置代理人
     [_listView setDelegate:self];
-    
     [_listView setDataSource:self];
+    
     _listView.rowHeight = 50;
     _listView.tableFooterView = [UIView new];
     _listView.scrollEnabled = NO;
@@ -85,6 +85,12 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"KGCustomeTableViewCell" owner:self options:nil] lastObject];
     }
     cell.backgroundColor = [UIColor clearColor];
+    /*
+     UITableViewCellSelectionStyleNone,   // -- 点击cell的时候cell没有变化
+     UITableViewCellSelectionStyleBlue,   // -- 点击cell的时候变蓝
+     UITableViewCellSelectionStyleGray,   // -- 点击cell的时候cell变灰色
+     UITableViewCellSelectionStyleDefault    // -- 点击cell的时候cell变灰色
+     */
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;

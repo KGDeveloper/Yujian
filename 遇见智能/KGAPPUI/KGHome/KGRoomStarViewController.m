@@ -49,6 +49,11 @@
     _listTableView.delegate = self;
     _listTableView.dataSource = self;
     __weak typeof(self) MySelf = self;
+    if (_dataArr.count == 0) {
+        UIImageView *normalIamge = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, KGscreenWidth, KGscreenHeight)];
+        normalIamge.image = KGImage(@"zhanwei");
+        _listTableView.tableHeaderView = normalIamge;
+    }
     _listTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         page = 0;
         [MySelf.dataArr removeAllObjects];
@@ -96,6 +101,7 @@
             [mySelf hide];
             [mySelf.listTableView.mj_header endRefreshing];
             [mySelf.listTableView.mj_footer endRefreshing];
+            _listTableView.tableHeaderView = [UIView new];
             [_listTableView reloadData];
         }
     } fail:^(NSString *error) {

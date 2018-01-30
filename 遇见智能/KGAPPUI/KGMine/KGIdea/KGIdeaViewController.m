@@ -28,6 +28,9 @@
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
+    /**
+     设置UItextview中的提示文字，制造出预留字效果，当开始编辑是影藏，每次进入页面时清空UItextview，显示预留字
+     **/
     contentTextView.text = @"";
     placeHolder.hidden = NO;
 }
@@ -50,9 +53,13 @@
          */
         if( [MFMessageComposeViewController canSendText] )
         {
+            //初始化短信发送窗口
             MFMessageComposeViewController *message = [[MFMessageComposeViewController alloc]init];
+            //文本内容
             message.body = contentTextView.text;
+            //目标手机号，是一个数组，可以同时向多个人发送短信，用的系统的短信发送接口
             message.recipients = @[@"18801496926"];
+            //遵守协议，然后在代理方法里面实现短信发送成功后是否返回软件
             message.messageComposeDelegate = self;
             [self presentViewController:message animated:YES completion:nil];
         }
@@ -64,11 +71,11 @@
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
     [controller dismissViewControllerAnimated:YES completion:nil];
-    if (result == MessageComposeResultCancelled) {
+    if (result == MessageComposeResultCancelled) {//点击取消发送按钮后走这个判断
         [self alertViewControllerTitle:@"提示" message:@"已取消发送意见" name:@"确定" type:0 preferredStyle:1];
-    }else if (result == MessageComposeResultSent) {
+    }else if (result == MessageComposeResultSent) {//点击发送后发送成功走这个判断
         [self alertViewControllerTitle:@"提示" message:@"意见发送成功" name:@"确定" type:0 preferredStyle:1];
-    }else {
+    }else {//点击发送短信后短信发送失败后走这个判断
         [self alertViewControllerTitle:@"提示" message:@"意见发送失败" name:@"确定" type:0 preferredStyle:1];
     }
 }
@@ -118,6 +125,7 @@
                                  NSFontAttributeName:[UIFont systemFontOfSize:13],
                                  NSParagraphStyleAttributeName:paragraphStyle
                                  };
+    //设置UItextview的字体，字号，颜色
     textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
 }
 
