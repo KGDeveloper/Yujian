@@ -245,9 +245,7 @@
             if (_tureOrfail == YES) {
                 [[KGRequest sharedInstance] forgetPassWord:_phoneNumber.text passWord:_passWord.text succ:^(NSString *msg, id data) {
                     if ([msg isEqualToString:@"修改成功"]) {
-                        [self alertViewTitle:@"提示" message:@"修改成功,请返回登录页面,使用新密码登录"];
-//                        // 验证成功
-//                        [self.navigationController popViewControllerAnimated:YES];
+                        [self alertViewTitle:@"密码修改成功，请返回登录页面，使用新密码登录"];
                     }else{
                         [self alertViewTitle:@"提示" message:@"修改失败"];
                     }
@@ -353,6 +351,16 @@
     [_verify resignFirstResponder];
 }
 
+- (void)alertViewTitle:(NSString *)message{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:1];
+    UIAlertAction *okact = [UIAlertAction actionWithTitle:@"确定" style:0 handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    
+    [alert addAction:okact];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 
 - (void)didReceiveMemoryWarning {

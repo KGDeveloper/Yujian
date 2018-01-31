@@ -29,7 +29,6 @@
     self.navigationController.navigationBar.hidden = YES;
     self.tabBarController.tabBar.hidden = YES;
     
-    [self AFNetworkStatus];
 }
 
 - (void)viewDidLoad {
@@ -158,7 +157,7 @@
 #pragma mark -登录按钮点击事件-
 - (void)loginClick:(UIButton *)sender{
     __weak typeof(self) weakSelf = self;
-    if (_trueOrfail == YES) {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"Server"] isEqualToString:@"OK"]) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [[KGRequest sharedInstance] loginWithPhone:_userName.text passWord:_passWord.text succ:^(NSString *msg, id data) {
             if ([msg isEqualToString:@"登录成功"]) {
@@ -177,7 +176,7 @@
             }
         } fail:^(NSString *error) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [weakSelf alertViewControllerTitle:@"提示" message:@"访问失败！" name:@"确定" type:0 preferredStyle:1];
+            [weakSelf alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
         }];
     }else{
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -214,36 +213,6 @@
     }
 }
 
-- (void)AFNetworkStatus{
-    
-    //1.创建网络监测者
-    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
- 
-    __weak typeof(self) MySelf = self;
-    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        
-        switch (status) {
-            case AFNetworkReachabilityStatusUnknown:
-                MySelf.trueOrfail = YES;
-                break;
-            case AFNetworkReachabilityStatusNotReachable:
-                MySelf.trueOrfail = NO;
-                break;
-            case AFNetworkReachabilityStatusReachableViaWWAN:
-                MySelf.trueOrfail = YES;
-                break;
-
-            case AFNetworkReachabilityStatusReachableViaWiFi:
-                MySelf.trueOrfail = YES;
-                break;
-            default:
-                break;
-        }
-
-    }] ;
-    
-    [manager startMonitoring];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

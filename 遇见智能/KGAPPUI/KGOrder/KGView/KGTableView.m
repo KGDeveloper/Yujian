@@ -58,7 +58,7 @@
         cell.roomType.text = model.hotelName;
         cell.timeLabel.text = model.roomName;
         cell.priceLabel.text = [NSString stringWithFormat:@"下单时间:%@",model.orderTime];;
-        cell.nameLabel.text = [NSString stringWithFormat:@"联系人:%@(%@)",model.customName,model.customPhoneNo];
+        cell.nameLabel.text = [NSString stringWithFormat:@"联系人:%@(%@)",model.checkInName,model.customPhoneNo];
         cell.orderLabel.text = model.orderNo;
         cell.orderId = model.orderId;
         if ([model.hotelConfirmStatus isEqualToString:@"0"]) {

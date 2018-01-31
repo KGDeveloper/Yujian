@@ -24,7 +24,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:[[KGLoginViewController alloc]init]];
     [self.window makeKeyAndVisible];
-
+    [self setAfnetWorking];
     return YES;
 }
 
@@ -36,10 +36,8 @@
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [self setAfnetWorking];
 }
-
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
@@ -107,6 +105,35 @@
         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
         abort();
     }
+}
+
+- (void)setAfnetWorking{
+    //1.创建网络监测者
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    
+    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        
+        switch (status) {
+            case AFNetworkReachabilityStatusUnknown:
+                [[NSUserDefaults standardUserDefaults] setObject:@"OK" forKey:@"Server"];
+                break;
+            case AFNetworkReachabilityStatusNotReachable:
+                [[NSUserDefaults standardUserDefaults] setObject:@"NO" forKey:@"Server"];
+                break;
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                [[NSUserDefaults standardUserDefaults] setObject:@"OK" forKey:@"Server"];
+                break;
+                
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                [[NSUserDefaults standardUserDefaults] setObject:@"OK" forKey:@"Server"];
+                break;
+            default:
+                break;
+        }
+        
+    }] ;
+    
+    [manager startMonitoring];
 }
 
 @end

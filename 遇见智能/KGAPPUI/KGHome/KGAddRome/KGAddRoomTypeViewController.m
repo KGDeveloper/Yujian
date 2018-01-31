@@ -56,7 +56,7 @@
     _addRoom.font = [UIFont systemFontOfSize:15.0f];
     _addRoom.clearsOnBeginEditing = YES;
     _addRoom.delegate = self;
-    UIButton *close = [[UIButton alloc]initWithFrame:CGRectMake(5, 5, 20, 20)];
+    UIButton *close = [[UIButton alloc]initWithFrame:CGRectMake(5, 5, 40, 40)];
     [close setImage:[UIImage imageNamed:@"添加-3"] forState:UIControlStateNormal];
     [close addTarget:self action:@selector(closeClick:) forControlEvents:UIControlEventTouchUpInside];
     _addRoom.rightView = close;

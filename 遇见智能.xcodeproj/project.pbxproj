@@ -12,7 +12,6 @@
 		CA19CAEA2008915A00310391 /* KGRoomStarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA19CAE92008915A00310391 /* KGRoomStarViewController.m */; };
 		CA19CAED2008917200310391 /* KGRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA19CAEC2008917200310391 /* KGRoomViewController.m */; };
 		CA19CAF12008A4F600310391 /* KGHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CA19CAF02008A4F600310391 /* KGHomeModel.m */; };
-		CA271970201C3C9100E34F4E /* zhang.cer in Resources */ = {isa = PBXBuildFile; fileRef = CA27196F201C3C9000E34F4E /* zhang.cer */; };
 		CA377DBC200D9606000E6EDE /* KGOrderDetaialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA377DBB200D9606000E6EDE /* KGOrderDetaialViewController.m */; };
 		CA377DC0200DCA57000E6EDE /* KGRoomStarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA377DBE200DCA57000E6EDE /* KGRoomStarTableViewCell.m */; };
 		CA377DC1200DCA57000E6EDE /* KGRoomStarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA377DBF200DCA57000E6EDE /* KGRoomStarTableViewCell.xib */; };
@@ -76,6 +75,7 @@
 		CAD0CF542008B6E7000643AB /* KGRubbishHotelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD0CF532008B6E7000643AB /* KGRubbishHotelViewController.m */; };
 		CAD0CF572008B6F4000643AB /* KGrubbishRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD0CF562008B6F4000643AB /* KGrubbishRoomViewController.m */; };
 		CAD0CF5A2008C6EE000643AB /* KGRoomModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD0CF592008C6EE000643AB /* KGRoomModel.m */; };
+		CAF1E74D2021903300DE4C7F /* zhang.cer in Resources */ = {isa = PBXBuildFile; fileRef = CAF1E74C2021903300DE4C7F /* zhang.cer */; };
 		CAF4C50A2009A1240078E6FA /* KGAddRoomTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF4C5092009A1240078E6FA /* KGAddRoomTypeViewController.m */; };
 		CAF4C50E2009A4540078E6FA /* KGRoomTypeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF4C50C2009A4540078E6FA /* KGRoomTypeTableViewCell.m */; };
 		CAF4C50F2009A4540078E6FA /* KGRoomTypeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAF4C50D2009A4540078E6FA /* KGRoomTypeTableViewCell.xib */; };
@@ -106,7 +106,6 @@
 		CA19CAEC2008917200310391 /* KGRoomViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGRoomViewController.m; sourceTree = "<group>"; };
 		CA19CAEF2008A4F600310391 /* KGHomeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGHomeModel.h; sourceTree = "<group>"; };
 		CA19CAF02008A4F600310391 /* KGHomeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGHomeModel.m; sourceTree = "<group>"; };
-		CA27196F201C3C9000E34F4E /* zhang.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = zhang.cer; sourceTree = "<group>"; };
 		CA377DBA200D9606000E6EDE /* KGOrderDetaialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGOrderDetaialViewController.h; sourceTree = "<group>"; };
 		CA377DBB200D9606000E6EDE /* KGOrderDetaialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGOrderDetaialViewController.m; sourceTree = "<group>"; };
 		CA377DBD200DCA56000E6EDE /* KGRoomStarTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGRoomStarTableViewCell.h; sourceTree = "<group>"; };
@@ -221,6 +220,7 @@
 		CAD0CF562008B6F4000643AB /* KGrubbishRoomViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGrubbishRoomViewController.m; sourceTree = "<group>"; };
 		CAD0CF582008C6EE000643AB /* KGRoomModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGRoomModel.h; sourceTree = "<group>"; };
 		CAD0CF592008C6EE000643AB /* KGRoomModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGRoomModel.m; sourceTree = "<group>"; };
+		CAF1E74C2021903300DE4C7F /* zhang.cer */ = {isa = PBXFileReference; lastKnownFileType = file; name = zhang.cer; path = "../../../遇见智能UI/zhang.cer"; sourceTree = "<group>"; };
 		CAF4C5082009A1240078E6FA /* KGAddRoomTypeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGAddRoomTypeViewController.h; sourceTree = "<group>"; };
 		CAF4C5092009A1240078E6FA /* KGAddRoomTypeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGAddRoomTypeViewController.m; sourceTree = "<group>"; };
 		CAF4C50B2009A4540078E6FA /* KGRoomTypeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGRoomTypeTableViewCell.h; sourceTree = "<group>"; };
@@ -386,7 +386,7 @@
 				CA8A372D1FE8BE6A0094BE19 /* KGBaseViewController.m */,
 				CA8A37301FE8BE6A0094BE19 /* KGRequest.h */,
 				CA8A372F1FE8BE6A0094BE19 /* KGRequest.m */,
-				CA27196F201C3C9000E34F4E /* zhang.cer */,
+				CAF1E74C2021903300DE4C7F /* zhang.cer */,
 				CA3AE4C22010856300F59ED1 /* zhu.cer */,
 				CA8A372C1FE8BE6A0094BE19 /* KGUserInfo.h */,
 				CA8A37311FE8BE6A0094BE19 /* KGUserInfo.m */,
@@ -810,7 +810,7 @@
 				CA3AE4C32010856300F59ED1 /* zhu.cer in Resources */,
 				CA8A38511FE914C90094BE19 /* KGMineTableViewCell.xib in Resources */,
 				CA8A383F1FE8F8F50094BE19 /* KGHomeListTableViewCell.xib in Resources */,
-				CA271970201C3C9100E34F4E /* zhang.cer in Resources */,
+				CAF1E74D2021903300DE4C7F /* zhang.cer in Resources */,
 				CAFF36BB1FEB667200782BFF /* KGCustomeTableViewCell.xib in Resources */,
 				CAF4C5142009E88E0078E6FA /* KGAddRoomTableViewCell.xib in Resources */,
 				CAFF36D21FEB928700782BFF /* KGOrderDetaialTableViewCell.xib in Resources */,

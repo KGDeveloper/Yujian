@@ -55,6 +55,7 @@
     _listTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         page = 0;
         [MySelf.dataArr removeAllObjects];
+        [MySelf.dateArray removeAllObjects];
         [MySelf.listTableView.mj_header beginRefreshing];
         [MySelf show];
         [MySelf setDataArray];

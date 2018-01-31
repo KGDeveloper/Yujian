@@ -203,8 +203,7 @@
         [parameters setObject:waitStr forKey:@"waitTime"];
         __weak typeof(self) MySelf = self;
         [[KGRequest sharedInstance] addOrderWithDictionary:parameters succ:^(NSString *msg, id data) {
-//            [MBProgressHUD hideHUDForView:MySelf.view animated:YES];
-            [MySelf alertViewControllerTitle:@"提示" message:@"添加成功" name:@"确认" type:0 preferredStyle:1];
+            [self alertViewTitle:@"添加成功"];
         } fail:^(NSString *error) {
             [MySelf alertViewControllerTitle:@"提示" message:error name:@"确认" type:0 preferredStyle:1];
         }];
@@ -545,6 +544,18 @@
         
     }];
 }
+
+- (void)alertViewTitle:(NSString *)message{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:1];
+    UIAlertAction *okact = [UIAlertAction actionWithTitle:@"确定" style:0 handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    
+    [alert addAction:okact];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

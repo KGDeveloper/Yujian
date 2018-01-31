@@ -34,7 +34,7 @@ static KGRequest *sharedObj = nil;
 }
 
 - (AFHTTPSessionManager *)manger{
-    NSData *certData = [NSData dataWithContentsOfFile:[self pathString]];
+    NSData *certData = [NSData dataWithContentsOfFile:[self pathWithString]];
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
     securityPolicy.allowInvalidCertificates = YES;
     securityPolicy.validatesDomainName = NO;
@@ -55,7 +55,7 @@ static KGRequest *sharedObj = nil;
     [dic setObject:@"iphone" forKey:@"type"];
     
     [[self manger] POST:KGLogin parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
-        
+
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"msg"] isEqualToString:@"登录成功"]) {
             succ(@"登录成功",responseObject[@"data"]);

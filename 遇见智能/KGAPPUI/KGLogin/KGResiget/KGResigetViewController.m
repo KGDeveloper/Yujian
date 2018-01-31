@@ -298,8 +298,7 @@
             if (_tureOrfail == YES) {
                 [[KGRequest sharedInstance] registerUserName:_userName.text phone:_phoneNumber.text passWord:_passWord.text succ:^(NSString *msg, id data) {
                     if ([msg isEqualToString:@"注册成功"]) {
-                        [self alertViewTitle:@"提示" message:@"注册成功,请返回登录页面,使用注册账号登录"];
-//                        [self.navigationController popViewControllerAnimated:YES];
+                        [self alertViewTitle:@"注册成功，请返回登录页面登录"];
                     }else{
                         [self alertViewTitle:@"提示" message:@"注册失败，请重新申请"];
                     }
@@ -422,6 +421,17 @@
     [_surePassWord resignFirstResponder];
     [_verify resignFirstResponder];
     [_userName resignFirstResponder];
+}
+
+- (void)alertViewTitle:(NSString *)message{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:1];
+    UIAlertAction *okact = [UIAlertAction actionWithTitle:@"确定" style:0 handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    
+    [alert addAction:okact];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
