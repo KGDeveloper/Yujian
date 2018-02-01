@@ -1,17 +1,16 @@
 //
-//  KGAddRoomTypeViewController.m
+//  KGRoomTypeList.m
 //  遇见智能
 //
-//  Created by KG on 2018/1/13.
+//  Created by KG on 2018/2/1.
 //  Copyright © 2018年 KG祁增奎. All rights reserved.
 //
 
-#import "KGAddRoomTypeViewController.h"
+#import "KGRoomTypeList.h"
 #import "KGRoomTextField.h"
 #import "KGRoomTypeTableViewCell.h"
-#import "KGAddRomeViewController.h"
 
-@interface KGAddRoomTypeViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,KGRoomTypeTableViewCellDelegate>
+@interface KGRoomTypeList ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,KGRoomTypeTableViewCellDelegate>
 
 @property (nonatomic,strong) UITableView *roomType;
 @property (nonatomic,strong) NSMutableArray *roomArr;
@@ -19,31 +18,15 @@
 
 @end
 
-@implementation KGAddRoomTypeViewController
+@implementation KGRoomTypeList
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
-    [self setUpRightNavButtonItmeTitle:@"确定" icon:nil];
-    
-    _roomArr = [NSMutableArray array];
-    [self initTableView];
-}
-
-- (void)rightBarItmeClick:(UIButton *)sender{
-    if (_roomArr.count > 0) {
-        KGAddRomeViewController *addRoom = [[KGAddRomeViewController alloc]init];
-        addRoom.typeArr = _roomArr;
-        addRoom.hotellId = _hotellId;
-        addRoom.type = _type;
-        if ([_type isEqualToString:@"修改"]) {
-            addRoom.roomId = _roomId;
-            addRoom.roomNo = _roomNo;
-        }
-        [self.navigationController pushViewController:addRoom animated:YES];
-    }else{
-        [self alertViewControllerTitle:@"提示" message:@"请先添加房型" name:@"确定" type:0 preferredStyle:1];
+- (instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _roomArr = [NSMutableArray array];
+        [self initTableView];
     }
+    return self;
 }
 
 - (void)initTableView{
@@ -82,9 +65,9 @@
     [headerView addSubview:buttomLabel];
     
     if (KGDevice_Is_iPhoneX == YES) {
-        _roomType = [[UITableView alloc]initWithFrame:CGRectMake(0, 88, KGscreenWidth, KGscreenHeight - 88)];
+        _roomType = [[UITableView alloc]initWithFrame:CGRectMake(0, 88, KGscreenWidth, KGscreenHeight - 88 - 200)];
     }else{
-        _roomType = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, KGscreenWidth, KGscreenHeight - 64)];
+        _roomType = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, KGscreenWidth, KGscreenHeight - 64 - 200)];
     }
     _roomType.delegate = self;
     _roomType.dataSource = self;
@@ -92,20 +75,50 @@
     _roomType.tableFooterView = [UIView new];
     _roomType.rowHeight = 50;
     _roomType.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
-    [self.view addSubview:_roomType];
+    [self addSubview:_roomType];
+    
+    UIButton *cancelBtu = [[UIButton alloc]initWithFrame:CGRectMake(50,KGscreenHeight - 100,KGscreenWidth - 100, 30)];
+    [cancelBtu setTitle:@"确定" forState:UIControlStateNormal];
+    cancelBtu.backgroundColor = KGcolor(231, 99, 40, 1);
+    [cancelBtu setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    cancelBtu.layer.cornerRadius = 5;
+    cancelBtu.layer.masksToBounds = YES;
+    [cancelBtu addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:cancelBtu];
+}
+
+- (void)buttonClick:(UIButton *)sender{
+    
+    if (_roomArr.count < 1) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+        hud.label.text = @"请先添加房型";
+        hud.minShowTime = 1;
+        [MBProgressHUD hideHUDForView:self animated:YES];
+    }else{
+        self.hidden = YES;
+        if ([_myDelegate respondsToSelector:@selector(sendArrayToController:)]) {
+            [_myDelegate sendArrayToController:_roomArr];
+        }
+    }
 }
 
 - (void)closeClick:(UIButton *)sender{
     [_addRoom resignFirstResponder];
     if ([self isChineseStr:_addRoom.text] == YES) {
         if (_roomArr.count > 12) {
-            [self alertViewControllerTitle:@"提示" message:@"您创建的房型数目已达上限！" name:@"确定" type:0 preferredStyle:1];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+            hud.label.text = @"您已达输入上限，最多您只能创建12个房型";
+            hud.minShowTime = 1;
+            [MBProgressHUD hideHUDForView:self animated:YES];
         }else{
             [_roomArr addObject:_addRoom.text];
             [_roomType reloadData];
         }
     }else{
-        [self alertViewControllerTitle:@"提示" message:@"您输入汉字以外的文字，请修改！" name:@"确定" type:0 preferredStyle:1];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+        hud.label.text = @"您输入汉字以外的文字，请修改！";
+        hud.minShowTime = 1;
+        [MBProgressHUD hideHUDForView:self animated:YES];
     }
 }
 
@@ -146,19 +159,11 @@
     return [predicate evaluateWithObject:str];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
 }
 */
 

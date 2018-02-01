@@ -8,7 +8,7 @@
 
 #import "KGDetaialViewController.h"
 #import "KGDetaialTableViewCell.h"
-#import "KGAddRoomTypeViewController.h"
+#import "KGAddRomeViewController.h"
 #import "KGRoomModel.h"
 
 @interface KGDetaialViewController ()<UITableViewDelegate,UITableViewDataSource>{
@@ -109,7 +109,7 @@
 
 #pragma mark -导航栏右侧添加按钮-
 - (void)addHotell:(UIButton *)sender{
-    KGAddRoomTypeViewController *addRoom = [[KGAddRoomTypeViewController alloc]init];
+    KGAddRomeViewController *addRoom = [[KGAddRomeViewController alloc]init];
     addRoom.hotellId = _hotellId;
     addRoom.type = @"添加";
     [[self navigationController] pushViewController:addRoom animated:YES];
@@ -150,7 +150,7 @@
         }];
     }];
     UITableViewRowAction *actionTwo = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"修改" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        KGAddRoomTypeViewController *room = [[KGAddRoomTypeViewController alloc]init];
+        KGAddRomeViewController *room = [[KGAddRomeViewController alloc]init];
         room.type = @"修改";
         room.roomId = model.roomId;
         room.hotellId = _hotellId;

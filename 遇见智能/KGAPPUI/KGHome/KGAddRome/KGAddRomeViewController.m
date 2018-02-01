@@ -10,34 +10,37 @@
 #import "KGRoomView.h"
 #import "KGDetaialViewController.h"
 #import "KGRoomTextView.h"
+#import "KGRoomTypeList.h"
 
-@interface KGAddRomeViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,KGRoomTextViewDelegate>
+@interface KGAddRomeViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,KGRoomTextViewDelegate,KGRoomTypeListDelegate>
 
-@property (nonatomic,strong) UIButton *roomType;
-@property (nonatomic,strong) KGPriceTextField *priceTextField;
-@property (nonatomic,strong) KGPriceTextField *priceHotel;
-@property (nonatomic,strong) KGRoomView *room;
-@property (nonatomic,strong) NSMutableArray *roomData;
-@property (nonatomic,strong) KGRoomTextField *roomAdd;
-@property (nonatomic,strong) UIImageView *returnImage;
+@property (nonatomic,strong) UIButton *roomType;//选择房型按钮
+@property (nonatomic,strong) KGPriceTextField *priceTextField;//房价价格
+@property (nonatomic,strong) KGPriceTextField *priceHotel;//押金
+@property (nonatomic,strong) KGRoomView *room;//显示房间号的View
+@property (nonatomic,strong) NSMutableArray *roomData;//保存房间号的数组
+@property (nonatomic,strong) KGRoomTextField *roomAdd;//添加房间号
+@property (nonatomic,strong) UIImageView *returnImage;//选择房型
 @property (nonatomic,strong) UIPickerView *pickerView;//自定义pickerview
-@property (nonatomic,strong) UIImageView *pictureImage;
-@property (nonatomic,strong) UIButton *pictureBtu;
-@property (nonatomic,strong) UIButton *toiletBtu;
-@property (nonatomic,strong) UIButton *refrigeratorBtu;
-@property (nonatomic,strong) UIButton *wifiBtu;
-@property (nonatomic,strong) UIButton *breakfastBtu;
-@property (nonatomic,strong) UIButton *additionalInformationBtu;
-@property (nonatomic,strong) UIButton *bedTypeBtu;
-@property (nonatomic,strong) UIButton *captaionBtu;
-@property (nonatomic,assign) BOOL toilet;
-@property (nonatomic,assign) BOOL refrigerator;
-@property (nonatomic,assign) BOOL wifi;
-@property (nonatomic,assign) BOOL breakfast;
-@property (nonatomic,strong) NSMutableDictionary *postDic;
-@property (nonatomic,strong) KGRoomTextView *roomDetaile;
-@property (nonatomic,assign) BOOL isWrite;
-@property (nonatomic,assign) BOOL isChoose;
+@property (nonatomic,strong) UIImageView *pictureImage;//选择的房间描述照片
+@property (nonatomic,strong) UIButton *pictureBtu;//选择添加房间描述照片按钮
+@property (nonatomic,strong) UIButton *toiletBtu;//独立卫浴
+@property (nonatomic,strong) UIButton *refrigeratorBtu;//冰箱
+@property (nonatomic,strong) UIButton *wifiBtu;//wifi
+@property (nonatomic,strong) UIButton *breakfastBtu;//早餐
+@property (nonatomic,strong) UIButton *additionalInformationBtu;//住户信息
+@property (nonatomic,strong) UIButton *bedTypeBtu;//床型
+@property (nonatomic,strong) UIButton *captaionBtu;//可住人数
+@property (nonatomic,assign) BOOL toilet;//是否有独立卫浴
+@property (nonatomic,assign) BOOL refrigerator;//是否有冰箱
+@property (nonatomic,assign) BOOL wifi;//是否有wifi
+@property (nonatomic,assign) BOOL breakfast;//是否有早餐
+@property (nonatomic,strong) NSMutableDictionary *postDic;//post请求参数
+@property (nonatomic,strong) KGRoomTextView *roomDetaile;//附加信息添加用户信息
+@property (nonatomic,assign) BOOL isWrite;//是否填写附加信息
+@property (nonatomic,assign) BOOL isChoose;//是否选择附加信息
+@property (nonatomic,strong) KGRoomTypeList *roomTypeList;//添加房型
+@property (nonatomic,strong) NSMutableArray *typeArr;
 
 @end
 
@@ -57,7 +60,6 @@
     _isWrite = NO;
     _isChoose = NO;
     
-    [self setUpRightNavButtonItmeTitle:@"提交" icon:nil];
     [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
     [self pictureBtuAndImage];
     [self setLabelFromArray];
@@ -72,6 +74,19 @@
     [self initButton];
     [self initPickView];
     [self initRoomDetaial];
+    [self initRoomTypeView];
+}
+
+- (void)initRoomTypeView{
+    _roomTypeList = [[KGRoomTypeList alloc]initWithFrame:self.view.frame];
+    _roomTypeList.myDelegate = self;
+    [self.view insertSubview:_roomTypeList atIndex:99];
+}
+
+- (void)sendArrayToController:(NSArray *)arr{
+    _typeArr = [NSMutableArray arrayWithArray:arr];
+    [_pickerView reloadAllComponents];
+    [self setUpRightNavButtonItmeTitle:@"提交" icon:nil];
 }
 
 #pragma mark -设置附加信息等参数View-
@@ -582,7 +597,7 @@
 - (void)alertViewTitle:(NSString *)message{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:1];
     UIAlertAction *okact = [UIAlertAction actionWithTitle:@"确定" style:0 handler:^(UIAlertAction * _Nonnull action) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
     }];
     
     [alert addAction:okact];
