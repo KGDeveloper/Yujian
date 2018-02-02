@@ -38,8 +38,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    //自定义背景
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    //消除阴影
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem new];
+    self.view.backgroundColor = KGCellDont;
     
     self.navigationItem.titleView = [self setFinishOrWait];
     [self.view addSubview:self.finishVC.view];

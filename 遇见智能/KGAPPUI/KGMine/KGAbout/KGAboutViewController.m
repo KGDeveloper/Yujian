@@ -23,8 +23,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.title = @"关于我们";
+    //自定义背景
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    //消除阴影
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.view.backgroundColor = [UIColor whiteColor];
     [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
     
@@ -44,7 +46,7 @@
      *图标
      */
     UIImageView *logImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
-    logImage.center = CGPointMake(KGscreenWidth/2, KGscreenHeight/2);
+    logImage.center = CGPointMake(KGscreenWidth/2, KGscreenHeight/2 + 100);
     logImage.image = KGImage(@"meeting");
     [self.view addSubview:logImage];
     

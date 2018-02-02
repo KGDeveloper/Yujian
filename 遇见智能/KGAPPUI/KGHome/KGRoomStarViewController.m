@@ -61,12 +61,12 @@
         [MySelf setDataArray];
     }];
     
-    _listTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        page ++;
-        [MySelf.listTableView.mj_footer beginRefreshing];
-        [MySelf show];
-        [MySelf setDataArray];
-    }];
+//    _listTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+//        page ++;
+//        [MySelf.listTableView.mj_footer beginRefreshing];
+//        [MySelf show];
+//        [MySelf setDataArray];
+//    }];
     
     [self.view addSubview:_listTableView];
     [self setDataArray];
@@ -99,7 +99,7 @@
             }
             [mySelf hide];
             [mySelf.listTableView.mj_header endRefreshing];
-            [mySelf.listTableView.mj_footer endRefreshing];
+//            [mySelf.listTableView.mj_footer endRefreshing];
             if (mySelf.dataArr.count > 0) {
                 _listTableView.tableHeaderView = [UIView new];
             }

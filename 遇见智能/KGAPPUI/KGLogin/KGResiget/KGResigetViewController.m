@@ -324,7 +324,7 @@
      *有一个回调可以用来判断验证码是否发送成功
      */
     if (_phoneNumber.text.length == 11) {
-        [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:_phoneNumber.text zone:@"86" result:^(NSError *error) {
+        [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:_phoneNumber.text zone:@"86" template:nil result:^(NSError *error) {
             if (!error)
             {
                 // 验证成功

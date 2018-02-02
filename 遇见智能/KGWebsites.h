@@ -15,7 +15,6 @@
 
 //测试地址
 #define URL_ENTRY @"https://192.168.1.19:8080/"
-//#define URL_ENTRY @"https://192.168.1.210:8080/"
 
 #define IMG_APPEND_PREFIX(url) [IMG_PREFIX stringByAppendingString:url]
 

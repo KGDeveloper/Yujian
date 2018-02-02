@@ -9,7 +9,7 @@
 #import "KGAddHomeViewController.h"
 #import "KGAddRomeViewController.h"
 
-@interface KGAddHomeViewController ()<UITextFieldDelegate,UIImagePickerControllerDelegate>
+@interface KGAddHomeViewController ()<UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic,strong) KGRoomTextField *infoTextField;
 @property (nonatomic,strong) UIButton *finishButton;
@@ -268,7 +268,7 @@
     }
     
     if (_isWrite == YES) {
-        NSString *imageData = [UIImageJPEGRepresentation(_pictureImage.image, 1) base64Encoding];
+        NSString *imageData = [UIImageJPEGRepresentation(_pictureImage.image, 1) base64EncodedStringWithOptions:0];
         NSString *province = [[_cityBut.titleLabel.text componentsSeparatedByString:@"-"] firstObject];
         NSArray *cityArr = [_cityBut.titleLabel.text componentsSeparatedByString:@"-"];
         NSString *city = [cityArr[1] stringByAppendingString:[NSString stringWithFormat:@"-%@",cityArr[2]]];

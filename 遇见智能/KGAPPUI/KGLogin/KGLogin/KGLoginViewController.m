@@ -13,10 +13,13 @@
 #import "KGTabBarViewController.h"
 
 
-@interface KGLoginViewController ()<UITextFieldDelegate>
+@interface KGLoginViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) KGTextField *userName;
 @property (nonatomic,strong) KGTextField *passWord;
+@property (nonatomic,strong) UITableView *listTable;
+@property (nonatomic,strong) NSMutableArray *dataArr;
+@property (nonatomic,strong) NSMutableDictionary *allUser;
 
 @property (nonatomic,assign) BOOL trueOrfail;
 
@@ -40,9 +43,25 @@
     iconImage.image = [UIImage imageNamed:@"KG"];
     [self.view addSubview:iconImage];
     
+    NSDictionary *dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"allUser"];
+    _dataArr = [NSMutableArray arrayWithArray:dic.allKeys];
+    _allUser = [NSMutableDictionary dictionary];
+    [_allUser setValuesForKeysWithDictionary:dic];
+    
     [self setUserName];
     [self setPassWord];
     [self setButton];
+    [self setListTableView];
+}
+
+//用来显示记录的账号和密码
+- (void)setListTableView{
+    _listTable = [[UITableView alloc]initWithFrame:CGRectMake(100, 281, KGscreenWidth - 120, 100)];
+    _listTable.dataSource = self;
+    _listTable.delegate = self;
+    _listTable.rowHeight = 40;
+    _listTable.hidden = YES;
+    [self.view insertSubview:_listTable atIndex:99];
 }
 
 #pragma mark -创建账号输入框-
@@ -69,6 +88,7 @@
     UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 280, KGscreenWidth - 40, 1)];
     lineLabel.backgroundColor = KGCellDont;
     [self.view addSubview:lineLabel];
+    
 }
 
 #pragma mark -创建密码输入框-
@@ -121,6 +141,7 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [_userName resignFirstResponder];
     [_passWord resignFirstResponder];
+    _listTable.hidden = YES;
 }
 
 #pragma mark -创建按钮-
@@ -165,6 +186,8 @@
                 //跳转的时候切换Tabbar
                 UIWindow *window = [[UIApplication sharedApplication] keyWindow];
                 window.rootViewController = [[KGTabBarViewController alloc] init];
+                [_allUser setObject:_passWord.text forKey:_userName.text];
+                [[NSUserDefaults standardUserDefaults] setObject:_allUser forKey:@"allUser"];
                 [[NSUserDefaults standardUserDefaults] setObject:_userName.text forKey:@"userPhone"];
                 [[NSUserDefaults standardUserDefaults] setObject:_passWord.text forKey:@"passWord"];
                 [[NSUserDefaults standardUserDefaults] setObject:data[@"id"] forKey:@"userId"];
@@ -206,11 +229,55 @@
         if (_userName.text.length >= 11) {
             return NO;
         }else{
+            /*
+             *遍历数组，查看输入的字符是否在已经保存的本地缓存里面，如果存在，侧显示包含该字符串的值，否则从数组中移除，达到友情提示的效果
+             */
+            __weak typeof(self) MySelf = self;
+            [_dataArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (MySelf.userName.text.length > 1) {
+                    if ([obj containsString:MySelf.userName.text]) {
+                        
+                    }else{
+                        [MySelf.dataArr removeObject:obj];
+                        [MySelf.listTable reloadData];
+                    }
+                }
+            }];
             return YES;
         }
     }else{
         return YES;
     }
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    if (textField == _userName) {
+        if (_dataArr.count > 0) {
+            _listTable.hidden = NO;
+        }
+    }
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _dataArr.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
+    }
+    if (_dataArr.count > 0) {
+        cell.textLabel.text = _dataArr[indexPath.row];
+    }
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    _userName.text = _dataArr[indexPath.row];//填写用户名
+    _passWord.text = _allUser[_userName.text];//填写密码
+    tableView.hidden = YES;
 }
 
 

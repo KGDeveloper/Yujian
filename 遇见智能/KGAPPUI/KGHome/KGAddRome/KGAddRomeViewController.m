@@ -12,7 +12,7 @@
 #import "KGRoomTextView.h"
 #import "KGRoomTypeList.h"
 
-@interface KGAddRomeViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,KGRoomTextViewDelegate,KGRoomTypeListDelegate>
+@interface KGAddRomeViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,KGRoomTextViewDelegate,KGRoomTypeListDelegate>
 
 @property (nonatomic,strong) UIButton *roomType;//选择房型按钮
 @property (nonatomic,strong) KGPriceTextField *priceTextField;//房价价格
@@ -277,7 +277,7 @@
         }
         
         NSData *imageData = UIImageJPEGRepresentation(_pictureImage.image, 1);
-        NSString *imageStr = [imageData base64Encoding];
+        NSString *imageStr = [imageData base64EncodedStringWithOptions:0];
         [_postDic setObject:@"0" forKey:@"weekdaysPrice"];
         [_postDic setObject:@"0" forKey:@"hourPrice"];
         [_postDic setObject:imageStr forKey:@"roomPictureAddr"];

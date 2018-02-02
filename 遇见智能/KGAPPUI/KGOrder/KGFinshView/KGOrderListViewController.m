@@ -35,7 +35,7 @@
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = KGOrangeColor;
+    self.view.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
     
     _waitArr = [NSMutableArray array];
     _finishArr = [NSMutableArray array];
@@ -283,6 +283,17 @@
     
     [self presentViewController:alert animated:YES completion:nil];
     
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    if (result == MessageComposeResultCancelled) {
+        [self alertViewControllerTitle:@"提示" message:@"取消发送" name:@"确定" type:0 preferredStyle:1];
+    }else if (result == MessageComposeResultSent){
+        [self alertViewControllerTitle:@"提示" message:@"发送成功" name:@"确定" type:0 preferredStyle:1];
+    }else{
+        [self alertViewControllerTitle:@"提示" message:@"发送失败" name:@"确定" type:0 preferredStyle:1];
+    }
 }
 
 //- (void)reloadTableViewData{

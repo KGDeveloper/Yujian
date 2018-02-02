@@ -289,14 +289,11 @@
 
 #pragma mark -发送验证码-
 - (void)sendSMS:(NSString *)phone{
-    [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:phone zone:@"86"  result:^(NSError *error) {
-        if (!error)
-        {
-            // 请求成功
-        }
-        else
-        {
-            // error
+    [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:phone zone:@"86" template:nil result:^(NSError *error) {
+        if (!error){
+            [self alertViewControllerTitle:@"提示" message:@"短信发送成功请注意查收" name:@"确定" type:0 preferredStyle:1];
+        }else{
+            [self alertViewControllerTitle:@"提示" message:@"短信发送失败" name:@"确定" type:0 preferredStyle:1];
         }
     }];
 }
