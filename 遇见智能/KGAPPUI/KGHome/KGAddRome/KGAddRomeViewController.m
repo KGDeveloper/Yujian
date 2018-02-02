@@ -164,6 +164,7 @@
 
 #pragma mark -设置附加信息等参数的点击事件-
 - (void)buttonClick:(UIButton *)sender{
+    //判断是否选择有独立卫浴
     if ([sender.titleLabel.text isEqualToString:@"独立卫浴"]) {
         if (_toilet == YES) {
             sender.backgroundColor = [UIColor grayColor];
@@ -172,6 +173,7 @@
             sender.backgroundColor = KGcolor(231, 99, 40, 1);
             _toilet = YES;
         }
+        //判断是否选择有冰箱
     }else if ([sender.titleLabel.text isEqualToString:@"有无冰箱"]){
         if (_refrigerator == YES) {
             sender.backgroundColor = [UIColor grayColor];
@@ -180,6 +182,7 @@
             sender.backgroundColor = KGcolor(231, 99, 40, 1);
             _refrigerator = YES;
         }
+        //判断是否选择有wifi
     }else if ([sender.titleLabel.text isEqualToString:@"有无wifi"]){
         if (_wifi == YES) {
             sender.backgroundColor = [UIColor grayColor];
@@ -188,6 +191,7 @@
             sender.backgroundColor = KGcolor(231, 99, 40, 1);
             _wifi = YES;
         }
+        //判断是否选择有早餐
     }else if ([sender.titleLabel.text isEqualToString:@"有无早餐"]){
         if (_breakfast == YES) {
             sender.backgroundColor = [UIColor grayColor];
@@ -196,14 +200,17 @@
             sender.backgroundColor = KGcolor(231, 99, 40, 1);
             _breakfast = YES;
         }
+        //判断是否填写附加信息
     }else if ([sender.titleLabel.text isEqualToString:@"附加信息"]){
         sender.backgroundColor = KGcolor(231, 99, 40, 1);
         _roomDetaile.hidden = NO;
         [_roomDetaile showTextViewtype:300];
+        //判断是否设置床型
     }else if ([sender.titleLabel.text isEqualToString:@"设置床型"]){
         sender.backgroundColor = KGcolor(231, 99, 40, 1);
         _roomDetaile.hidden = NO;
         [_roomDetaile showTextFieldtype:400];
+        //判断是否设置可住人数
     }else{
         sender.backgroundColor = KGcolor(231, 99, 40, 1);
         _roomDetaile.hidden = NO;
@@ -213,10 +220,10 @@
 
 #pragma mark -右侧确认创建房间按钮点击事件-
 - (void)rightBarItmeClick:(UIButton *)sender{
-    
+    //遍历视图，查找uitextfield
     for (UITextField *obj in self.view.subviews) {
         switch (obj.tag) {
-            case 101:
+            case 101://添加房间默认价格，如果没有填写，强制性要求填写
                 if (obj.text.length > 0) {
                     [_postDic setObject:obj.text forKey:@"defaultPrice"];
                     _isWrite = YES;
@@ -224,7 +231,7 @@
                     _isWrite = NO;
                 }
                 break;
-            case 102:
+            case 102://添加房间押金，如果没有填写，则房间押金为0
                 if (obj.text.length > 0) {
                     _isWrite = YES;
                     [_postDic setObject:obj.text forKey:@"deposit"];
@@ -236,29 +243,29 @@
                 break;
         }
     }
-    if (_isChoose == NO) {
+    if (_isChoose == NO) {//判断是否选择了房型
         [self alertViewControllerTitle:@"提示" message:@"请选择房型" name:@"确定" type:0 preferredStyle:1];
-    }else if (_isWrite == NO){
+    }else if (_isWrite == NO){//判断是否填写了房间价格
         [self alertViewControllerTitle:@"提示" message:@"请填写价格" name:@"确定" type:0 preferredStyle:1];
-    }else if (_toilet == NO && _breakfast == NO && _wifi == NO && _refrigerator == NO){
+    }else if (_toilet == NO && _breakfast == NO && _wifi == NO && _refrigerator == NO){//判断是否选择了附件信息
         [self alertViewControllerTitle:@"提示" message:@"请选择是否有早餐，wifi，独立卫浴，空调，不选视为没有" name:@"确定" type:0 preferredStyle:1];
     }else{
-        if (_toilet == YES) {
+        if (_toilet == YES) {//是否有独立卫浴
             [_postDic setObject:@"0" forKey:@"toilet"];
         }else{
             [_postDic setObject:@"1" forKey:@"toilet"];
         }
-        if (_breakfast == YES ) {
+        if (_breakfast == YES ) {//是否有早餐
             [_postDic setObject:@"0" forKey:@"breakfast"];
         }else{
             [_postDic setObject:@"1" forKey:@"breakfast"];
         }
-        if (_wifi == YES) {
+        if (_wifi == YES) {//是否有wifi
             [_postDic setObject:@"0" forKey:@"wifi"];
         }else{
             [_postDic setObject:@"1" forKey:@"wifi"];
         }
-        if (_refrigerator == YES ) {
+        if (_refrigerator == YES ) {//是否有冰箱
             [_postDic setObject:@"0" forKey:@"refrigerator"];
         }else{
             [_postDic setObject:@"1" forKey:@"refrigerator"];
@@ -268,6 +275,7 @@
             [_postDic setObject:_roomNo forKey:@"roomNo"];
         }else{
             NSString *roomNo = @"";
+            //遍历查询数组，拼接为字符串，把房间数组变成字符串传给后台
             for (NSString *obj in _roomData) {
                 if ([roomNo isEqualToString:@""]) {
                     roomNo = obj;
@@ -277,10 +285,10 @@
             }
             [_postDic setObject:roomNo forKey:@"roomNo"];
         }
-        if (_popleNmb == NO) {
+        if (_popleNmb == NO) {//判断是否填写可住人数
             [self alertViewControllerTitle:@"提示" message:@"请选择可住人数" name:@"确定" type:0 preferredStyle:1];
         }
-        if (_roomData.count == 0) {
+        if (_roomData.count == 0) {//判断有没有添加房间
             [self alertViewControllerTitle:@"提示" message:@"房间不能为空" name:@"确定" type:0 preferredStyle:1];
         }
         NSData *imageData = UIImageJPEGRepresentation(_pictureImage.image, 1);
@@ -291,7 +299,7 @@
         [_postDic setObject:@"1" forKey:@"count"];
         [_postDic setObject:_hotellId forKey:@"hotelId"];
         __weak typeof(self) MySelf = self;
-        if ([_type isEqualToString:@"修改"]) {
+        if ([_type isEqualToString:@"修改"]) {//修改房间信息页面，填写完数据后post请求
             [_postDic removeObjectForKey:@"hotelId"];
             [_postDic setObject:_roomId forKey:@"roomId"];
             
@@ -302,7 +310,7 @@
             } fail:^(NSString *error) {
                 [MySelf alertViewControllerTitle:@"提示" message:error name:@"确定" type:0 preferredStyle:1];
             }];
-        }else{
+        }else{//添加房间信息页面，填写完数据后post请求
             [[KGRequest sharedInstance] addRoomWithDictionary:_postDic succ:^(NSString *msg, id data) {
                 [self alertViewTitle:msg];
             } fail:^(NSString *error) {
@@ -333,6 +341,7 @@
     _roomAdd.placeholder = @"请输入房间号点击右侧添加按钮";
     _roomAdd.font = [UIFont systemFontOfSize:13.0f];
     _roomAdd.delegate = self;
+    //使用UIButton代替UITextField的右侧视图，达到点击按钮添加房间效果
     UIButton *close = [[UIButton alloc]initWithFrame:CGRectMake(0, 10, 20, 20)];
     [close setImage:[UIImage imageNamed:@"添加-3"] forState:UIControlStateNormal];
     [close addTarget:self action:@selector(closeClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -343,6 +352,7 @@
 
 #pragma mark -添加房间点击事件-
 - (void)closeClick:(UIButton *)sender{
+    //判断输入的房间号是否是数字
     if ([self deptNumInputShouldNumber:_roomAdd.text] == YES) {
         [_roomData addObject:_roomAdd.text];
         _room.dataArr = _roomData;
@@ -354,6 +364,7 @@
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    //判断驶入的价格是否是数值
     if (textField.text.length > 1) {
         if ([self deptNumInputShouldNumber:textField.text] == NO) {
             textField.text = @"";
@@ -379,12 +390,14 @@
 
 #pragma mark -创建房间按钮-
 - (void)setRoomButton{
+    //显示房间信息的View，View上是一个UITableView，可以对cell进行删除，达到删除添加的房间号
     _room = [[KGRoomView alloc]initWithFrame:CGRectMake(100, 540, KGscreenWidth - 100, KGscreenHeight - 540)];
     [self.view addSubview:_room];
 }
 
 #pragma mark -删除房间号代理事件-
 - (void)deleteTextField:(NSArray *)arr{
+    //删除房间号
     _roomData = [NSMutableArray arrayWithArray:arr];
 }
 
@@ -393,7 +406,7 @@
     NSArray *titleLabelArr = @[@"房型名称:",@"默认房价:",@"押金金额:",@"房间号码:"];
     if ([_type isEqualToString:@"修改"]) {
         for (int i = 0; i < 5 ; i++) {
-            if (i > 1) {
+            if (i > 1) {//创建提示标题文本
                 UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 440 + 50 * (i - 2), 100, 40)];
                 titleLabel.text = titleLabelArr[i];
                 titleLabel.tintColor = [UIColor grayColor];
@@ -454,6 +467,7 @@
 #pragma mark -房价设置UI-
 - (void)setPriceTextFieldUI{
 
+    //房间默认价格
     _priceTextField = [[KGPriceTextField alloc]initWithFrame:CGRectMake(100,  250 , KGscreenWidth - 100, 40)];
     _priceTextField.backgroundColor = [UIColor whiteColor];
     _priceTextField.placeholder = @"(必填*)请填写平日价格";
@@ -467,6 +481,7 @@
     _priceTextField.tag = 101;
     [self.view addSubview:_priceTextField];
     
+    //房间押金
     _priceHotel = [[KGPriceTextField alloc]initWithFrame:CGRectMake(100,440, KGscreenWidth - 100, 40)];
     _priceHotel.backgroundColor = [UIColor whiteColor];
     _priceHotel.placeholder = @"(选填:不填视为0)请填写押金";
@@ -513,10 +528,15 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+    //设置显示房型的UIButton的标题位置
     _roomType.titleEdgeInsets = UIEdgeInsetsMake(0,20, 0, 0);
+    //设置显示房型的UIButton的标题大小
     _roomType.titleLabel.font = KGFont(13);
+    //设置显示房型的UIButton的标题颜色
     [_roomType setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    //设置显示房型的UIButton的标题位置是居左
     _roomType.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    //设置显示房型的UIButton的标题
     [_roomType setTitle:_typeArr[row] forState:UIControlStateNormal];
     [_postDic setObject:_typeArr[row] forKey:@"roomName"];
     _isChoose = YES;
@@ -530,9 +550,9 @@
     [self.view addSubview:backLabel];
     NSInteger heightNv;
     if (KGDevice_Is_iPhoneX == YES) {
-        heightNv = 88;
+        heightNv = 88;//iphone X的导航栏高度
     }else{
-        heightNv = 64;
+        heightNv = 64;//iPhone8，iPhone8 plus，iPhone7，iPhone7 plus，iPhone6s，iPhone6s plus，iPhone6，iPhone6 plus，iPhone SE的导航栏高度，
     }
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, heightNv + 2, 80, 40)];
     titleLabel.text = @"选择照片";
@@ -542,12 +562,14 @@
     titleLabel.font = [UIFont systemFontOfSize:15.0f];
     [self.view addSubview:titleLabel];
     
+    //添加描述房价信息的imageView
     _pictureImage = [[UIImageView alloc] initWithFrame:CGRectMake(20,heightNv + 42,100, 60)];
     _pictureImage.image = [UIImage imageNamed:@"添加照片"];
     _pictureImage.layer.cornerRadius = 5;
     _pictureImage.layer.masksToBounds = YES;
     [self.view addSubview:_pictureImage];
     
+    //选择照片按钮，跳转到系统相册，选择照片
     _pictureBtu = [[UIButton alloc]initWithFrame:_pictureImage.frame];
     [_pictureBtu addTarget:self action:@selector(pictureClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_pictureBtu];
@@ -591,14 +613,17 @@
 }
 
 - (void)sendAdditionalInformation:(NSString *)additionalInformation{
+    //填写附加信息
     [_postDic setObject:additionalInformation forKey:@"additionalInformation"];
 }
 
 - (void)sendBedType:(NSString *)bedType{
+    //填写房间床型
     [_postDic setObject:bedType forKey:@"bedType"];
 }
 
 - (void)sendCaptaion:(NSString *)captaion{
+    //选择房间可住人数
     _popleNmb = YES;
     [_postDic setObject:captaion forKey:@"captaion"];
 }
