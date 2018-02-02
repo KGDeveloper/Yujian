@@ -93,7 +93,7 @@
     
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 200, 80, 30)];
     titleLabel.textColor = KGcolor(101, 101, 101, 1);
-    titleLabel.text = @"原 密 码:";
+    titleLabel.text = @"原  密  码:";
     titleLabel.font = KGFont(13);
     [self.view addSubview:titleLabel];
     

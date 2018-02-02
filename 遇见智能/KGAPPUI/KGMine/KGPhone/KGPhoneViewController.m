@@ -10,19 +10,19 @@
 
 @interface KGPhoneViewController ()<UITextFieldDelegate>
 
-@property (nonatomic,strong) KGPriceTextField *phoneTextField;
-@property (nonatomic,strong) KGPriceTextField *oldPhone;
-@property (nonatomic,strong) KGPriceTextField *phoneText;
-@property (nonatomic,strong) KGPriceTextField *phoneTest;
-@property (nonatomic,strong) UIButton *oldBtu;
-@property (nonatomic,strong) UIButton *sendBtu;
-@property (nonatomic,assign) BOOL oldSend;
-@property (nonatomic,assign) BOOL send;
-@property (nonatomic,assign) BOOL firstSucc;
-@property (nonatomic,assign) BOOL sencedSucc;
-@property (nonatomic,assign) NSInteger one;
-@property (nonatomic,assign) NSInteger two;
-@property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic,strong) KGPriceTextField *phoneTextField;//旧手机号
+@property (nonatomic,strong) KGPriceTextField *oldPhone;//旧手机获取验证码
+@property (nonatomic,strong) KGPriceTextField *phoneText;//新手机号
+@property (nonatomic,strong) KGPriceTextField *phoneTest;//新手机号验证码
+@property (nonatomic,strong) UIButton *oldBtu;//旧手机发送验证码按钮
+@property (nonatomic,strong) UIButton *sendBtu;//新手机号发送验证码
+@property (nonatomic,assign) BOOL oldSend;//旧验证码已发送开始计时
+@property (nonatomic,assign) BOOL send;//新验证码已发送开始计时
+@property (nonatomic,assign) BOOL firstSucc;//旧手机号验证成功
+@property (nonatomic,assign) BOOL sencedSucc;//新手机号验证成功
+@property (nonatomic,assign) NSInteger one;//旧手机号倒计时
+@property (nonatomic,assign) NSInteger two;//新手机号倒计时
+@property (nonatomic,strong) NSTimer *timer;//定时器
 
 @end
 

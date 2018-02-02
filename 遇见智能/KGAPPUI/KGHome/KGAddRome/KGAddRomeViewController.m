@@ -239,7 +239,7 @@
     }else if (_isWrite == NO){
         [self alertViewControllerTitle:@"提示" message:@"请填写价格" name:@"确定" type:0 preferredStyle:1];
     }else if (_toilet == NO && _breakfast == NO && _wifi == NO && _refrigerator == NO){
-        [self alertViewControllerTitle:@"提示" message:@"请在左下角设置附加信息" name:@"确定" type:0 preferredStyle:1];
+        [self alertViewControllerTitle:@"提示" message:@"请选择是否有早餐，wifi，独立卫浴，空调，不选视为没有" name:@"确定" type:0 preferredStyle:1];
     }else{
         if (_toilet == YES) {
             [_postDic setObject:@"0" forKey:@"toilet"];
@@ -274,6 +274,14 @@
                 }
             }
             [_postDic setObject:roomNo forKey:@"roomNo"];
+        }
+        
+        if (_roomData.count == 0) {
+            [self alertViewControllerTitle:@"提示" message:@"房间不能为空" name:@"确定" type:0 preferredStyle:1];
+        }
+        
+        if (_isChoose == NO) {
+            [self alertViewControllerTitle:@"提示" message:@"请选择可住人数" name:@"确定" type:0 preferredStyle:1];
         }
         
         NSData *imageData = UIImageJPEGRepresentation(_pictureImage.image, 1);
@@ -344,6 +352,16 @@
     }else{
         [self alertViewControllerTitle:@"提示" message:@"请输入数字" name:@"确定" type:0 preferredStyle:1];
     }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if (textField.text.length > 1) {
+        if ([self deptNumInputShouldNumber:textField.text] == NO) {
+            textField.text = @"";
+            [self alertViewControllerTitle:@"提示" message:@"请输入数字" name:@"确定" type:0 preferredStyle:1];
+        }
+    }
+    return YES;
 }
 
 #pragma mark -判断输入是否是数字-
