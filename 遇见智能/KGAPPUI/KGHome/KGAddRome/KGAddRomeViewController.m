@@ -41,6 +41,7 @@
 @property (nonatomic,assign) BOOL isChoose;//是否选择附加信息
 @property (nonatomic,strong) KGRoomTypeList *roomTypeList;//添加房型
 @property (nonatomic,strong) NSMutableArray *typeArr;
+@property (nonatomic,assign) BOOL popleNmb;
 
 @end
 
@@ -59,6 +60,7 @@
     _breakfast = NO;
     _isWrite = NO;
     _isChoose = NO;
+    _popleNmb = NO;
     
     [self setUpLeftNavButtonItmeTitle:@"" icon:@"Return"];
     [self pictureBtuAndImage];
@@ -275,15 +277,12 @@
             }
             [_postDic setObject:roomNo forKey:@"roomNo"];
         }
-        
+        if (_popleNmb == NO) {
+            [self alertViewControllerTitle:@"提示" message:@"请选择可住人数" name:@"确定" type:0 preferredStyle:1];
+        }
         if (_roomData.count == 0) {
             [self alertViewControllerTitle:@"提示" message:@"房间不能为空" name:@"确定" type:0 preferredStyle:1];
         }
-        
-        if (_isChoose == NO) {
-            [self alertViewControllerTitle:@"提示" message:@"请选择可住人数" name:@"确定" type:0 preferredStyle:1];
-        }
-        
         NSData *imageData = UIImageJPEGRepresentation(_pictureImage.image, 1);
         NSString *imageStr = [imageData base64EncodedStringWithOptions:0];
         [_postDic setObject:@"0" forKey:@"weekdaysPrice"];
@@ -449,11 +448,6 @@
 
 #pragma mark -选择房型-
 - (void)cityClick:(UIButton *)sender{
-    if (sender.titleLabel.text.length > 0) {
-        _isChoose = YES;
-    }else{
-        _isChoose = NO;
-    }
     _pickerView.hidden = NO;
 }
 
@@ -525,6 +519,7 @@
     _roomType.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_roomType setTitle:_typeArr[row] forState:UIControlStateNormal];
     [_postDic setObject:_typeArr[row] forKey:@"roomName"];
+    _isChoose = YES;
 }
 
 #pragma mark -添加房间描述图片-
@@ -604,6 +599,7 @@
 }
 
 - (void)sendCaptaion:(NSString *)captaion{
+    _popleNmb = YES;
     [_postDic setObject:captaion forKey:@"captaion"];
 }
 
