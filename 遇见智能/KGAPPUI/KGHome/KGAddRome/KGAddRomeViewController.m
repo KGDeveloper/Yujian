@@ -11,8 +11,9 @@
 #import "KGDetaialViewController.h"
 #import "KGRoomTextView.h"
 #import "KGRoomTypeList.h"
+#import "KGRoomTypePickView.h"
 
-@interface KGAddRomeViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,KGRoomTextViewDelegate,KGRoomTypeListDelegate>
+@interface KGAddRomeViewController ()<UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,KGRoomTextViewDelegate,KGRoomTypeListDelegate,KGRoomTypePickViewDelegate>
 
 @property (nonatomic,strong) UIButton *roomType;//选择房型按钮
 @property (nonatomic,strong) KGPriceTextField *priceTextField;//房价价格
@@ -21,7 +22,7 @@
 @property (nonatomic,strong) NSMutableArray *roomData;//保存房间号的数组
 @property (nonatomic,strong) KGRoomTextField *roomAdd;//添加房间号
 @property (nonatomic,strong) UIImageView *returnImage;//选择房型
-@property (nonatomic,strong) UIPickerView *pickerView;//自定义pickerview
+@property (nonatomic,strong) KGRoomTypePickView *pickerView;//自定义pickerview
 @property (nonatomic,strong) UIImageView *pictureImage;//选择的房间描述照片
 @property (nonatomic,strong) UIButton *pictureBtu;//选择添加房间描述照片按钮
 @property (nonatomic,strong) UIButton *toiletBtu;//独立卫浴
@@ -40,8 +41,8 @@
 @property (nonatomic,assign) BOOL isWrite;//是否填写附加信息
 @property (nonatomic,assign) BOOL isChoose;//是否选择附加信息
 @property (nonatomic,strong) KGRoomTypeList *roomTypeList;//添加房型
-@property (nonatomic,strong) NSMutableArray *typeArr;
-@property (nonatomic,assign) BOOL popleNmb;
+@property (nonatomic,assign) BOOL popleNmb;//判断是否填写可住人数
+@property (nonatomic,strong) NSMutableArray *roomTypeArr;//保存传过来的房型
 
 @end
 
@@ -86,8 +87,7 @@
 }
 
 - (void)sendArrayToController:(NSArray *)arr{
-    _typeArr = [NSMutableArray arrayWithArray:arr];
-    [_pickerView reloadAllComponents];
+    _roomTypeArr = [NSMutableArray arrayWithArray:arr];
     [self setUpRightNavButtonItmeTitle:@"提交" icon:nil];
 }
 
@@ -291,11 +291,18 @@
         if (_roomData.count == 0) {//判断有没有添加房间
             [self alertViewControllerTitle:@"提示" message:@"房间不能为空" name:@"确定" type:0 preferredStyle:1];
         }
-        NSData *imageData = UIImageJPEGRepresentation(_pictureImage.image, 1);
-        NSString *imageStr = [imageData base64EncodedStringWithOptions:0];
+        if ([UIImagePNGRepresentation(_pictureImage.image) isEqual:UIImagePNGRepresentation([UIImage imageNamed:@"添加照片"])]){
+            NSData *imageData = UIImageJPEGRepresentation([UIImage imageNamed:@"房间预留图"], 1);
+            NSString *imageStr = [imageData base64EncodedStringWithOptions:0];
+            [_postDic setObject:imageStr forKey:@"roomPictureAddr"];
+        }else{
+            NSData *imageData = UIImageJPEGRepresentation(_pictureImage.image, 1);
+            NSString *imageStr = [imageData base64EncodedStringWithOptions:0];
+            [_postDic setObject:imageStr forKey:@"roomPictureAddr"];
+        }
+        
         [_postDic setObject:@"0" forKey:@"weekdaysPrice"];
         [_postDic setObject:@"0" forKey:@"hourPrice"];
-        [_postDic setObject:imageStr forKey:@"roomPictureAddr"];
         [_postDic setObject:@"1" forKey:@"count"];
         [_postDic setObject:_hotellId forKey:@"hotelId"];
         __weak typeof(self) MySelf = self;
@@ -323,14 +330,25 @@
 #pragma mark -设置房型pickview-
 - (void)initPickView{
     // 初始化pickerView
-    self.pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, KGscreenHeight - 200, self.view.bounds.size.width, 200)];
+    self.pickerView = [[KGRoomTypePickView alloc]initWithFrame:CGRectMake(0, KGscreenHeight - 200, self.view.bounds.size.width, 200)];
     _pickerView.hidden = YES;
-    _pickerView.backgroundColor = [UIColor whiteColor];
+    _pickerView.myDelegate = self;
     [self.view insertSubview:_pickerView atIndex:99];
-    
-    //指定数据源和委托
-    self.pickerView.delegate = self;
-    self.pickerView.dataSource = self;
+}
+
+- (void)sendRoomTypeToController:(NSString *)roomType{
+    //设置显示房型的UIButton的标题位置
+    _roomType.titleEdgeInsets = UIEdgeInsetsMake(0,20, 0, 0);
+    //设置显示房型的UIButton的标题大小
+    _roomType.titleLabel.font = KGFont(13);
+    //设置显示房型的UIButton的标题颜色
+    [_roomType setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    //设置显示房型的UIButton的标题位置是居左
+    _roomType.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    //设置显示房型的UIButton的标题
+    [_roomType setTitle:roomType forState:UIControlStateNormal];
+    [_postDic setObject:roomType forKey:@"roomName"];
+    _isChoose = YES;
 }
 
 #pragma mark -添加房间信息-
@@ -462,6 +480,7 @@
 #pragma mark -选择房型-
 - (void)cityClick:(UIButton *)sender{
     _pickerView.hidden = NO;
+    [_pickerView sendArr:_roomTypeArr];
 }
 
 #pragma mark -房价设置UI-
@@ -505,41 +524,6 @@
     [_priceTextField resignFirstResponder];
     [_priceHotel resignFirstResponder];
     [_roomAdd resignFirstResponder];
-    _pickerView.hidden = YES;
-}
-
-
-//指定pickerview有几个表盘
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
-}
-
-//指定每个表盘上有几行数据
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return _typeArr.count;
-}
-
-//指定每行如何展示数据（此处和tableview类似）
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    return _typeArr[row];
-}
-
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    //设置显示房型的UIButton的标题位置
-    _roomType.titleEdgeInsets = UIEdgeInsetsMake(0,20, 0, 0);
-    //设置显示房型的UIButton的标题大小
-    _roomType.titleLabel.font = KGFont(13);
-    //设置显示房型的UIButton的标题颜色
-    [_roomType setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    //设置显示房型的UIButton的标题位置是居左
-    _roomType.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    //设置显示房型的UIButton的标题
-    [_roomType setTitle:_typeArr[row] forState:UIControlStateNormal];
-    [_postDic setObject:_typeArr[row] forKey:@"roomName"];
-    _isChoose = YES;
 }
 
 #pragma mark -添加房间描述图片-

@@ -20,7 +20,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="310.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bigpicture" translatesAutoresizingMaskIntoConstraints="NO" id="PyI-kc-yLC">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bigpicture1" translatesAutoresizingMaskIntoConstraints="NO" id="PyI-kc-yLC">
                         <rect key="frame" x="15" y="15" width="345" height="197"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="PyI-kc-yLC" secondAttribute="height" multiplier="7:4" id="6Fw-UA-T7B"/>
@@ -220,6 +220,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Bigpicture" width="344" height="200"/>
+        <image name="Bigpicture1" width="344" height="200"/>
     </resources>
 </document>

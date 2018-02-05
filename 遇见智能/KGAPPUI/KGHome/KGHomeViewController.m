@@ -170,7 +170,9 @@
         cell.priceLabel.text = model.defaultPrice;
         cell.addressLabel.text = model.detailAddress;
         cell.telephoneLabel.text = model.customeServicePhoneNo;
-        [cell.homeImage sd_setImageWithURL:[NSURL URLWithString:model.hotelPicture] placeholderImage:[UIImage imageNamed:@"Bigpicture"]];
+        NSData *decodedImageData = [[NSData alloc]initWithBase64EncodedString:model.hotelPicture options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        UIImage *imageUrl = [UIImage imageWithData:decodedImageData];
+        cell.homeImage.image = imageUrl;
     }
     return cell;
 }

@@ -268,13 +268,21 @@
     }
     
     if (_isWrite == YES) {
-        NSString *imageData = [UIImageJPEGRepresentation(_pictureImage.image, 1) base64EncodedStringWithOptions:0];
+        
         NSString *province = [[_cityBut.titleLabel.text componentsSeparatedByString:@"-"] firstObject];
         NSArray *cityArr = [_cityBut.titleLabel.text componentsSeparatedByString:@"-"];
         NSString *city = [cityArr[1] stringByAppendingString:[NSString stringWithFormat:@"-%@",cityArr[2]]];
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        if ([UIImagePNGRepresentation(_pictureImage.image) isEqual:UIImagePNGRepresentation([UIImage imageNamed:@"添加照片"])]){
+            NSData *imageData = UIImageJPEGRepresentation([UIImage imageNamed:@"Bigpicture"], 1);
+            NSString *imageStr = [imageData base64EncodedStringWithOptions:0];
+            [dic setObject:imageStr forKey:@"hotelPict"];
+        }else{
+            NSData *imageData = UIImageJPEGRepresentation(_pictureImage.image, 1);
+            NSString *imageStr = [imageData base64EncodedStringWithOptions:0];
+            [dic setObject:imageStr forKey:@"hotelPict"];
+        }
         [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"userPhone"] forKey:@"phoneNo"];
-        [dic setObject:imageData forKey:@"hotelPict"];
         [dic setObject:province forKey:@"province"];
         [dic setObject:city forKey:@"city"];
         
