@@ -49,6 +49,7 @@
     [self.view addSubview:[self setFinishOrWait]];
     [self setTableView];
     [self initAddHotellBut];
+    [_listView.listView.mj_header beginRefreshing];
     
 }
 

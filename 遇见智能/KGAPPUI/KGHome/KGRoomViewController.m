@@ -34,6 +34,9 @@
 
     self.navigationItem.titleView = [self setFinishOrWait];
     [self.view addSubview:self.room.view];
+    if (_finishOrWait.selectedSegmentIndex == 0) {
+        [_room.listTableView.mj_header beginRefreshing];
+    }
 }
 
 - (KGDetaialViewController *)room{
@@ -80,6 +83,11 @@
     NSUInteger segIndex = [sender selectedSegmentIndex];
     UIViewController *controller = [self controllerForSegIndex:segIndex];
     NSArray *array2 = [self.view subviews];
+    if (sender.selectedSegmentIndex == 0) {
+        [_room.listTableView.mj_header beginRefreshing];
+    }else{
+        [_roomStar.listTableView.mj_header beginRefreshing];
+    }
     //将当旧VC的view移除，然后在添加新VC的view
     if (array2.count != 0) {
         if (segIndex == 0) {
