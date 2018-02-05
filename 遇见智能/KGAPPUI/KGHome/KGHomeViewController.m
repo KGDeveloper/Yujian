@@ -173,6 +173,66 @@
         NSData *decodedImageData = [[NSData alloc]initWithBase64EncodedString:model.hotelPicture options:NSDataBase64DecodingIgnoreUnknownCharacters];
         UIImage *imageUrl = [UIImage imageWithData:decodedImageData];
         cell.homeImage.image = imageUrl;
+        NSInteger num = arc4random()%6;
+        /*
+         
+         @property (weak, nonatomic) IBOutlet UIButton *wifiBtu;
+         @property (weak, nonatomic) IBOutlet UIButton *tolBtu;
+         @property (weak, nonatomic) IBOutlet UIButton *refBtu;
+         @property (weak, nonatomic) IBOutlet UIButton *bxBtu;
+         @property (weak, nonatomic) IBOutlet UIButton *bfBti;
+         @property (weak, nonatomic) IBOutlet UIButton *wdBtu;
+         */
+        if (num == 0) {
+            cell.wifiBtu.backgroundColor = KGCellDont;
+            cell.tolBtu.backgroundColor = KGCellDont;
+            cell.refBtu.backgroundColor = KGCellDont;
+            cell.bxBtu.backgroundColor = KGCellDont;
+            cell.bfBti.backgroundColor = KGCellDont;
+            cell.wdBtu.backgroundColor = KGCellDont;
+        }else if (num == 1){
+            cell.wifiBtu.backgroundColor = KGCellHave;
+            cell.tolBtu.backgroundColor = KGCellDont;
+            cell.refBtu.backgroundColor = KGCellDont;
+            cell.bxBtu.backgroundColor = KGCellDont;
+            cell.bfBti.backgroundColor = KGCellDont;
+            cell.wdBtu.backgroundColor = KGCellDont;
+        }else if (num == 2){
+            cell.wifiBtu.backgroundColor = KGCellHave;
+            cell.tolBtu.backgroundColor = KGCellHave;
+            cell.refBtu.backgroundColor = KGCellDont;
+            cell.bxBtu.backgroundColor = KGCellDont;
+            cell.bfBti.backgroundColor = KGCellDont;
+            cell.wdBtu.backgroundColor = KGCellDont;
+        }else if (num == 3){
+            cell.wifiBtu.backgroundColor = KGCellHave;
+            cell.tolBtu.backgroundColor = KGCellHave;
+            cell.refBtu.backgroundColor = KGCellHave;
+            cell.bxBtu.backgroundColor = KGCellDont;
+            cell.bfBti.backgroundColor = KGCellDont;
+            cell.wdBtu.backgroundColor = KGCellDont;
+        }else if (num == 4){
+            cell.wifiBtu.backgroundColor = KGCellHave;
+            cell.tolBtu.backgroundColor = KGCellHave;
+            cell.refBtu.backgroundColor = KGCellHave;
+            cell.bxBtu.backgroundColor = KGCellHave;
+            cell.bfBti.backgroundColor = KGCellDont;
+            cell.wdBtu.backgroundColor = KGCellDont;
+        }else if (num == 5){
+            cell.wifiBtu.backgroundColor = KGCellHave;
+            cell.tolBtu.backgroundColor = KGCellHave;
+            cell.refBtu.backgroundColor = KGCellHave;
+            cell.bxBtu.backgroundColor = KGCellHave;
+            cell.bfBti.backgroundColor = KGCellHave;
+            cell.wdBtu.backgroundColor = KGCellDont;
+        }else{
+            cell.wifiBtu.backgroundColor = KGCellHave;
+            cell.tolBtu.backgroundColor = KGCellHave;
+            cell.refBtu.backgroundColor = KGCellHave;
+            cell.bxBtu.backgroundColor = KGCellHave;
+            cell.bfBti.backgroundColor = KGCellHave;
+            cell.wdBtu.backgroundColor = KGCellHave;
+        }
     }
     return cell;
 }

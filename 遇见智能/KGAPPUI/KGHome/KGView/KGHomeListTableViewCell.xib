@@ -211,10 +211,16 @@
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
                 <outlet property="addressLabel" destination="4Sv-Rj-ayq" id="Km9-7X-gD8"/>
+                <outlet property="bfBti" destination="YUN-Po-uc9" id="EFF-s8-0RD"/>
+                <outlet property="bxBtu" destination="rI5-8I-8u2" id="2CC-Ak-Zy2"/>
                 <outlet property="homeImage" destination="PyI-kc-yLC" id="R4M-R7-YIX"/>
                 <outlet property="nameLabel" destination="9FI-hE-XVw" id="Iv3-2Y-Iys"/>
                 <outlet property="priceLabel" destination="Y3W-mt-X9R" id="KC5-jO-uV8"/>
+                <outlet property="refBtu" destination="gZX-yV-Zv0" id="gpb-wB-UN6"/>
                 <outlet property="telephoneLabel" destination="9om-tn-gNS" id="9Tj-1u-8u8"/>
+                <outlet property="tolBtu" destination="hOm-UZ-bqq" id="EcG-CM-axD"/>
+                <outlet property="wdBtu" destination="TJG-FR-5X9" id="r8Z-XL-IaQ"/>
+                <outlet property="wifiBtu" destination="2o6-BY-sVz" id="GDC-Wt-ccv"/>
             </connections>
             <point key="canvasLocation" x="-100.5" y="-48.5"/>
         </tableViewCell>

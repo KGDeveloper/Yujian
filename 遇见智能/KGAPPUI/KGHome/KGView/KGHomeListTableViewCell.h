@@ -13,6 +13,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+@property (weak, nonatomic) IBOutlet UIButton *wifiBtu;
+@property (weak, nonatomic) IBOutlet UIButton *tolBtu;
+@property (weak, nonatomic) IBOutlet UIButton *refBtu;
+@property (weak, nonatomic) IBOutlet UIButton *bxBtu;
+@property (weak, nonatomic) IBOutlet UIButton *bfBti;
 @property (weak, nonatomic) IBOutlet UILabel *telephoneLabel;
+@property (weak, nonatomic) IBOutlet UIButton *wdBtu;
 
 @end
